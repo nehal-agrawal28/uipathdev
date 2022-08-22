@@ -1,0 +1,21 @@
+<template>
+    <lightning-card
+        title="Partner Account Team"
+        icon-name="custom:custom57"
+    >
+    <template if:true={contacts}>
+        <lightning-datatable
+            data={contacts}
+            columns={columns}
+            hide-checkbox-column
+            key-field="RoleInTerritory2"
+            >
+        </lightning-datatable>
+    </template>
+    <template if:false={contacts}>
+        <div class="slds-text-align_center">
+            <p>No contacts found</p>
+        </div>
+    </template>
+    </lightning-card>
+</template>

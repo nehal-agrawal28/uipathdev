@@ -1,0 +1,90 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable" >
+	<div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+        <div class="slds-grid slds-m-around_small">
+            <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!$Label.c.Community_Get_Started}">{!$Label.c.Community_Get_Started}</h1>
+                        <p class="slds-text-body_small slds-line-height_reset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+        </div>
+    </div>
+    <div>
+        <div class="cards-container">
+            <ul class="cards list-unstyled">
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <a href="{!$Resource.CommunityWalkthrough}" target="_blank">
+                            <h4 class="lang">{!$Label.c.Community_Get_Started}</h4>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+        <div class="slds-grid slds-m-around_small">
+            <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!$Label.c.Community_Quick_Help}">{!$Label.c.Community_Quick_Help}</h1>
+                        <p class="slds-text-body_small slds-line-height_reset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+        </div>
+    </div>
+    <div>
+        <div class="cards-container">
+            <ul class="cards list-unstyled">
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Customer_Community_Academy_Link}"/>     
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Customer_community_Orchesrator_Link}"/>     
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Customer_community_Studio_Link}"/>     
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Customer_community_Robot_Link}"/>     
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Customer_community_Activities_Link}"/>     
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Cutsomer_Community_Integrations_Link}"/>     
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <aura:unescapedHtml value="{!$Label.c.Customer_Community_Forum_Link}"/>     
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aura:component>

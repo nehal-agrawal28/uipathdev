@@ -1,0 +1,110 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:appHostable,force:lightningQuickAction" controller="FileUploadController" access="global" >
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />	
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="recordTypeId" type="Id" />
+    <aura:attribute name="accId" type="String" />
+    <aura:attribute name="ownerId" type="String"/>
+    <aura:attribute name="showValidError" type="boolean" default="false"/>
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+    <aura:attribute name="disableSave" type ="boolean" default="false"/> <!--added by Maanas 12/6/2020-->
+    <aura:attribute name="erCaseRec" type="Case" default ="'sobjectType': 'Case',
+                                                           'Id':'',
+                                                           'ContactId': '',                                                
+                                                           'AccountId': ''
+                                                           'ParentId':'',
+                                                           'RecordtypeId':'',
+                                                           'OwnerId:'',
+                                                           'CSM_Email_From_Accout__c':'',
+                                                           'Related_To__c':'',
+                                                           'Sub_Component__c':'',
+                                                           'Subject':'',
+                                                           'Description':'',
+                                                           'Steps_Performed__c':''"/>
+    <aura:attribute name="contactId" type="String" />
+    <aura:attribute name="csmEmailFromAccount" type="String"/>
+    <aura:attribute name="reletedTo" type="String"/>
+    <aura:attribute name="subcomponent" type="String"/>
+    <aura:attribute name="subject" type="String"/>
+    <aura:attribute name="description" type="String"/>
+    <aura:handler name="init"  value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <lightning:button label="Create" title="Neutral action" onclick="{!c.handleClick}"/>     
+    <aura:if isTrue="{!v.saved}">
+        
+        
+        <!--###### MODAL BOX Start######--> 
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div style="min-height:500px;" class="slds-modal__container">
+                <aura:if isTrue="{!v.showSpinner}">
+                    <lightning:spinner class="slds-spinner_container" alternativeText="Loading" size="large"/>
+                </aura:if>
+                <!-- ###### MODAL BOX HEADER Start ######-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>  
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Expert Request</h2>
+                </header>
+                <!--###### MODAL BOX BODY Part Start######-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <aura:if isTrue="{!v.saved}">
+                        <lightning:recordEditForm
+                                                  aura:id="form"
+                                                  onsuccess="{!c.handleSuccess}"
+                                                  objectApiName="Case"
+                                                  onsubmit="{!c.handleSubmit}">
+                            <!-- the messages component is for error messages -->
+                            <lightning:messages />
+                            <!--Fields With Prepopulated Values -->
+                            <lightning:inputField fieldName="AccountId" value="{!v.erCaseRec.AccountId}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="ContactId" value="{!v.erCaseRec.ContactId}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="ParentId" value="{!v.erCaseRec.ParentId}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="Priority" value="{!v.erCaseRec.Priority}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="CSM_Email_From_Accout__c" value="{!v.erCaseRec.CSM_Email_From_Accout__c}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="Related_To__c" value="{!v.erCaseRec.Related_To__c}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="Sub_Component__c" value="{!v.erCaseRec.Sub_Component__c}" disabled="true" required="true"/>
+                            <lightning:inputField fieldName="Problem__c" value="{!v.erCaseRec.Problem__c}"  disabled="true"/>
+                            <lightning:inputField fieldName="Cause__c" value="{!v.erCaseRec.Cause__c}"  disabled="true"/>
+                            <lightning:inputField fieldName="Validation__c" value="{!v.erCaseRec.Validation__c}"  disabled="true"/>
+                            <lightning:inputField fieldName="Solution__c" value="{!v.erCaseRec.Solution__c}"  disabled="true"/>
+                            <lightning:inputField fieldName="Solution_Instructions__c" value="{!v.erCaseRec.Solution_Instructions__c}"  disabled="true"/>
+                            
+                            
+                            <!--<lightning:inputField fieldName="Description"  required="true"/>-->
+                            <!-- Feilds editable
+                            <lightning:inputField fieldName="Steps_Performed__c" value="{!v.erCaseRec.Steps_Performed__c}"/>-->
+                            <lightning:navigation aura:id="navService"/>
+                            <div class="slds-clearfix">
+                                <div class="slds-m-top_medium slds-float_left">
+                                    <lightning:button disabled="{!v.disableSave}" variant="brand" onclick="{!c.createCase}" name="save" label="Save" />
+                                    <lightning:button variant="brand" name="cancel" label="Cancel" onclick="{! c.closeModel }" />
+                                </div>
+                            </div>
+                            
+                        </lightning:recordEditForm>
+                    </aura:if>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start ######-->
+                
+            </div>
+        </section>
+        
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!--###### MODAL BOX Part END Here ######-->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </aura:if>
+    
+</aura:component>

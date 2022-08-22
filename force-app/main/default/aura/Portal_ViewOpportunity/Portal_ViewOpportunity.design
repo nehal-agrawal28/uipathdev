@@ -1,0 +1,3 @@
+<design:component label="Portal - View Opportunity">
+    <design:attribute name="recordId" label="Opportunity Id" />
+</design:component>

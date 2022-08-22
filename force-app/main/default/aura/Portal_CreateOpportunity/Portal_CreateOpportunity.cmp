@@ -1,0 +1,343 @@
+<aura:component controller="Portal_CreateOpportunity" implements="forceCommunity:availableForAllPageTypes" access="global" >
+	
+    <aura:attribute name="opportunity" type="Opportunity" />
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="loading" type="String" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!v.loading == 'true'}">
+        <lightning:spinner variant="brand" size="large"/>
+    </aura:if>
+    
+    <div class="slds-form slds-form_compound">
+  		<fieldset class="slds-form-element">
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputText value="{!v.opportunity.Name}" required="true" label="Opportunity Name" />
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputText value="{!v.opportunity.Client__c}" required="true" label="Client" />
+                    </div>
+                </div>
+	            <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputSelect value="{!v.opportunity.Opportunity_Vertical__c}" required="true" label="Opportunity Vertical">
+                            <ui:inputSelectOption text="" label="--None--" value="true" />
+                            <ui:inputSelectOption text="Manufacturing" label="Manufacturing" />
+                            <ui:inputSelectOption text="Banking and Financial Services" label="Banking and Financial Services" />
+                            <ui:inputSelectOption text="Energy and Utilities" label="Energy and Utilities" />
+                            <ui:inputSelectOption text="Healthcare" label="Healthcare" />
+                            <ui:inputSelectOption text="Insurance" label="Insurance" />
+                            <ui:inputSelectOption text="Transportation" label="Transportation" />
+                            <ui:inputSelectOption text="Public Sector" label="Public Sector" />
+                            <ui:inputSelectOption text="Telecommunications" label="Telecommunications" />
+                            <ui:inputSelectOption text="BPO" label="BPO" />
+                            <ui:inputSelectOption text="Others" label="Others" />
+                        </ui:inputSelect>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputSelect value="{!v.opportunity.Client_s_Billing_Country__c}" required="true" label="Client's Billing Country">
+                            <ui:inputSelectOption text="" label="--None--" value="true" />
+                            <ui:inputSelectOption text="Afghanistan" label="Afghanistan" />
+                            <ui:inputSelectOption text="Aland Islands" label="Aland Islands" />
+                            <ui:inputSelectOption text="Albania" label="Albania" />
+                            <ui:inputSelectOption text="Algeria" label="Algeria" />
+                            <ui:inputSelectOption text="Andorra" label="Andorra" />
+                            <ui:inputSelectOption text="Angola" label="Angola" />
+                            <ui:inputSelectOption text="Anguilla" label="Anguilla" />
+                            <ui:inputSelectOption text="Antarctica" label="Antarctica" />
+                            <ui:inputSelectOption text="Antigua and Barbuda" label="Antigua and Barbuda" />
+                            <ui:inputSelectOption text="Argentina" label="Argentina" />
+                            <ui:inputSelectOption text="Armenia" label="Armenia" />
+                            <ui:inputSelectOption text="Aruba" label="Aruba" />
+                            <ui:inputSelectOption text="Australia" label="Australia" />
+                            <ui:inputSelectOption text="Austria" label="Austria" />
+                            <ui:inputSelectOption text="Azerbaijan" label="Azerbaijan" />
+                            <ui:inputSelectOption text="Bahamas" label="Bahamas" />
+                            <ui:inputSelectOption text="Bahrain" label="Bahrain" />
+                            <ui:inputSelectOption text="Bangladesh" label="Bangladesh" />
+                            <ui:inputSelectOption text="Barbados" label="Barbados" />
+                            <ui:inputSelectOption text="Belarus" label="Belarus" />
+                            <ui:inputSelectOption text="Belgium" label="Belgium" />
+                            <ui:inputSelectOption text="Belize" label="Belize" />
+                            <ui:inputSelectOption text="Benin" label="Benin" />
+                            <ui:inputSelectOption text="Bermuda" label="Bermuda" />
+                            <ui:inputSelectOption text="Bhutan" label="Bhutan" />
+                            <ui:inputSelectOption text="Bolivia, Plurinational State of" label="Bolivia, Plurinational State of" />
+                            <ui:inputSelectOption text="Bonaire, Sint Eustatius and Saba" label="Bonaire, Sint Eustatius and Saba" />
+                            <ui:inputSelectOption text="Bosnia and Herzegovina" label="Bosnia and Herzegovina" />
+                            <ui:inputSelectOption text="Botswana" label="Botswana" />
+                            <ui:inputSelectOption text="Bouvet Island" label="Bouvet Island" />
+                            <ui:inputSelectOption text="Brazil" label="Brazil" />
+                            <ui:inputSelectOption text="British Indian Ocean Territory" label="British Indian Ocean Territory" />
+                            <ui:inputSelectOption text="Brunei Darussalam" label="Brunei Darussalam" />
+                            <ui:inputSelectOption text="Bulgaria" label="Bulgaria" />
+                            <ui:inputSelectOption text="Burkina Faso" label="Burkina Faso" />
+                            <ui:inputSelectOption text="Burundi" label="Burundi" />
+                            <ui:inputSelectOption text="Cambodia" label="Cambodia" />
+                            <ui:inputSelectOption text="Cameroon" label="Cameroon" />
+                            <ui:inputSelectOption text="Canada" label="Canada" />
+                            <ui:inputSelectOption text="Cape Verde" label="Cape Verde" />
+                            <ui:inputSelectOption text="Cayman Islands" label="Cayman Islands" />
+                            <ui:inputSelectOption text="Central African Republic" label="Central African Republic" />
+                            <ui:inputSelectOption text="Chad" label="Chad" />
+                            <ui:inputSelectOption text="Chile" label="Chile" />
+                            <ui:inputSelectOption text="China" label="China" />
+                            <ui:inputSelectOption text="Chinese Taipei" label="Chinese Taipei" />
+                            <ui:inputSelectOption text="Christmas Island" label="Christmas Island" />
+                            <ui:inputSelectOption text="Cocos (Keeling) Islands" label="Cocos (Keeling) Islands" />
+                            <ui:inputSelectOption text="Colombia" label="Colombia" />
+                            <ui:inputSelectOption text="Comoros" label="Comoros" />
+                            <ui:inputSelectOption text="Congo" label="Congo" />
+                            <ui:inputSelectOption text="Congo, the Democratic Republic of the" label="Congo, the Democratic Republic of the" />
+                            <ui:inputSelectOption text="Cook Islands" label="Cook Islands" />
+                            <ui:inputSelectOption text="Costa Rica" label="Costa Rica" />
+                            <ui:inputSelectOption text="Cote d'Ivoire" label="Cote d'Ivoire" />
+                            <ui:inputSelectOption text="Croatia" label="Croatia" />
+                            <ui:inputSelectOption text="Cuba" label="Cuba" />
+                            <ui:inputSelectOption text="Curaçao" label="Curaçao" />
+                            <ui:inputSelectOption text="Cyprus" label="Cyprus" />
+                            <ui:inputSelectOption text="Czech Republic" label="Czech Republic" />
+                            <ui:inputSelectOption text="Denmark" label="Denmark" />
+                            <ui:inputSelectOption text="Djibouti" label="Djibouti" />
+                            <ui:inputSelectOption text="Dominica" label="Dominica" />
+                            <ui:inputSelectOption text="Dominican Republic" label="Dominican Republic" />
+                            <ui:inputSelectOption text="Ecuador" label="Ecuador" />
+                            <ui:inputSelectOption text="Egypt" label="Egypt" />
+                            <ui:inputSelectOption text="El Salvador" label="El Salvador" />
+                            <ui:inputSelectOption text="Equatorial Guinea" label="Equatorial Guinea" />
+                            <ui:inputSelectOption text="Eritrea" label="Eritrea" />
+                            <ui:inputSelectOption text="Estonia" label="Estonia" />
+                            <ui:inputSelectOption text="Ethiopia" label="Ethiopia" />
+                            <ui:inputSelectOption text="Falkland Islands (Malvinas)" label="Falkland Islands (Malvinas)" />
+                            <ui:inputSelectOption text="Faroe Islands" label="Faroe Islands" />
+                            <ui:inputSelectOption text="Fiji" label="Fiji" />
+                            <ui:inputSelectOption text="Finland" label="Finland" />
+                            <ui:inputSelectOption text="France" label="France" />
+                            <ui:inputSelectOption text="French Guiana" label="French Guiana" />
+                            <ui:inputSelectOption text="French Polynesia" label="French Polynesia" />
+                            <ui:inputSelectOption text="French Southern Territories" label="French Southern Territories" />
+                            <ui:inputSelectOption text="Gabon" label="Gabon" />
+                            <ui:inputSelectOption text="Gambia" label="Gambia" />
+                            <ui:inputSelectOption text="Georgia" label="Georgia" />
+                            <ui:inputSelectOption text="Germany" label="Germany" />
+                            <ui:inputSelectOption text="Ghana" label="Ghana" />
+                            <ui:inputSelectOption text="Gibraltar" label="Gibraltar" />
+                            <ui:inputSelectOption text="Greece" label="Greece" />
+                            <ui:inputSelectOption text="Greenland" label="Greenland" />
+                            <ui:inputSelectOption text="Grenada" label="Grenada" />
+                            <ui:inputSelectOption text="Guadeloupe" label="Guadeloupe" />
+                            <ui:inputSelectOption text="Guam" label="Guam" />
+                            <ui:inputSelectOption text="Guatemala" label="Guatemala" />
+                            <ui:inputSelectOption text="Guernsey" label="Guernsey" />
+                            <ui:inputSelectOption text="Guinea" label="Guinea" />
+                            <ui:inputSelectOption text="Guinea-Bissau" label="Guinea-Bissau" />
+                            <ui:inputSelectOption text="Guyana" label="Guyana" />
+                            <ui:inputSelectOption text="Haiti" label="Haiti" />
+                            <ui:inputSelectOption text="Heard Island and McDonald Islands" label="Heard Island and McDonald Islands" />
+                            <ui:inputSelectOption text="Holy See (Vatican City State)" label="Holy See (Vatican City State)" />
+                            <ui:inputSelectOption text="Honduras" label="Honduras" />
+                            <ui:inputSelectOption text="Hungary" label="Hungary" />
+                            <ui:inputSelectOption text="Iceland" label="Iceland" />
+                            <ui:inputSelectOption text="India" label="India" />
+                            <ui:inputSelectOption text="Indonesia" label="Indonesia" />
+                            <ui:inputSelectOption text="Iran, Islamic Republic of" label="Iran, Islamic Republic of" />
+                            <ui:inputSelectOption text="Iraq" label="Iraq" />
+                            <ui:inputSelectOption text="Ireland" label="Ireland" />
+                            <ui:inputSelectOption text="Isle of Man" label="Isle of Man" />
+                            <ui:inputSelectOption text="Israel" label="Israel" />
+                            <ui:inputSelectOption text="Italy" label="Italy" />
+                            <ui:inputSelectOption text="Jamaica" label="Jamaica" />
+                            <ui:inputSelectOption text="Japan" label="Japan" />
+                            <ui:inputSelectOption text="Jersey" label="Jersey" />
+                            <ui:inputSelectOption text="Jordan" label="Jordan" />
+                            <ui:inputSelectOption text="Kazakhstan" label="Kazakhstan" />
+                            <ui:inputSelectOption text="Kenya" label="Kenya" />
+                            <ui:inputSelectOption text="Kiribati" label="Kiribati" />
+                            <ui:inputSelectOption text="Korea, Democratic People's Republic of" label="Korea, Democratic People's Republic of" />
+                            <ui:inputSelectOption text="Korea, Republic of" label="Korea, Republic of" />
+                            <ui:inputSelectOption text="Kuwait" label="Kuwait" />
+                            <ui:inputSelectOption text="Kyrgyzstan" label="Kyrgyzstan" />
+                            <ui:inputSelectOption text="Lao People's Democratic Republic" label="Lao People's Democratic Republic" />
+                            <ui:inputSelectOption text="Latvia" label="Latvia" />
+                            <ui:inputSelectOption text="Lebanon" label="Lebanon" />
+                            <ui:inputSelectOption text="Lesotho" label="Lesotho" />
+                            <ui:inputSelectOption text="Liberia" label="Liberia" />
+                            <ui:inputSelectOption text="Libyan Arab Jamahiriya" label="Libyan Arab Jamahiriya" />
+                            <ui:inputSelectOption text="Liechtenstein" label="Liechtenstein" />
+                            <ui:inputSelectOption text="Lithuania" label="Lithuania" />
+                            <ui:inputSelectOption text="Luxembourg" label="Luxembourg" />
+                            <ui:inputSelectOption text="Macao" label="Macao" />
+                            <ui:inputSelectOption text="Macedonia, the former Yugoslav Republic of" label="Macedonia, the former Yugoslav Republic of" />
+                            <ui:inputSelectOption text="Madagascar" label="Madagascar" />
+                            <ui:inputSelectOption text="Malawi" label="Malawi" />
+                            <ui:inputSelectOption text="Malaysia" label="Malaysia" />
+                            <ui:inputSelectOption text="Maldives" label="Maldives" />
+                            <ui:inputSelectOption text="Mali" label="Mali" />
+                            <ui:inputSelectOption text="Malta" label="Malta" />
+                            <ui:inputSelectOption text="Martinique" label="Martinique" />
+                            <ui:inputSelectOption text="Mauritania" label="Mauritania" />
+                            <ui:inputSelectOption text="Mauritius" label="Mauritius" />
+                            <ui:inputSelectOption text="Mayotte" label="Mayotte" />
+                            <ui:inputSelectOption text="Mexico" label="Mexico" />
+                            <ui:inputSelectOption text="Moldova, Republic of" label="Moldova, Republic of" />
+                            <ui:inputSelectOption text="Monaco" label="Monaco" />
+                            <ui:inputSelectOption text="Mongolia" label="Mongolia" />
+                            <ui:inputSelectOption text="Montenegro" label="Montenegro" />
+                            <ui:inputSelectOption text="Montserrat" label="Montserrat" />
+                            <ui:inputSelectOption text="Morocco" label="Morocco" />
+                            <ui:inputSelectOption text="Mozambique" label="Mozambique" />
+                            <ui:inputSelectOption text="Myanmar" label="Myanmar" />
+                            <ui:inputSelectOption text="Namibia" label="Namibia" />
+                            <ui:inputSelectOption text="Nauru" label="Nauru" />
+                            <ui:inputSelectOption text="Nepal" label="Nepal" />
+                            <ui:inputSelectOption text="Netherlands" label="Netherlands" />
+                            <ui:inputSelectOption text="New Caledonia" label="New Caledonia" />
+                            <ui:inputSelectOption text="New Zealand" label="New Zealand" />
+                            <ui:inputSelectOption text="Nicaragua" label="Nicaragua" />
+                            <ui:inputSelectOption text="Niger" label="Niger" />
+                            <ui:inputSelectOption text="Nigeria" label="Nigeria" />
+                            <ui:inputSelectOption text="Niue" label="Niue" />
+                            <ui:inputSelectOption text="Norfolk Island" label="Norfolk Island" />
+                            <ui:inputSelectOption text="Norway" label="Norway" />
+                            <ui:inputSelectOption text="Oman" label="Oman" />
+                            <ui:inputSelectOption text="Pakistan" label="Pakistan" />
+                            <ui:inputSelectOption text="Palestinian Territory, Occupied" label="Palestinian Territory, Occupied" />
+                            <ui:inputSelectOption text="Panama" label="Panama" />
+                            <ui:inputSelectOption text="Papua New Guinea" label="Papua New Guinea" />
+                            <ui:inputSelectOption text="Paraguay" label="Paraguay" />
+                            <ui:inputSelectOption text="Peru" label="Peru" />
+                            <ui:inputSelectOption text="Philippines" label="Philippines" />
+                            <ui:inputSelectOption text="Pitcairn" label="Pitcairn" />
+                            <ui:inputSelectOption text="Poland" label="Poland" />
+                            <ui:inputSelectOption text="Portugal" label="Portugal" />
+                            <ui:inputSelectOption text="Qatar" label="Qatar" />
+                            <ui:inputSelectOption text="Reunion" label="Reunion" />
+                            <ui:inputSelectOption text="Romania" label="Romania" />
+                            <ui:inputSelectOption text="Russian Federation" label="Russian Federation" />
+                            <ui:inputSelectOption text="Rwanda" label="Rwanda" />
+                            <ui:inputSelectOption text="Saint Barthélemy" label="Saint Barthélemy" />
+                            <ui:inputSelectOption text="Saint Helena, Ascension and Tristan da Cunha" label="Saint Helena, Ascension and Tristan da Cunha" />
+                            <ui:inputSelectOption text="Saint Kitts and Nevis" label="Saint Kitts and Nevis" />
+                            <ui:inputSelectOption text="Saint Lucia" label="Saint Lucia" />
+                            <ui:inputSelectOption text="Saint Martin (French part)" label="Saint Martin (French part)" />
+                            <ui:inputSelectOption text="Saint Pierre and Miquelon" label="Saint Pierre and Miquelon" />
+                            <ui:inputSelectOption text="Saint Vincent and the Grenadines" label="Saint Vincent and the Grenadines" />
+                            <ui:inputSelectOption text="Samoa" label="Samoa" />
+                            <ui:inputSelectOption text="San Marino" label="San Marino" />
+                            <ui:inputSelectOption text="Sao Tome and Principe" label="Sao Tome and Principe" />
+                            <ui:inputSelectOption text="Saudi Arabia" label="Saudi Arabia" />
+                            <ui:inputSelectOption text="Senegal" label="Senegal" />
+                            <ui:inputSelectOption text="Serbia" label="Serbia" />
+                            <ui:inputSelectOption text="Serbia and Montenegro" label="Serbia and Montenegro" />
+                            <ui:inputSelectOption text="Seychelles" label="Seychelles" />
+                            <ui:inputSelectOption text="Sierra Leone" label="Sierra Leone" />
+                            <ui:inputSelectOption text="Singapore" label="Singapore" />
+                            <ui:inputSelectOption text="Sint Maarten (Dutch part)" label="Sint Maarten (Dutch part)" />
+                            <ui:inputSelectOption text="Slovakia" label="Slovakia" />
+                            <ui:inputSelectOption text="Slovenia" label="Slovenia" />
+                            <ui:inputSelectOption text="Solomon Islands" label="Solomon Islands" />
+                            <ui:inputSelectOption text="Somalia" label="Somalia" />
+                            <ui:inputSelectOption text="South Africa" label="South Africa" />
+                            <ui:inputSelectOption text="South Georgia and the South Sandwich Islands" label="South Georgia and the South Sandwich Islands" />
+                            <ui:inputSelectOption text="South Sudan" label="South Sudan" />
+                            <ui:inputSelectOption text="Spain" label="Spain" />
+                            <ui:inputSelectOption text="Sri Lanka" label="Sri Lanka" />
+                            <ui:inputSelectOption text="Sudan" label="Sudan" />
+                            <ui:inputSelectOption text="Suriname" label="Suriname" />
+                            <ui:inputSelectOption text="Svalbard and Jan Mayen" label="Svalbard and Jan Mayen" />
+                            <ui:inputSelectOption text="Swaziland" label="Swaziland" />
+                            <ui:inputSelectOption text="Sweden" label="Sweden" />
+                            <ui:inputSelectOption text="Switzerland" label="Switzerland" />
+                            <ui:inputSelectOption text="Syrian Arab Republic" label="Syrian Arab Republic" />
+                            <ui:inputSelectOption text="Tajikistan" label="Tajikistan" />
+                            <ui:inputSelectOption text="Tanzania, United Republic of" label="Tanzania, United Republic of" />
+                            <ui:inputSelectOption text="Thailand" label="Thailand" />
+                            <ui:inputSelectOption text="Timor-Leste" label="Timor-Leste" />
+                            <ui:inputSelectOption text="Togo" label="Togo" />
+                            <ui:inputSelectOption text="Tokelau" label="Tokelau" />
+                            <ui:inputSelectOption text="Tonga" label="Tonga" />
+                            <ui:inputSelectOption text="Trinidad and Tobago" label="Trinidad and Tobago" />
+                            <ui:inputSelectOption text="Tunisia" label="Tunisia" />
+                            <ui:inputSelectOption text="Turkey" label="Turkey" />
+                            <ui:inputSelectOption text="Turkmenistan" label="Turkmenistan" />
+                            <ui:inputSelectOption text="Turks and Caicos Islands" label="Turks and Caicos Islands" />
+                            <ui:inputSelectOption text="Tuvalu" label="Tuvalu" />
+                            <ui:inputSelectOption text="Uganda" label="Uganda" />
+                            <ui:inputSelectOption text="Ukraine" label="Ukraine" />
+                            <ui:inputSelectOption text="United Arab Emirates" label="United Arab Emirates" />
+                            <ui:inputSelectOption text="United Kingdom" label="United Kingdom" />
+                            <ui:inputSelectOption text="United States" label="United States" />
+                            <ui:inputSelectOption text="Uruguay" label="Uruguay" />
+                            <ui:inputSelectOption text="Uzbekistan" label="Uzbekistan" />
+                            <ui:inputSelectOption text="Vanuatu" label="Vanuatu" />
+                            <ui:inputSelectOption text="Venezuela, Bolivarian Republic of" label="Venezuela, Bolivarian Republic of" />
+                            <ui:inputSelectOption text="Viet Nam" label="Viet Nam" />
+                            <ui:inputSelectOption text="Virgin Islands, British" label="Virgin Islands, British" />
+                            <ui:inputSelectOption text="Wallis and Futuna" label="Wallis and Futuna" />
+                            <ui:inputSelectOption text="Western Sahara" label="Western Sahara" />
+                            <ui:inputSelectOption text="Yemen" label="Yemen" />
+                            <ui:inputSelectOption text="Zambia" label="Zambia" />
+                            <ui:inputSelectOption text="Zimbabwe" label="Zimbabwe" />
+                        </ui:inputSelect>
+                    </div>
+                </div>
+	            <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputText value="{!v.opportunity.Client_Project_Name__c}" required="true" label="Client Project Name" />
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputText value="{!v.opportunity.Client_Contact_Email__c}" required="true" label="Client Contact Email" />
+                    </div>
+                </div>
+    	        <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputText value="{!v.opportunity.Contract_Duration__c}" required="true" label="Contract Duration (Months)" />
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputText value="{!v.opportunity.Potential_Opportunity_Value__c}" required="true" label="Potential Opportunity Value" />
+                    </div>
+                </div>
+        	    <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputTextArea value="{!v.opportunity.Description}" required="true" label="Description" />
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputTextArea value="{!v.opportunity.Products_offered__c}" required="true" label="Products offered" />
+                    </div>
+                </div>
+            	<div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <ui:inputSelect value="{!v.opportunity.Working_with_other_partners_on_this_opp__c}" required="true" label="Working with other partners on this opp?">
+                            <ui:inputSelectOption text="" label="--None--" value="true" />
+                            <ui:inputSelectOption text="Yes" label="Yes" />
+                            <ui:inputSelectOption text="No" label="No" />
+                        </ui:inputSelect>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <aura:if isTrue="{!v.opportunity.Working_with_other_partners_on_this_opp__c == 'Yes'}">
+                            <ui:inputText value="{!v.opportunity.Other_Partners_Involved__c}" required="true" label="Other Partners Involved" />
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
+    <aura:if isTrue="{!v.errorMessage != ''}">
+        <br />
+    	<div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+  			<span class="slds-assistive-text">error</span>
+  			<h2>{!v.errorMessage}</h2>
+		</div>
+        <br />
+    </aura:if>
+    
+    <br />
+    <div style="text-align:center;">
+    	<lightning:button variant="brand" label="Save Opportunity" onclick="{!c.saveOpp}" />
+    </div>
+    
+</aura:component>

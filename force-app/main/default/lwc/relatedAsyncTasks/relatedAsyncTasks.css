@@ -1,0 +1,19 @@
+.status {
+  display: block;
+  font-weight: 600;
+}
+.status.red {
+  color: red;
+}
+.status.green {
+  color: green;
+}
+.status.yellow {
+  color: yellow;
+}
+.clickable {
+  cursor: pointer !important;
+}
+.row-action {
+  --sds-c-button-shadow: 0 0 1px rgb(81, 79, 77);
+}

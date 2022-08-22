@@ -1,0 +1,17 @@
+.THIS .toolTipPosition{
+    position: absolute;
+}
+
+.THIS .hasTooltip .slds-form-element__label{
+    margin-left: 20px !important;
+}
+
+.THIS .positionAbsolute{
+    position: absolute;
+    margin-left: 20px !important;
+}
+
+
+.THIS .hasTooltipAndRequired .slds-form-element__label{
+    margin-left: 30px !important;
+}

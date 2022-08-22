@@ -1,0 +1,251 @@
+<aura:component controller="DealBuilderController" implements="lightning:isUrlAddressable,force:appHostable">
+    <aura:attribute name="vfBaseUrl" type="String" default="" />
+    <aura:attribute name="account" type="Account" default="{}" />
+    <aura:attribute name="contractList" type="List" default="[]" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="isOppCreatable" type="Boolean" default="false" />
+    <aura:attribute name="showContractSection" type="Boolean" default="false" />
+    <aura:attribute name="accountFetched" type="Boolean" default="false" />
+    <aura:attribute name="showAccountModal" type="Boolean" default="false" />
+    <aura:attribute name="showNewOppModal" type="Boolean" default="false" />
+    <aura:attribute name="hideTimeLine" type="Boolean" default="false" />
+    <aura:attribute name="contractTableTabs" type="Map" default="{}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.doInit}" />
+
+    <!-- Header Section -->
+    <div class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning:icon iconName="standard:account" alternativeText="Deal Builder"
+                                        title="Deal Builder" />
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate">Deal Builder</span>
+                                    <span>
+                                        <aura:if isTrue="{!v.accountFetched}">
+                                            <a class="slds-text-heading_small" href="{!'/' + v.account.Id}"
+                                               target="_blank">
+                                                {!v.account.Name}
+                                            </a>
+                                            <lightning:buttonIcon iconName="utility:rotate"
+                                                                  class="slds-var-m-left_small switch-button"
+                                                                  variant="bare" size="medium"
+                                                                  onclick="{!c.showAccountModal}"
+                                                                  alternativeText="Switch Account"
+                                                                  title="Switch Account" />
+                                        </aura:if>
+                                    </span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <div class="slds-page-header__control">
+                        <ul class="slds-button-group-list">
+                            <li>
+                                <aura:if isTrue="{!v.accountFetched}">
+                                    <lightning:button class="new-opp-button" onclick="{!c.showOpportunityModal}"
+                                                      label="New Opportunity" iconName="standard:opportunity" />
+                                </aura:if>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-meta">
+                <p class="slds-page-header__meta-text header-sub-text">
+                    <aura:if isTrue="{!v.accountFetched}">
+                        {!v.account.State__c}
+                        <aura:if isTrue="{!v.account.State__c}"> • </aura:if>
+                        {!v.account.Country__c}
+                    </aura:if>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-div slds-is-relative slds-var-p-bottom_medium">
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner alternativeText="Loading..." />
+        </aura:if>
+
+        <aura:if isTrue="{!v.accountFetched}">
+            <!-- Contract Section -->
+            <aura:if isTrue="{!v.showContractSection}">
+                <article class="slds-card slds-var-m-top_medium">
+                    <div class="slds-page-header slds-page-header_record-home slds-var-p-bottom_medium">
+                        <div class="slds-page-header__row">
+                            <div class="slds-page-header__col-title">
+                                <div class="slds-media">
+                                    <div class="slds-media__figure">
+                                        <lightning:icon iconName="standard:contract" alternativeText="Contracts"
+                                                        title="Contracts" />
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <div class="slds-page-header__name">
+                                            <div class="slds-page-header__name-title">
+                                                <h1>
+                                                    <span class="slds-page-header__title slds-truncate">
+                                                        Contracts
+                                                    </span>
+                                                </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom html tab view to access iframe inside js controller -->
+                    <div class="tab-set slds-tabs_default">
+                        <ul class="slds-tabs_default__nav">
+                            <aura:if isTrue="{!!v.hideTimeLine}">
+                                <li class="slds-tabs_default__item slds-is-active" title="Timeline"
+                                    onclick="{!c.tabClicked}">
+                                    <a class="slds-tabs_default__link" href="javascript:void()"
+                                       data-item="timeline">Timeline</a>
+                                </li>
+                            </aura:if>
+                            <li class="slds-tabs_default__item" title="Tabular View" onclick="{!c.tabClicked}">
+                                <a class="slds-tabs_default__link" href="javascript:void()"
+                                   data-item="tabularView">Tabular View</a>
+                            </li>
+                            <li class="slds-tabs_default__item" title="Rip &amp; Replacements"
+                                onclick="{!c.tabClicked}">
+                                <a class="slds-tabs_default__link" href="javascript:void()"
+                                   data-item="replaceTransactions">Rip &amp; Replace</a>
+                            </li>
+                        </ul>
+                        <aura:if isTrue="{!!v.hideTimeLine}">
+                            <div id="timeline" class="slds-tabs_default__content slds-show">
+                                <!-- React component -->
+                                <iframe src="{! v.vfBaseUrl + '/apex/CPQGuidedTransactions?accountId=' + v.account.Id }"
+                                        width="100%" id="idIframe" height="500px" frameBorder="0" />
+                            </div>
+                        </aura:if>
+                        <div id="tabularView" class="slds-tabs_default__content slds-hide">
+                            <aura:if isTrue="{!v.contractTableTabs.tabularView}">
+                                <!-- Contract table -->
+                                <c:dealBuilderContractTable accountId="{!v.account.Id}" actionManageUplift="true"
+                                                            actionRipReplace="true"
+                                                            onrefreshalldata="{!c.refreshAllData}" />
+                            </aura:if>
+                        </div>
+                        <div id="replaceTransactions" class="slds-tabs_default__content slds-hide">
+                            <aura:if isTrue="{!v.contractTableTabs.replaceTransactions}">
+                                <!-- Replace Transactions table -->
+                                <c:dealBuilderRipReplaceTable accountId="{!v.account.Id}"
+                                                              onrefreshalldata="{!c.refreshAllData}" />
+                            </aura:if>
+                        </div>
+                    </div>
+                </article>
+            </aura:if>
+
+            <!-- Renewals of Contracts Table Section -->
+            <article class="slds-card slds-var-m-top_medium">
+                <div class="slds-page-header slds-page-header_record-home slds-var-p-bottom_medium">
+                    <div class="slds-page-header__row">
+                        <div class="slds-page-header__col-title">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning:icon iconName="standard:loop" alternativeText="Renewals of Contracts"
+                                                    title="Renewals of Contracts" />
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-page-header__name">
+                                        <div class="slds-page-header__name-title">
+                                            <h1>
+                                                <span class="slds-page-header__title slds-truncate">
+                                                    Renewals of Contracts
+                                                </span>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <lightning:tabset class="tab-set" selectedTabId="renewals">
+                    <lightning:tab label="Renewals (Current FY)  " id="renewals">
+                        <c:dealBuilderRenewalTable accountId="{!v.account.Id}" actionRenewVia="true"
+                                                   onrefreshalldata="{!c.refreshAllData}" />
+                    </lightning:tab>
+                    <lightning:tab label="Merged Renewals" id="merged-renewal">
+                        <c:dealBuilderMergedTable accountId="{!v.account.Id}" onrefreshalldata="{!c.refreshAllData}" />
+                    </lightning:tab>
+                    <lightning:tab label="Other Renewals (Not in Current FY)" id="other-renewals">
+                        <c:dealBuilderOtherRenewalTable accountId="{!v.account.Id}" actionRenewVia="true"
+                                                        onrefreshalldata="{!c.refreshAllData}" />
+                    </lightning:tab>
+                </lightning:tabset>
+            </article>
+
+            <!-- New / Upsell / Amendments Table Section -->
+            <article class="slds-card slds-var-m-top_medium">
+                <div class="slds-page-header slds-page-header_record-home slds-var-p-bottom_medium">
+                    <div class="slds-page-header__row">
+                        <div class="slds-page-header__col-title">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning:icon iconName="standard:opportunity"
+                                                    alternativeText="New/Upsell or Amendment Opportunities"
+                                                    title="New/Upsell or Amendment Opportunities" />
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-page-header__name">
+                                        <div class="slds-page-header__name-title">
+                                            <h1>
+                                                <span class="slds-page-header__title slds-truncate">New/Upsell or
+                                                    Amendment Opportunities</span>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <lightning:tabset class="tab-set" selectedTabId="new-business-upsell">
+                    <lightning:tab label="New Business/Upsell" id="new-business-upsell">
+                        <c:dealBuilderNewUpsellTable accountId="{!v.account.Id}"
+                                                     onrefreshalldata="{!c.refreshAllData}" />
+                    </lightning:tab>
+                    <lightning:tab label="Amendments" id="amendments">
+                        <c:dealBuilderAmendmentTable accountId="{!v.account.Id}"
+                                                     onrefreshalldata="{!c.refreshAllData}" />
+                    </lightning:tab>
+                </lightning:tabset>
+            </article>
+        </aura:if>
+    </div>
+
+
+
+
+    <!-- Create new opportunity Modal -->
+    <aura:if isTrue="{!v.showNewOppModal}">
+        <c:dealBuilderOppModal accountId="{!v.account.Id}" onhidemodal="{!c.hideOpportunityModal}" />
+    </aura:if>
+
+    <!-- Switch account Modal -->
+    <aura:if isTrue="{!v.showAccountModal}">
+        <c:dealBuilderAccountModal onhidemodal="{!c.hideAccountModal}" />
+    </aura:if>
+</aura:component>

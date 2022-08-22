@@ -1,0 +1,252 @@
+<template>
+  <lightning-layout horizontal-align="spread" multiple-rows>
+    <c-modal title={messageTitle} description={messageDesc} open-modal={displayMessage}></c-modal>
+    <lightning-layout-item
+      size="12"
+      small-device-size="12"
+      medium-device-size="12"
+      large-device-size="12"
+      padding="around-small"
+    >
+      <div class="slds-box">
+        <div class="slds-p-around_small">
+          <c-item-label label="Name" desc="" required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-input
+              name="name"
+              label="Name"
+              value={name}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+            ></lightning-input>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label label="Email" desc="" required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-input
+              name="email"
+              label="Email"
+              value={email}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+              type="email"
+            ></lightning-input>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label
+            label="Country"
+            desc="Please select the country where the licenses are being used"
+            required="true"
+          ></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-combobox
+              name="country"
+              label="Country"
+              value={country}
+              placeholder="Country"
+              options={countries}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+            ></lightning-combobox>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label label="Phone" desc="" required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-input
+              name="phone"
+              label="Phone"
+              value={phone}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+              type="tel"
+            ></lightning-input>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label label="Subject" desc="" required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-input
+              name="subject"
+              label="Subject"
+              value={subject}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+            ></lightning-input>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label label="Description" desc="" required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-textarea
+              name="description"
+              label="Description"
+              value={description}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+            ></lightning-textarea>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label label="Priority" desc={label.PriorityDescription} required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-combobox
+              name="priority"
+              label="Priority"
+              value={priority}
+              placeholder="Priority"
+              options={priorities}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+            ></lightning-combobox>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label
+            label="Desired Deployment"
+            desc="Please select from drop down list what is the deployment that you wish to move to"
+            required="true"
+          ></c-item-label>
+
+          <div class="slds-page-header__row">
+            <lightning-combobox
+              name="deployment"
+              label="Desired Deployment"
+              value={deployment}
+              placeholder="Desired Deployment"
+              options={deployments}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              required
+            ></lightning-combobox>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <c-item-label label="License Code" desc={label.LicenseCodeDesc} required="true"></c-item-label>
+          <div class="slds-page-header__row">
+            <lightning-input
+              data-id="licenseCode"
+              name="licenseCode"
+              label="License Code"
+              value={licenseCode}
+              onchange={handleChange}
+              class="full-width"
+              variant="label-hidden"
+              pattern="[0-9]{18}|[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+              required
+            ></lightning-input>
+          </div>
+        </div>
+
+        <div class="slds-p-around_small">
+          <div class="slds-page-header__row">
+            <lightning-button
+              variant="brand"
+              label={label.ValidateLicenseCode}
+              title={label.ValidateLicenseCode}
+              onclick={handleValidation}
+              disabled={disableValidate}
+            ></lightning-button>
+          </div>
+        </div>
+
+        <template if:true={gridData}>
+          <div class="slds-p-around_small">
+            <c-item-label
+              label="End Organization's Name"
+              desc="This is the legal entity where the licenses are used"
+              required="true"
+            ></c-item-label>
+            <div class="slds-page-header__row">
+              <lightning-input
+                type="text"
+                label="End Organization's Name"
+                variant="label-hidden"
+                value={orgName}
+                disabled
+              ></lightning-input>
+            </div>
+          </div>
+
+          <div class="slds-p-around_small">
+            <c-item-label
+              label="Current Deployment"
+              desc="This is your current deployment"
+              required="true"
+            ></c-item-label>
+            <div class="slds-page-header__row">
+              <lightning-combobox
+                name="currentDeployment"
+                label="Current Deployment"
+                value={currentDeployment}
+                placeholder="Current Deployment"
+                options={deployments}
+                onchange={handleChange}
+                variant="label-hidden"
+                required
+              ></lightning-combobox>
+            </div>
+          </div>
+
+          <div class="slds-p-around_small">
+            <div class="slds-page-header__row">
+              <!-- Display Company and Products -->
+
+              <!--<h2 class="slds-text-heading_medium slds-m-bottom_medium">Licenses available</h2>-->
+
+              <lightning-datatable
+                column-widths-mode="auto"
+                hide-checkbox-column
+                columns={gridColumns}
+                data={gridData}
+                errors={errors}
+                key-field="licenseCode"
+                onsave={handleSave}
+                draft-values={draftValues}
+              ></lightning-datatable>
+            </div>
+          </div>
+          <div class="slds-p-around_small">
+            <div class="slds-page-header__row">
+              <lightning-button variant="brand" label="Submit" onclick={submitCase} disabled={disableSubmit}>
+              </lightning-button>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <template if:true={loading}>
+        <div class="slds-spinner_container fixed_pos">
+          <div class="slds-spinner--brand slds-spinner slds-spinner--large slds-is-relative" role="alert">
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+          </div>
+        </div>
+      </template>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

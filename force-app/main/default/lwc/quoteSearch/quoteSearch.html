@@ -1,0 +1,28 @@
+<template>
+    <lightning-card
+        title="Quote Search"
+        icon-name="custom:custom57"
+    >
+        <div class="slds-var-m-around_medium">
+            <lightning-input
+                type="search"
+                onchange={handleKeyChange}
+                class="slds-show slds-is-relative slds-var-m-bottom_small"
+                label="Search"
+            ></lightning-input>
+            <template if:true={quotes}>
+                <lightning-datatable
+                    data={quotes}
+                    columns={columns}
+                    onsort={updateColumnSorting} 
+                    sorted-by={sortedBy} 
+                    sorted-direction={sortedDirection}
+                    key-field="id"
+                    hide-checkbox-column
+                    onrowaction={handleRowAction}>
+                    >
+                </lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+</template>

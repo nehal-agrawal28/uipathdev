@@ -1,0 +1,28 @@
+<aura:component implements="forceCommunity:layout" description="Custom Home Content Layout" access="global">
+    <aura:attribute name="header" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="footer" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="column1" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="column2" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="column3" type="Aura.Component[]" required="false"></aura:attribute>
+    <aura:attribute name="column4" type="Aura.Component[]" required="false"></aura:attribute>
+	<div class="slds-col comm-content-header comm-layout-column" >
+        {!v.header}
+    </div>
+    <div class="slds-grid slds-wrap slds-gutters slds-p-top_large">
+        <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+            {!v.column1}
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+            {!v.column2}       
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+            {!v.column3}
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+            {!v.column4}
+        </div>
+    </div>
+    <div class="slds-col comm-content-header comm-layout-column" >
+        {!v.footer}
+    </div>
+</aura:component>

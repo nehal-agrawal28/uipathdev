@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:hasSObjectName">
+    <c:cpqCloneRecords recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"></c:cpqCloneRecords>
+</aura:component>

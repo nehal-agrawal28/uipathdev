@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Handles updates to the opportunity merge candidate listing">
+    <aura:attribute name="oppId" type="String" />
+    <aura:attribute name="includeInMerge" type="Boolean" />
+</aura:event>

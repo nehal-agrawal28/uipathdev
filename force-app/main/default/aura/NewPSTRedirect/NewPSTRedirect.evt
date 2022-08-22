@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="New Pre Sales Task Redirect">
+    <aura:attribute name="recordId" type="string" />
+</aura:event>

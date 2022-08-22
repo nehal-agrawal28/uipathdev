@@ -1,0 +1,14 @@
+.partner-divider-wrapper {
+    text-align: -webkit-center;
+}
+
+.partner-divider-wrapper .divider {
+    margin-bottom: 1em;
+    margin-top: 1em;
+    content: '';
+    top: 0;
+    background: #fa4616;
+    border-radius: 0px;
+    height: 1px;
+    width: 60%;
+}

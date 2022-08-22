@@ -1,0 +1,98 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable">    
+
+    <div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+        <div class="slds-grid slds-m-around_small">
+            <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <!--div class="slds-media__figure"><span class="slds-icon_container slds-icon- - ">
+                        <lightning:icon iconName="utility:call"/>
+                        </span></div-->                
+                    
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!$Label.c.Community_Product_Support}">{!$Label.c.Community_Product_Support}</h1>
+                        <p class="slds-text-body_small slds-line-height_reset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+        </div>
+    </div>
+    <div>
+        <div class="cards-container">
+            <ul class="cards list-unstyled">
+                <li class="card" > <!--onclick="{!c.onGetStartedClick}"-->
+                    <div>
+                        <div class="orange-line"></div>
+                        <a href="/customer/s/getting-started">
+                            <h4 class="lang">{!$Label.c.Community_Get_Started}</h4>
+                        </a>
+                        <img src="{!$Resource.gettingStartedImg}"/>
+                    </div>
+                </li>
+                <li class="card"> <!--  onclick="{!c.onKnowledgeBaseClick}"-->
+                    <div>
+                        <div class="orange-line"></div>
+                        <a href="/customer/s/toparticles">
+                            <h4 class="lang">{!$Label.c.Community_Knowledge_Base}</h4>
+                        </a>
+                        <img src="{!$Resource.kb}"/>
+                    </div> 
+                </li>
+                <li class="card" onclick="{!c.onMyCasesClick}"> 
+                    <div>
+                        <div class="orange-line"></div>
+                        <a>
+                            <h4 class="lang">{!$Label.c.Community_My_Cases}</h4>
+                        </a>
+                        <img src="{!$Resource.myCases}"/>
+                    </div>
+                </li>
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <a href="/customer/s/contactsupport">
+                            
+                            <h4 class="lang">{!$Label.c.Community_Create_New_Case}</h4>
+                        </a>
+                        <img src="{!$Resource.createnewCase}"/>
+                    </div>
+                </li>
+                
+                <li class="card" onclick="{!c.onDashBoardClick}">
+                    <div>
+                        <div class="orange-line"></div>
+                        <a href="/customer/s/dashboard">
+                            
+                            <h4 class="lang">{!$Label.c.Community_Dashboard}</h4>
+                        </a>
+                        <img src="{!$Resource.dashboard}"/>
+                    </div>
+                </li>
+                
+                <!--li class="card" onclick="{!c.onQuickHelpClick}">
+                    <div class="orange-line"></div>
+                    <h4 class="lang">{!$Label.c.Community_Quick_Help}</h4>
+                </li-->
+                
+                <li class="card" >
+                    <div>
+                        <div class="orange-line"></div>
+                        <a href="/customer/s/premium">
+                            
+                            <h4 class="lang">{!$Label.c.Community_Premium}</h4>
+                        </a>
+                        <img src="{!$Resource.premium}"/>
+                    </div>
+                </li>
+                
+                <!--li class="card" onclick="{!c.onQuickHelpClick}">
+                    <div class="orange-line"></div>
+                    <h4 class="lang">Services</h4>
+
+                </li-->
+            </ul>
+        </div>
+    </div>
+    
+    <aura:unescapedHtml value="{!$Label.c.CommunityFloatingText}"/>     
+</aura:component>

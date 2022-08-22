@@ -1,0 +1,112 @@
+<template>
+  <!-- Deprecated -->
+
+  <!-- <div class="slds-card slds-p-horizontal_medium slds-p-bottom_xx-large slds-is-relative card-container">
+    <template if:true={showSpinner}>
+      <lightning-spinner alternative-text="Loading..."> </lightning-spinner>
+    </template>
+
+    <div class="slds-page-header slds-page-header_record-home">
+      <div class="slds-page-header__row">
+        <div class="slds-page-header__col-title">
+          <div class="slds-media">
+            <div if:true={tableTitleIcon} class="slds-media__figure">
+              <lightning-icon icon-name={tableTitleIcon} alternative-text={tableTitle} title={tableTitle}>
+              </lightning-icon>
+            </div>
+            <div class="slds-media__body">
+              <div class="slds-page-header__name">
+                <div class="slds-page-header__name-title">
+                  <h1>
+                    <span class="slds-page-header__title slds-truncate">{tableTitle}</span>
+                    <span if:true={tableSubTitle}>{tableSubTitle}</span>
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slds-page-header__col-actions">
+          <div class="slds-page-header__controls">
+            <div class="slds-page-header__control">
+              <ul class="slds-button-group-list">
+                <li if:true={actionManageUplift}>
+                  <button class="slds-button slds-button_neutral" onclick={actionManageUpliftActivate}>
+                    Manage Uplift
+                  </button>
+                </li>
+                <li if:true={actionRipReplace}>
+                  <button class="slds-button slds-button_neutral" onclick={actionRipReplaceActivate}>
+                    Rip and Replace
+                  </button>
+                </li>
+              </ul>
+              <ul class="slds-button-group-list">
+                <li if:true={actionRenewVia}>
+                  <button class="slds-button slds-button_neutral" onclick={actionRenewViaActivate}>Renew Via</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+  <!-- Manage Rip Replace action modal -->
+  <!-- <template if:true={actionRipReplaceIsActive}>
+      <c-deal-builder-rip-replace-modal
+        selected-contracts={ripReplaceSelectedContractIds}
+        onshowtoast={showToast}
+        onmarkcontractupdating={markContractUpdating}
+        onunselectallcontracts={unSelectAllContracts}
+        account-id={accountId}
+      ></c-deal-builder-rip-replace-modal>
+    </template> -->
+
+  <!-- Manage Uplift action modal -->
+  <!-- <template if:true={actionManageUpliftIsActive}>
+      <c-deal-builder-manage-uplift-modal
+        contract-ids={manageUpliftSelectedContractIds}
+        onrefreshcurrentdata={refreshCurrentData}
+        onrefreshalldata={refreshAllData}
+        onhidemodal={actionManageUpliftDeactivate}
+      >
+      </c-deal-builder-manage-uplift-modal>
+    </template> -->
+
+  <!-- Renew Via action modal -->
+  <!-- <template if:true={actionRenewViaIsActive}>
+      <c-deal-builder-renew-via-modal
+        account-id={accountId}
+        selected-opp-ids={renewViaSelectedOppIds}
+        contract-ids={renewViaContractIds}
+        onrefreshalldata={refreshAllData}
+        onhidemodal={actionRenewViaDeactivate}
+      >
+      </c-deal-builder-renew-via-modal>
+    </template> -->
+
+  <!-- Data table view -->
+  <!-- <template if:true={tableData}>
+      <div>
+        <c-navigate-to-quote
+          class="slds-align_absolute-center"
+          style="width: 100%"
+          quote-id={ripReplaceQuoteId}
+          quote-name={ripReplaceQuoteName}
+          if:true={displayGoToNewQuoteCard}
+        ></c-navigate-to-quote>
+
+        <c-deal-builder-data-table
+          has-selection="true"
+          has-pagination="true"
+          no-data-message={tableNoDataMessage}
+          column-data={tableData.columns}
+          row-data={tableData.rows}
+          onrowaction={handleTableRowAction}
+        >
+        </c-deal-builder-data-table>
+      </div>
+    </template>
+  </div> -->
+</template>

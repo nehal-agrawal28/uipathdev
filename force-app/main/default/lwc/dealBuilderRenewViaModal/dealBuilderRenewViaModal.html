@@ -1,0 +1,81 @@
+<template>
+    <section role="dialog"
+             tabindex="-1"
+             class='slds-modal slds-fade-in-open slds-modal_medium'
+             aria-labelledby="modal-heading-01"
+             aria-modal="true"
+             aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+
+            <template if:true={showSpinner}>
+                <div class="slds-spinner_container custom-spinner-css">
+                    <div role="status"
+                         class="slds-spinner slds-spinner_medium">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </template>
+
+            <header class="slds-modal__header">
+                <lightning-button-icon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                       icon-name="utility:close"
+                                       variant="bare-inverse"
+                                       size="large"
+                                       onclick={hideModal}>
+                </lightning-button-icon>
+                <h2 id="modal-heading-01"
+                    class="slds-modal__title slds-hyphenate">Select a replacement renewal opportunity</h2>
+            </header>
+            <div if:true={error}
+                 class="error-message slds-modal__header">
+                <div class="slds-notify_container slds-is-relative slds-m-bottom_medium message-parent">
+                    <div class="slds-notify slds-notify_toast slds-theme_alert-texture message-container slds-theme_error"
+                         role="alert">
+                        <div class="slds-notify__content message-div">
+                            <h2 class="slds-text-heading_small slds-text-align_center">
+                                {error.title}
+                            </h2>
+                            <p class="slds-text-align_center">
+                                {error.message}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-modal__content slds-p-around_medium"
+                 id="modal-content-id-1">
+
+                <template if:true={rowData}>
+                    <c-deal-builder-data-table has-selection="true"
+                                               single-selection="true"
+                                               column-data={columnData}
+                                               row-data={rowData}>
+                    </c-deal-builder-data-table>
+                </template>
+            </div>
+            <footer class="slds-modal__footer slds-text-align_center">
+                <div class="slds-p-around_medium lgc-bg">
+                    Note that the current renewal will be marked as "Closed Merged"
+                    and the full ARR-To-Renew will be allocated to the new one.
+                    The ARR reallocation may take up to 2 hours to complete.
+                </div>
+
+                <lightning-button variant="neutral"
+                                  class="slds-var-m-right_x-small"
+                                  label="Cancel"
+                                  title="Cancel"
+                                  onclick={hideModal}>
+                </lightning-button>
+                <lightning-button variant="brand"
+                                  label="Submit"
+                                  title="Submit"
+                                  onclick={handleSubmit}>
+                </lightning-button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

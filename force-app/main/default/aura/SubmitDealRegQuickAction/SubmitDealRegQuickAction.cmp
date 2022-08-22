@@ -1,0 +1,42 @@
+<aura:component
+        implements="force:lightningQuickActionWithoutHeader,force:hasRecordId"
+        controller="SubmitDealRegController_PP">
+
+    <aura:html tag="style">
+        .cuf-content { padding: 0 0rem !important; }
+        .slds-p-around--medium { padding: 0rem !important; }
+        .slds-modal__content
+        {
+            overflow-y:hidden !important;
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+
+    <!-- Variables -->
+    <aura:attribute name="recordId" type="String" />
+
+    <!-- View -->
+    <div class=" slds-modal__title slds-hyphenate slds-text-heading--mediummodal-header slds-modal__header">
+        <h2>{! $Label.c.Submit_Deal_Registration }</h2>
+    </div>
+
+    <div class="slds-p-around_medium slds-is-relative">
+
+        <div class="slds-p-horizontal_small slds-section__title slds-align_absolute-center">
+            {! $Label.c.Are_You_Sure_You_Want_To_Submit }
+        </div>
+        
+        <div aura:id="spinnerId" class="slds-hide">
+            <lightning:spinner size="medium"/>
+        </div>
+    </div>
+
+    <div class="modal-footer slds-modal__footer" style="min-height:3.6rem">
+        <div class="slds-list_horizontal slds-float_right">
+            <lightning:button label="{! $Label.c.No }" onclick="{! c.onclickNo }"/>
+            <lightning:button label="{! $Label.c.Yes }" variant="brand" onclick="{! c.onclickYes }" />
+        </div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,127 @@
+<template>
+
+    <template if:true={isLoaded}>
+        <template if:false={hasUser}>
+            <div class="slds-m-bottom_large flowruntimeRichTextWrapper flowruntimeDisplayText" style="font-size: 16px">
+                {customLabels.PARTNER_ACCOUNT_SELECTION}
+            </div>
+
+            <template if:true={hasPartnerAccounts}>
+                <div class="slds-p-around_medium lgc-bg">
+                    <ul class="slds-has-dividers_bottom-space">
+        
+                        <template for:each={partnerAccounts} for:item="partnerAccount">
+                            <li key={partnerAccount.value} class="slds-item">
+                                <div class="radio-button-left-from-tile">
+                                    <input
+                                        class="partnerAccountRadio"
+                                        id={partnerAccount.value}
+                                        name="partnerAccountRadio"
+                                        type="radio"
+                                        value={partnerAccount.value}
+                                        onclick={onclickPartnerAccountRadio}
+                                    />
+                                </div>
+                                <lightning-tile label={partnerAccount.label} type="media">
+                                    <lightning-icon slot="media" icon-name="standard:account"></lightning-icon>
+                                    <ul class="slds-list_horizontal slds-has-dividers_right">
+                                        <li class="slds-item">{partnerAccount.country}</li>
+                                    </ul>
+                                </lightning-tile>
+                            </li>
+                        </template>
+        
+                    </ul>
+                </div>
+        
+                <div>
+                    If none of the displayed results is the right Partner Account, please contact our Support Team by filling in an submitting our <a href={communitySupportUrl}>Contact Form.</a>
+                </div>
+        
+            </template> 
+        
+            <template if:false={hasPartnerAccounts}>
+                <div class="c-container">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                {customLabels.NO_RESULTS_FOUND}
+                            </div>
+                            <br>
+                            <div>
+                                {customLabels.MAKE_SURE_YOU_HAVE_ENTERED_COMPANY_EMAIL}
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                {customLabels.SELECT_ONE_OF_THE_FOLLOWING_OPTIONS}
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                <lightning-button class="margin-right-body-button" label={customLabels.I_AM_A_PARTNER} variant="neutral" onclick={onclickBtnIAmPartner}></lightning-button>
+                                <lightning-button label={customLabels.I_WANT_TO_BECOME_A_PARTNER} variant="neutral" onclick={onclickBtnBecomingPartner}></lightning-button>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+
+        </template>
+
+        <template if:true={hasUser}>
+            <template if:true={isUserActive}>
+                <div class="slds-m-bottom_large flowruntimeRichTextWrapper flowruntimeDisplayText" style="font-size: 16px">
+                    Active User Found
+                </div>
+                <div class="c-container">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                There is an existing User with the email address you have entered in the previous step.
+                            </div>
+                            <br>
+                            <div>
+                                Please log in or reset your password on the <a href={communityLoginUrl}>login page.</a>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+
+            <template if:false={isUserActive}>
+                <div class="slds-m-bottom_large flowruntimeRichTextWrapper flowruntimeDisplayText" style="font-size: 16px">
+                    Inactive User Found
+                </div>
+                <div class="c-container">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                There is an existing User with the email address you have entered in the previous step, but the User appears to be inactive.
+                            </div>
+                            <br>
+                            <div>
+                                Please contact our Support Team by filling in and submitting our <a href={communitySupportUrl} >Contact Form.</a>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>                
+        </template>
+
+        <div class="slds-m-top_large">
+            <footer class="slds-card__footer">
+                <div>
+                    <lightning-button class="margin-right-footer-button" label={customLabels.PREVIOUS} variant="neutral" onclick={onclickBtnPrevious}></lightning-button>
+                    <lightning-button label={customLabels.NEXT} variant="brand" onclick={onclickBtnNext} disabled={isPartnerAccountNotSelected}></lightning-button>
+                </div>
+            </footer>
+        </div> 
+        
+    </template>
+
+    <template if:false={isLoaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+</template>

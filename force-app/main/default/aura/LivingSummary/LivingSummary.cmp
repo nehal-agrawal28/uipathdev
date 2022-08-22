@@ -1,0 +1,46 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    <aura:attribute name="Problem" type="String" />
+    <aura:attribute name="Cause" type="String"/>
+    <aura:attribute name="Validation" type="String"/>
+    <aura:attribute name="Solution" type="String"/>
+    <aura:attribute name="SolutionInstructions" type="String"/>
+    <aura:attribute name="disableSave" type="Boolean" default="false"/>
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="reloadForm" type="boolean" default="true" />
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:attribute name="spinner" type="boolean" default="false" />
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner class="slds-spinner_container" alternativeText="Loading" size="large"/>
+    </aura:if> 
+    
+    
+    
+    <lightning:recordEditForm aura:id="myRecordForm"
+                              onsuccess="{!c.handleSuccess}"
+                              objectApiName="Case"
+                              recordId="{!v.recordId}"
+                              onsubmit="{!c.handleClick}"
+                              >
+        <!-- the messages component is for error messages -->
+        <lightning:messages />
+        <!--Fields With Prepopulated Values -->
+        
+        <aura:if isTrue="{!v.reloadForm}">	
+            <lightning:inputField fieldName="Problem__c" value="{!v.Problem}" />
+            <lightning:inputField fieldName="Cause__c" value="{!v.Cause}" />
+            <lightning:inputField fieldName="Validation__c" value="{!v.Validation}" />
+            <lightning:inputField fieldName="Solution__c" value="{!v.Solution}" />
+            <lightning:inputField fieldName="Solution_Instructions__c" value="{!v.SolutionInstructions}" />
+        </aura:if>
+        
+        <div class="slds-clearfix">
+            <div class="slds-m-top_medium slds-float_left">
+                <lightning:button  variant="brand" type="submit" name="save" label="Save" disabled="{!v.disableSave}"/>
+                
+            </div>
+        </div>
+    </lightning:recordEditForm>
+    
+</aura:component>

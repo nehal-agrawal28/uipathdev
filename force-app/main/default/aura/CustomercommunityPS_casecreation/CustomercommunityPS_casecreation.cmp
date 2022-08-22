@@ -1,0 +1,104 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable"  controller="CustomerCommunityServicesCntl" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="Caseobj" type="Case" default="{}"/>
+    <aura:attribute name="Serviceobjlist" type="Premium_Service__c[]" />
+    <aura:attribute name="picvalue" type="List"/>
+   <!-- <aura:attribute name="questions" type="Object[]"/>-->
+    <aura:attribute name="Servdesc" type="String"/>
+    <aura:handler name="alertEvent" event="c:AlertModalEvent" action="{!c.callBackOnSuccess}"/>
+    <aura:attribute name="isQuestions" type="Boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String" default="{!$Label.c.Mandatory_error_msg}"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="CaseId" type="String" default=""/>
+    <aura:attribute name="modalTitle" type="String" default="Ui-Path"/>
+    <aura:handler name="alertEvent" event="c:AlertModalEvent" action="{!c.callBackOnSuccess}"/>
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <aura:attribute name="dateValidationError" type="boolean" />
+    
+   <!-- <aura:attribute name="Serviceobj" type="Premium_Service__c"/>-->
+     <aura:if isTrue="{!v.showLoadingSpinner}">
+     	<c:SpinnerComp/>
+    </aura:if>
+    <c:AlertModal isSuccess="{!v.isSuccess}" title="{!v.modalTitle}" description="{!v.errorMessage}" aura:id="alertModal"/>
+    <div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+        <div class="slds-grid slds-m-around_small">
+            <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">            
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!$Label.c.PremiumServiceFormHeading}">{!$Label.c.PremiumServiceFormHeading}</h1>
+                        <p class="slds-text-body_small slds-line-height_reset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+        </div>
+    </div>
+    
+    <div class="slds-grid slds-wrap slds-p-around_large ">
+        <div class="slds-size_1-of-1 slds-p-around_xx-small ">
+            <lightning:select  label="Service Type"  onchange="{!c.onChangeVal}">       
+                <option value="choose">Choose one...</option> 
+                <aura:iteration items="{!v.picvalue}" var="s">
+                    <option value="{!s}">{!s}</option>            
+                </aura:iteration> 
+            </lightning:select>  
+        </div>
+        <div class="slds-p-around_xx-small">
+           <aura:unescapedHtml value="{!v.Servdesc}"/> 
+        </div>
+    </div><!--value="{!v.Serviceobj.Service_Type__c}"-->
+    <aura:if isTrue="{!v.isQuestions}">
+        <div class="slds-grid slds-wrap slds-p-around_large">
+            
+            <aura:iteration items="{!v.Serviceobjlist}" var="ques">
+                <aura:if isTrue="{!(ques.Question__c == 'Start Date')}">
+                    <div class="slds-size_1-of-2 slds-p-around_xx-small ">
+                        <span>
+                            <lightning:input type="date" name="input1" label="{!ques.Question__c}" value="{!ques.Question_Response__c}" onchange="{!c.dateUpdate}"/>
+                       <aura:if isTrue="{!v.dateValidationError}">
+            <div class="slds-text-color_error slds-p-left_x-small">
+                Date must be in present or in future..
+            </div>
+        </aura:if>   
+                        </span>
+                    </div>
+                    
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!(ques.Question__c == 'Estimation of effort (man-days)')}">
+                            <div class="slds-size_1-of-2 slds-p-around_xx-small">
+                                <span>
+                                    <lightning:input class="optionwidth" type="number" name="input1" label="{!ques.Question__c}" value="{!ques.Question_Response__c}"/>
+                                </span> 
+                            </div> 
+                            <aura:set attribute="else">
+                                <div class="slds-size_2-of-2 slds-p-around_xx-small">
+                                    <span>
+                                        <c:ItemLabelComp label="{!ques.Question__c}"/>
+                                        <Lightning:inputRichText placeholder="Type your description here" value="{!ques.Question_Response__c}" />
+                                    </span>
+                                </div>
+                                
+                            </aura:set>
+                            
+                        </aura:if>
+                    </aura:set>
+                    
+                </aura:if>
+            </aura:iteration>
+        </div>
+        
+        <div class="slds-col slds-p-around_large">
+            <lightning:button variant="brand" disabled="{!v.dateValidationError}" label="Submit" title="Submit" onclick="{! c.handleSubmitClick }"  />
+        </div>
+        
+    </aura:if>
+    
+    
+    
+    
+    
+   
+    
+    
+    
+</aura:component>

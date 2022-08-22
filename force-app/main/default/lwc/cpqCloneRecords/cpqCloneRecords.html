@@ -1,0 +1,57 @@
+<template>
+    <template if:true={record}>
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <!-- <div class="slds-media__figure"></div> -->
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate">
+                                            Clone - {record.Name}
+                                        </span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-is-relative">
+            <lightning-spinner if:true={showSpinner} size="medium" alternative-text="Loading..."></lightning-spinner>
+
+            <article class="detail-container">
+                <lightning-input class="prefix" type="text" label="CPQ Migration ID Prefix" max-length="10"
+                                 placeholder="Project/JIRA Ref (ex. SLTECH-1234 or FLEX)" required="true">
+                </lightning-input>
+            </article>
+
+            <ul class="slds-accordion">
+                <template for:each={childRelationLabels} for:item="child">
+                    <li key={child} class="slds-accordion__list-item">
+                        <section class="slds-accordion__section slds-is-open">
+                            <div class="slds-accordion__summary">
+                                <h2 class="slds-accordion__summary-heading">
+                                    <button class="slds-button slds-button_reset slds-accordion__summary-action">
+                                        <lightning-icon icon-name="utility:forward" size="x-small"></lightning-icon>
+                                        <span class="slds-accordion__summary-content">&nbsp;{child}</span>
+                                    </button>
+                                </h2>
+                            </div>
+                        </section>
+                    </li>
+                </template>
+            </ul>
+
+            <div class="slds-text-align_center slds-m-top_large">
+                <!-- <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}></lightning-button> -->
+                <lightning-button variant="brand" label="Clone" class="slds-m-left_x-small" onclick={handleSave}>
+                </lightning-button>
+            </div>
+        </div>
+    </template>
+</template>

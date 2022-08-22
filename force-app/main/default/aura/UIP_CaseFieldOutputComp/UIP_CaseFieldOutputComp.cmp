@@ -1,0 +1,19 @@
+<aura:component>
+
+	<aura:attribute name="column" type="DataTableColumns" default=""/>
+    <aura:attribute name="data" type="Case"/>
+
+    <aura:attribute name="value" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<div class="slds-col slds-size_1-of-2 slds-p-around_small">
+		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="form-element-01">{!v.column.label}</label>
+			<div class="slds-form-element__control">
+				{!v.value}
+			</div>
+		</div>
+	</div>
+
+	
+</aura:component>

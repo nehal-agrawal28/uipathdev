@@ -1,0 +1,125 @@
+<template>
+
+    <template if:true={error}>
+        <c-alert-message message={error} theme="Error"></c-alert-message>
+    </template>
+
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+    </template>
+
+    <div class="slds-grid slds-wrap slds-grid_align-center" if:true={opportunity}>
+        <div class="slds-col slds-size_3-of-4">
+            <div class="slds-var-m-bottom_medium">
+                <i>* Before creating a quote you can apply/remove Geo level uplift to this contract.</i>
+            </div>
+
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Account Geo</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                {opportunity.Account.Geo__c}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Account Uplift Method</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                {opportunity.Account.SBQQ__RenewalPricingMethod__c}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Geo Level Uplift %</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                {upliftGeoConfig.UpliftRate__c}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Geo Level Uplift Threshold</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-formatted-number value={upliftGeoConfig.UpliftThreshold__c}
+                                                            format-style="currency">
+                                </lightning-formatted-number>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Renewing Contract</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <a href={opportunity.RenewedContractLink}
+                                   target="_blank">{opportunity.SBQQ__RenewedContract__r.ContractNumber}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Contract Uplift Enabled</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                <lightning-input type="checkbox" disabled
+                                                 checked={opportunity.SBQQ__RenewedContract__r.Contract_Uplift_Enabled__c}>
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly">
+                        <span class="slds-form-element__label">Current Uplift %</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                {opportunity.SBQQ__RenewedContract__r.SBQQ__RenewalUpliftRate__c}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-form-element slds-form-element_readonly"
+                         if:true={opportunity.SBQQ__RenewedContract__r.Uplift_Exception_Reason__c}>
+                        <span class="slds-form-element__label">Uplift Exception Reason</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">
+                                {opportunity.SBQQ__RenewedContract__r.Uplift_Exception_Reason__c}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-text-align_center slds-var-m-top_medium" if:true={opportunity}>
+        <lightning-button label="Apply Uplift" title="Apply Uplift" icon-name="utility:check" onclick={applyUplift}>
+        </lightning-button>
+        <lightning-button class="slds-var-m-left_small" variant="destructive-text" label="Remove Uplift"
+                          title="Remove Uplift" icon-name="utility:close" onclick={removeUplift}>
+        </lightning-button>
+    </div>
+
+    <div class="slds-text-align_right slds-var-m-top_large slds-border_top slds-var-p-top_large">
+        <!-- Commented after feedback -->
+        <!-- <lightning-button label="New Blank Quote" title="Blank Quote" variant="neutral" onclick={newBlankQuote}>
+        </lightning-button> -->
+        <lightning-button class="slds-var-m-left_small" label="New Renewal Quote" title="Renewal Quote" variant="brand"
+                          onclick={newRenewalQuote}>
+        </lightning-button>
+    </div>
+</template>

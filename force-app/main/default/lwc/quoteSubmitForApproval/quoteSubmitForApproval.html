@@ -1,0 +1,86 @@
+<template>
+    <lightning-quick-action-panel header="Submit For Approval">
+        <div class="modal-body slds-is-relative">
+            <lightning-spinner if:true={showSpinner} size="medium" alternative-text="Loading..."></lightning-spinner>
+            <ul class="slds-timeline">
+                <template for:each={validationData.errors} for:item="error">
+                    <li key={error.title}>
+                        <div class="slds-timeline__item_expandable item item_error">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning-icon title="Error"
+                                                    class="timeline-icon slds-icon_container slds-timeline__icon"
+                                                    icon-name="utility:error" size="small" variant="error">
+                                    </lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-grid slds-grid_align-spread slds-m-top_xx-small">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-no-space">
+                                            <strong>
+                                                <lightning-formatted-rich-text value={error.title}>
+                                                </lightning-formatted-rich-text>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <p class="slds-m-horizontal_medium">
+                                        <lightning-formatted-rich-text value={error.message}>
+                                        </lightning-formatted-rich-text>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </template>
+                <template for:each={validationData.warnings} for:item="warning">
+                    <li key={warning.title}>
+                        <div class="slds-timeline__item_expandable item item_warning">
+                            <div class="slds-media">
+                                <div class="slds-media__figure">
+                                    <lightning-icon title="Warning"
+                                                    class="timeline-icon slds-icon_container slds-timeline__icon"
+                                                    icon-name="utility:warning" size="small" variant="warning">
+                                    </lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-grid slds-grid_align-spread slds-m-top_xx-small">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-no-space">
+                                            <strong>
+                                                <lightning-formatted-rich-text value={warning.title}>
+                                                </lightning-formatted-rich-text>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <p class="slds-m-horizontal_medium">
+                                        <lightning-formatted-rich-text value={warning.message}>
+                                        </lightning-formatted-rich-text>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </template>
+                <!-- end of timeline -->
+                <li if:false={showSpinner}>
+                    <div class="item item_dot">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <lightning-icon class="timeline-icon end-icon slds-icon_container slds-timeline__icon"
+                                                icon-name="utility:record" size="x-small" variant="success">
+                                </lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Close" onclick={closeModal}></lightning-button>
+            <lightning-button if:true={showContinue} variant="brand" label="Continue" class="slds-m-left_x-small"
+                              onclick={continueSubmit}>
+            </lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

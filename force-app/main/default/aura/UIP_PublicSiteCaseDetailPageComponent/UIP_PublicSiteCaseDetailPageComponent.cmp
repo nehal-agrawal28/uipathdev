@@ -1,0 +1,256 @@
+<aura:component controller="UIP_PublicSiteCaseCommnetCntl" implements="forceCommunity:availableForAllPageTypes">
+
+	<aura:attribute name="caseObj" type="Case"/>
+    <aura:attribute name="caseNumber" type="String"/>
+    <aura:attribute name="caseEmail" type="String"/>
+
+    <aura:attribute name="isEmailDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="isCaseNumberDisabled" type="Boolean" default="false"/>
+
+    <aura:attribute name="showLoadingSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showOTPModal" type="Boolean" default="false" />
+	<aura:attribute name="showCaseDetails" type="Boolean" default="false" />
+
+    <aura:attribute name="userEnteredOTP" type="Integer" />
+    <aura:attribute name="systemGeneratedOTP" type="Integer" />
+
+    <aura:attribute name="caseResponse" type="DataTableResponse"/>
+    <aura:attribute name="attachmentList" type="List"/>
+    <aura:attribute name="emailList" type="List"/>
+    <aura:attribute name="showEmailBody" type="Boolean" default="false" />
+    <aura:attribute name="emailMessage" type="EmailMessage"/>
+    
+    <aura:attribute name="isFindBtnEnabled" type="Boolean" default="true" />
+
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="modalTitle" type="String" default="Ui-Path"/>
+
+    <aura:attribute name="myTimeOut" type="Object"/>
+
+	<aura:attribute name="caseList" type="List"/>
+	<aura:attribute name="contactObj" type="Contact"/>    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.showLoadingSpinner}">
+    	<c:SpinnerComp/>
+    </aura:if>
+
+    <c:AlertModal isSuccess="{!v.isSuccess}" title="{!v.modalTitle}" description="{!v.errorMessage}" aura:id="alertModal"/>
+
+	<aura:if isTrue="{!v.showOTPModal}">
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+    				<lightning:buttonIcon iconName="utility:close"
+    					onclick="{! c.closeModel }"
+    					alternativeText="close"
+    					variant="bare-inverse"
+    					class="slds-modal__close"/>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.OTP_Text}</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<lightning:input type="text" value="{!v.userEnteredOTP}" placholder="{!$Label.c.OTP_PlaceHolder}" label="{!$Label.c.	OTP_Label}" required="true"  aura:id="otpInput" maxlength="{!$Label.c.MaxOTPLength}" updateOn="keyup"  onchange="{!c.checkIsNumber}" />
+				</div>
+				<footer class="slds-modal__footer">
+					<lightning:button variant="neutral" 
+						label="{!$Label.c.OTP_Btn_Cancel}"
+						title="{!$Label.c.OTP_Btn_Cancel}"
+						onclick="{! c.closeModel }"/>
+
+					<lightning:button variant="brand" 
+						label="{!$Label.c.OTP_Btn_Submit}"
+						title="{!$Label.c.OTP_Btn_Submit}"
+						onclick="{! c.validateOTP }"/>
+					</footer>
+
+				</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</aura:if>
+
+	<aura:if isTrue="{!v.showEmailBody}">
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+    				<lightning:buttonIcon iconName="utility:close"
+    					onclick="{! c.closeEmailModel }"
+    					alternativeText="close"
+    					variant="bare-inverse"
+    					class="slds-modal__close"/>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.emailMessage.Subject}</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<div class="slds-media">
+						<div class="slds-size_1-of-1">
+							<div class="slds-size_1-of-1 slds-grid slds-grid_vertical-stretch slds-grid_align-spread slds-has-flexi-truncate">
+								<article class="slds-post">
+									<header class="slds-post__header slds-media slds-media--center">
+										<div class="slds-media__figure">
+											<a href="javascript:void(0);" title="{!v.emailMessage.FromName}" class="slds-avatar slds-avatar--circle slds-avatar--large">
+												<img src="_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_96.png"  class="image" alt="{!v.emailMessage.FromName}" />
+											</a>
+										</div>
+										<div class="slds-media__body">
+											<div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+												<p>
+													<a href="javascript:void(0);" title="{!v.emailMessage.FromName}">{!v.emailMessage.FromName}</a>
+												</p>
+											</div>
+											<p class="slds-text-body--small"><a href="javascript:void(0);" title="{!v.emailMessage.MessageDate}" class="slds-text-link--reset">
+												<lightning:formattedDateTime value="{!v.emailMessage.MessageDate}" year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long" era="short"/>
+												</a></p>
+										</div>
+									</header>
+									<div class="slds-post__content slds-text-longform">
+										<div class="slds-scrollable_y" style="maxheight:22rem;">
+											<p>
+												<aura:if isTrue="{!v.emailMessage.HtmlBody != null}">
+													<aura:unescapedHtml value="{!v.emailMessage.HtmlBody}"/>
+													<aura:set attribute="else">
+														<aura:unescapedHtml value="{!v.emailMessage.TextBody}"/>
+													</aura:set>
+												</aura:if>
+											</p>
+										</div>
+									</div>
+								</article>
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<lightning:button variant="neutral" 
+						label="{!$Label.c.OTP_Btn_Cancel}"
+						title="{!$Label.c.OTP_Btn_Cancel}"
+						onclick="{! c.closeEmailModel }"/>
+					</footer>
+
+				</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</aura:if>
+
+    <lightning:layout horizontalAlign="spread" multipleRows="true">
+    	<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+    		<div class="slds-p-left_small slds-p-right_small">
+    			<div class="header">
+    				<div class="themeBgImage"></div>
+    				<div class="themeHeaderTopRow">
+    					<div class="headerImage slds-m-left_small">
+    						<img src="{!$Resource.UiPathWhiteLogo}"/>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</lightning:layoutItem>
+    	<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small">
+            <div class="slds-box">
+
+            	<lightning:layout>
+            		<!--lightning:layoutItem padding="around-small" size="3">
+            			<div class="slds-page-header__row">
+            				<lightning:input class="full-width" name="caseNumber" type="text" required="true" aura:id="caseNumber" label="{!$Label.c.Label_Case_Number}" value="{!v.caseNumber}" disabled="{!v.isCaseNumberDisabled}" updateOn="keyup"  onchange="{!c.checkIsNumber}"/>
+            			</div>
+            		</lightning:layoutItem-->
+            		<lightning:layoutItem padding="around-small" size="3">
+            			<div class="slds-page-header__row">
+            				<lightning:input class="full-width" name="caseEmail" type="email" required="true" aura:id="caseEmail" label="{!$Label.c.Label_Case_Email}" value="{!v.caseEmail}" disabled="{!v.isEmailDisabled}"/>
+            			</div>
+            		</lightning:layoutItem>
+            		<lightning:layoutItem padding="around-small" size="3">
+            			<div class="slds-page-header__row">
+            				<div class="slds-page-header__col-details slds-m-top_small">
+            					<div class="slds-grid slds-gutters">
+            						<div class="slds-col">
+            							<aura:if isTrue="{!v.isFindBtnEnabled}">
+            								<lightning:button variant="brand" label="{!$Label.c.OTP_Btn_Find}" title="{!$Label.c.OTP_Btn_Find}" onclick="{! c.validateEmailAndCaseNumber }" />
+            								<aura:set attribute="else">
+            									<lightning:button variant="brand" label="{!$Label.c.OTP_Btn_Reset}" title="{!$Label.c.OTP_Btn_Reset}" onclick="{! c.reset }" />
+            								</aura:set>
+            							</aura:if>
+            						</div>
+            					</div>
+            				</div>
+            			</div>
+            		</lightning:layoutItem>
+            	</lightning:layout>            
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <aura:if isTrue="{!v.showCaseDetails}">
+        <div class="slds-box slds-m-around_small">
+	    	<lightning:layout multipleRows="true">
+                <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3">
+                	<div class="slds-page-header__title slds-truncate">{!$Label.c.OTP_Heading_All_Cases}</div>
+                    <div class="slds-page-header__row div-height">
+                            <ul class="slds-has-dividers_bottom slds-has-block-links_space" style="width: 100%">
+                                <aura:iteration items="{!v.caseList}" var="item" indexVar="index">
+                                    <li class="slds-item">
+                                        <a href="javascript:void(0);" data-index="{!index}" onclick="{!c.getCaseDetails}" class="slds-text-heading_small">{!item.CaseNumber}</a>
+                                        <lightning:formattedDateTime value="{!item.CreatedDate}" year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long" class="slds-p-left_small"/>
+                                       	<div class="slds-text-body_regular slds-p-left_small">{!item.Subject}</div>
+                                    </li>
+                                </aura:iteration>
+	        				</ul>
+	        		</div>
+                </lightning:layoutItem>
+	        	<lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="5" largeDeviceSize="5">
+	        		<div class="slds-page-header__title slds-truncate">{!$Label.c.OTP_Heading_CaseView_Details}</div>
+	        		<div class="slds-page-header__row div-height">
+	        			<div class="slds-grid slds-wrap">
+	        				<aura:iteration items="{!v.caseResponse.lstDataTableColumns}" var="item">
+	        					<c:UIP_CaseFieldOutputComp column="{!item}" data="{!v.caseResponse.firstRow}"/>
+	        				</aura:iteration>
+	        			</div>
+	        		</div>
+	        	</lightning:layoutItem>
+	        	
+	        	<lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4">
+	        		<div class="slds-page-header__title slds-truncate">{!$Label.c.OTP_Heading_Email_Details}</div>
+	        		<div class="slds-page-header__row div-height">
+	        			<div class="slds-grid slds-wrap">
+	        				<aura:iteration items="{!v.emailList}" var="emailMessage" indexVar="index">
+	        					<div class="slds-media slds-p-top_x-small">
+	        						<div class="slds-size_1-of-1">
+	        							<div class="slds-size_1-of-1 slds-grid slds-grid_vertical-stretch slds-grid_align-spread slds-has-flexi-truncate">
+	        								<article class="slds-post">
+	        									<header class="slds-post__header slds-media slds-media--center">
+	        										<div class="slds-media__figure">
+	        											<a href="javascript:void(0);" title="{!emailMessage.FromName}" class="slds-avatar slds-avatar--circle slds-avatar--large">
+	        												<img src="_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_96.png"  class="image" alt="{!emailMessage.FromName}" />
+	        											</a>
+	        										</div>
+	        										<div class="slds-media__body">
+	        											<div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+	        												<p>
+	        													<a href="javascript:void(0);" title="{!emailMessage.FromName}">{!emailMessage.FromName}</a>
+	        												</p>
+	        											</div>
+	        											<p class="slds-text-body--small"><a href="javascript:void(0);" title="{!emailMessage.MessageDate}" class="slds-text-link--reset">
+	        												<lightning:formattedDateTime value="{!emailMessage.MessageDate}" year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long" />
+	        											</a></p>
+	        											<p class="slds-text-body--small"><a href="javascript:void(0);" title="{!emailMessage.Subject}" class="slds-text-link--reset">{!emailMessage.Subject}</a></p>
+	        											<div class="slds-grid" style="width: 300px;">
+	        												<div class="slds-grid slds-has-flexi-truncate">
+	        													<p class="slds-truncate" title="{!emailMessage.TextBody}">{!emailMessage.TextBody}</p>
+	        												</div>
+	        											</div>
+	        											<a href="javascript:void(0);" title="More" onclick="{!c.openEmailPopup}" data-index="{!index}">{!$Label.c.OTP_More_HyperLink}</a>
+	        										</div>
+	        									</header>
+	        								</article>
+	        							</div>
+	        						</div>
+	        					</div>
+	        				</aura:iteration>
+	        			</div>
+	        		</div>
+	        	</lightning:layoutItem>
+
+	    	</lightning:layout>
+	    </div>
+    </aura:if>
+</aura:component>

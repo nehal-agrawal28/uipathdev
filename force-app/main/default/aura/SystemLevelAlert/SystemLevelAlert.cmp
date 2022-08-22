@@ -1,0 +1,15 @@
+<aura:component implements="flexipage:availableForAllPageTypes" >
+	<div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info slds-theme_info-cpy" role="alert">
+  <span class="slds-assistive-text">info</span>
+  <span class="slds-icon_container slds-icon-utility-user slds-m-right_x-small" title="Description of icon when needed">
+  <!--  <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#user"></use>
+    </svg>-->
+        <c:svg class="slds-icon slds-icon_x-small"  xlinkHref="/assets/icons/utility-sprite/svg/symbols.svg#user"/>
+  </span>
+  <h2>{!$Label.c.App_Level_Notification} 
+    <!--<a href="javascript:void(0);">Log out</a> -->
+  </h2>
+
+</div>
+</aura:component>

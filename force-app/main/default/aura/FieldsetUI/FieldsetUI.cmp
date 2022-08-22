@@ -1,0 +1,103 @@
+<aura:component controller="FieldsetUIController" implements="force:hasRecordId,force:hasSObjectName,flexipage:availableForRecordHome">
+
+    <!-- Attributes provided to component -->
+    <aura:attribute name="cardTitle" type="String"/>
+    <aura:attribute name="cardIcon" type="String"/>
+    <aura:attribute name="fieldSet" type="String"/>
+    <aura:attribute name="hideSection" type="Boolean" default="false"/>
+    <aura:attribute name="sectionName" type="String" default="Section"/>
+    <aura:attribute name="disableEdit" type="Boolean" default="false"/>
+
+    <!-- Local attributets -->
+    <aura:attribute name="fieldList" type="List" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="hasError" type="Boolean" default="false"/>
+    <aura:attribute name="formLoading" type="Boolean" default="true"/>
+    <aura:attribute name="isEdit" type="Boolean" default="false"/>
+    <aura:attribute name="isObjectUpdateable" type="Boolean" default="true"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="width" type="String" description=" width of parent region"/>
+    <lightning:flexipageRegionInfo width="{!v.width}"/>
+
+    <lightning:card title="{!v.cardTitle}" iconName="{!v.cardIcon}" class="{!empty(v.cardTitle) ? 'hide-header' : ''}">
+        <div class="slds-is-relative">
+            <aura:if isTrue="{!or(v.showSpinner, v.formLoading)}">
+                <lightning:spinner alternativeText="Loading..."/>
+            </aura:if>
+            
+            <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true" activeSectionName="{!v.fieldSet}" class="{!v.hideSection ? 'hide-section' : 'slds-show'}">
+                <lightning:accordionSection name="{!v.fieldSet}" label="{!v.sectionName}">
+                    
+                    <aura:if isTrue="{!v.isObjectUpdateable}">
+                        <lightning:recordEditForm aura:id="recordForm" 
+                                                recordId="{!v.recordId}" 
+                                                objectApiName="{!v.sObjectName}" 
+                                                onsuccess="{!c.handleSuccess}" 
+                                                onload="{!c.handleLoad}"
+                                                onsubmit="{!c.handleSubmit}"
+                                                onerror="{!c.handleError}">
+                            <lightning:messages class="{!v.hasError ? 'slds-show' : 'slds-hide'}"/>
+                            <div class="slds-grid slds-gutters slds-wrap slds-var-p-horizontal_medium">
+                                <aura:iteration items="{!v.fieldList}" var="field">
+                                    <div class="{!'field-cell slds-col' + (v.width == 'SMALL' ? ' slds-size_1-of-1' : ' slds-size_1-of-2')}">
+                                        <aura:if isTrue="{!v.isEdit}">
+                                            <lightning:inputField fieldName="{!field.fieldAPI}" />
+                
+                                            <aura:set attribute="else">
+                                                <lightning:outputField fieldName="{!field.fieldAPI}" class="slds-border_bottom slds-clearfix" />
+                                                <aura:if isTrue="{!v.disableEdit == false}">
+                                                    <aura:if isTrue="{!!v.showSpinner}">
+                                                        <aura:if isTrue="{!and(!v.isEdit, field.isEditable)}">
+                                                                <lightning:icon class="edit-icon" size="xx-small" iconName="utility:edit" onclick="{!c.handleEdit}"/>
+                                                            </aura:if>
+                                                        </aura:if>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                            
+                            <aura:if isTrue="{!v.disableEdit == false}">
+                                <div class="slds-text-align_center slds-m-top_medium">
+                                    <aura:if isTrue="{!!v.showSpinner}">
+                                        <aura:if isTrue="{!!v.isEdit}">
+                                            <!-- <lightning:button variant="brand" label="Edit" title="Edit" onclick="{!c.handleEdit}" /> -->
+                    
+                                            <aura:set attribute="else">
+                                                <lightning:button variant="neutral" label="Cancel" title="Cancel" onclick="{!c.handleCancel}" />
+                                                <aura:if isTrue="{!!v.hasError}">
+                                                    <lightning:button type="submit" variant="brand" label="Save" title="Save" />
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:if>
+                                </div>
+                            </aura:if>
+                        </lightning:recordEditForm>
+
+                        <aura:set attribute="else">
+                            <lightning:recordViewForm aura:id="recordForm" 
+                                                recordId="{!v.recordId}" 
+                                                objectApiName="{!v.sObjectName}">
+                                <lightning:messages />
+                                <div class="slds-grid slds-gutters slds-wrap slds-var-p-horizontal_medium">
+                                    <aura:iteration items="{!v.fieldList}" var="field">
+                                        <div class="{!'field-cell slds-col' + (v.width == 'SMALL' ? ' slds-size_1-of-1' : ' slds-size_1-of-2')}">
+                                            <lightning:outputField fieldName="{!field.fieldAPI}" class="slds-border_bottom slds-clearfix" />
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                            </lightning:recordViewForm>
+                        </aura:set>
+                    </aura:if>
+                    
+                </lightning:accordionSection>
+            </lightning:accordion>
+        </div>
+    </lightning:card>
+
+</aura:component>

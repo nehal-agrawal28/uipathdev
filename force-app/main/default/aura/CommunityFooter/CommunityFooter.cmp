@@ -1,0 +1,41 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+  
+    <div><div class="slds-p-around_medium footer">
+        <div class="slds-grid slds-wrap">
+            
+            <div class="slds-col  slds-size_1-of-11 slds-medium-size_1-of-11 slds-large-size_1-of-11"><span><a href="https://www.uipath.com/legal/terms-of-use">Terms of Use</a></span>&nbsp; · &nbsp;</div>
+            <div class="slds-col  slds-size_1-of-11 slds-medium-size_1-of-11 slds-large-size_1-of-11"><span><a href="https://www.uipath.com/legal/privacy-policy">Privacy Policy</a></span> &nbsp; · &nbsp;</div>
+            <div class="slds-col  slds-size_1-of-11 slds-medium-size_1-of-11 slds-large-size_1-of-11"><span><a href="https://www.uipath.com/legal/cookies-policy">Cookies Policy</a></span> &nbsp; · &nbsp;</div>
+            <div class="slds-col  slds-size_1-of-11 slds-medium-size_1-of-11 slds-large-size_1-of-11"><span><a href="https://www.uipath.com/legal/personal-data">Personal Data Request</a></span> &nbsp; · &nbsp;</div>
+            <div class="slds-col  slds-col_bump-right slds-size_1-of-11 slds-medium-size_1-of-11 slds-large-size_1-of-11"><span><a href="https://cdn2.hubspot.net/hubfs/416323/legalspot/UiPath%20Business%20Partner%20Code%20singlePage.pdf?t=1541061596000" target="_blank">Business Partner Code</a></span></div> 
+			<div class="slds-col  slds-size_1-of-11 slds-medium-size_1-of-11 slds-large-size_1-of-11">
+                
+                
+                    <a href="https://www.linkedin.com/company/uipath" target="_blank">
+                        <lightning:icon src="{!$Resource.SVGIcons+'#icon1'}" alternativeText="My Custom Icon" />
+                    </a>
+                    <a href="https://www.facebook.com/UiPath" target="_blank">
+                        <lightning:icon src="{!$Resource.SVGIcons+'#icon2'}" alternativeText="My Custom Icon" />
+                    </a>
+                    <a href="https://twitter.com/uipath" target="_blank">
+                        <lightning:icon src="{!$Resource.SVGIcons+'#icon3'}" alternativeText="My Custom Icon" />
+                    </a>
+                    <a href="https://www.youtube.com/user/uipath" target="_blank">
+                        <lightning:icon src="{!$Resource.SVGIcons+'#icon4'}" alternativeText="My Custom Icon" />
+                    </a>
+                    <a href="https://www.uipath.com/blog/rss.xml" target="_blank">
+                        <lightning:icon src="{!$Resource.SVGIcons+'#icon5'}" alternativeText="My Custom Icon" />
+                    </a>
+                    <a href="https://www.uipath.com/developers/slack-community" target="_blank">
+                        <lightning:icon src="{!$Resource.SVGIcons+'#icon6'}" alternativeText="My Custom Icon" />
+                    </a>
+                                
+            </div>
+            <div class="slds-col slds-col slds-size_1-of-1"><span>© 2005-2019 UiPath. All rights reserved.</span></div>
+            
+        </div>
+    </div>
+    
+    </div>
+</aura:component>

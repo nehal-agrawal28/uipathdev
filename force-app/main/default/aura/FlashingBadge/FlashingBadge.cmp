@@ -1,0 +1,4 @@
+<aura:component >
+    <aura:attribute name="label" type="String"/>
+	<lightning:badge label="{!v.label}" class="flashing"/>
+</aura:component>

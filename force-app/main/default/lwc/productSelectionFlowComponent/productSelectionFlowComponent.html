@@ -1,0 +1,34 @@
+<template>
+
+    <c-product-selection-component
+        context="flow"
+        currency-iso-code={currencyIsoCode}
+        deal-type={dealType}
+        price-book={customLabels.PRICE_BOOK_NAME}
+        ongetselectedproductslength={processSelectedProductsLength}
+        ongetshowselected={processShowSelectedChange}>
+    </c-product-selection-component>
+    
+    <template if:true={onSelectProductsScreen}>
+        <div class="slds-m-top_large">
+            <footer class="slds-card__footer">
+                <div>
+                    <lightning-button style="margin-right:.2rem" label="Previous" variant="neutral" onclick={onclickBtnPrevious}></lightning-button>
+                    <lightning-button label="Next" variant="brand" onclick={onclickBtnNext}></lightning-button>
+                </div>
+            </footer>
+        </div> 
+    </template>
+
+    <template if:true={onSubmitProductsScreen}>
+        <div class="slds-m-top_large">
+            <footer class="slds-card__footer">
+                <div>
+                    <lightning-button style="margin-right:.2rem" label="Back" variant="neutral" onclick={onclickBtnBack}></lightning-button>
+                    <lightning-button label={customLabels.CREATE_DRAFT} variant="brand" onclick={onclickBtnSubmit} disabled={noProductSelected}></lightning-button>
+                </div>
+            </footer>
+        </div> 
+    </template>
+
+</template>

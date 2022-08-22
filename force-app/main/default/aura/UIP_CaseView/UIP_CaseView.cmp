@@ -1,0 +1,370 @@
+<aura:component controller="UIP_PublicSiteCaseCommnetCntl" implements="lightning:availableForFlowScreens,forceCommunity:availableForAllPageTypes">
+    
+    <aura:attribute name="caseObj" type="Case"/>
+    <aura:attribute name="caseNumber" type="String"/>
+    <aura:attribute name="caseEmail" type="String"/>
+    
+    <aura:attribute name="isEmailDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="isCaseNumberDisabled" type="Boolean" default="false"/>
+    
+    <aura:attribute name="showLoadingSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showOTPModal" type="Boolean" default="false" />
+    <aura:attribute name="showCaseDetails" type="Boolean" default="false" />
+    
+    <aura:attribute name="userEnteredOTP" type="Integer" />
+    <aura:attribute name="systemGeneratedOTP" type="Integer" />
+    
+    <aura:attribute name="caseResponse" type="DataTableResponse"/>
+    <aura:attribute name="attachmentList" type="List"/>
+    <aura:attribute name="emailList" type="List"/>
+    <aura:attribute name="allKnowledgeArticles" type="List"/>
+    <aura:attribute name="knowledgeArticles" type="List"/>
+    <aura:attribute name="showEmailBody" type="Boolean" default="false" />
+    <aura:attribute name="emailMessage" type="EmailMessage"/>
+    
+    <aura:attribute name="showKnowledgeArticle" type="Boolean" default="false"/>
+    <aura:attribute name="articleObj" type="Object"/>
+    
+    <aura:attribute name="isFindBtnEnabled" type="Boolean" default="true" />
+    
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="modalTitle" type="String" default="Ui-Path"/>
+    
+    <aura:attribute name="myTimeOut" type="Object"/>
+    
+    <aura:attribute name="caseList" type="List"/>
+    <aura:attribute name="currentCaseIndex" type="Integer" default="-1"/>
+    <aura:attribute name="contactObj" type="Contact"/>    
+    
+    <aura:attribute name="selectedTabId" type="String" default="AllCaseDetails"/>
+    <aura:attribute name="selectedSubTabId" type="String" default="CaseDetails"/>
+    
+    <aura:attribute name="searchText" type="String"/>
+    <aura:attribute name="issearching" type="Boolean" default="false"/>
+    <aura:attribute name="selectedLookUpRecord" type="sObject"/>
+    
+    <aura:attribute name="articleColumns" type="List"/>
+    <aura:attribute name="articleSearchResultColumns" type="List"/>
+    <aura:attribute name="caseSearchResultColumns" type="List"/>
+    
+    
+    <aura:attribute name="searchResults" type="List"/>
+    <aura:attribute name="caseSearchResults" type="List"/>
+    <aura:attribute name="articleSearchResults" type="List"/>
+    
+    <aura:attribute name="currentTabString" type="String" default="All Cases"/>
+    
+    <aura:attribute name="surveySrc" type="String"/>
+    <aura:attribute name="surveyPendingStart" type="Date" />
+    <aura:attribute name="showLoginFlow" type="Boolean" default="true"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.selectedLookUpRecord}" action="{!c.handleRecordSelected}"/>
+    <aura:handler name="change" value="{!v.searchResults}" action="{!c.handleSearchResultsChange}"/>
+    <aura:handler name="change" value="{!v.selectedTabId}" action="{!c.handleTabChange}"/>
+    <aura:handler name="enterPressed" event="c:enterPressedInSearchBoxEvent" action="{!c.handleEnterPressed}"/>
+    <aura:handler name="caseCreated" event="c:UIP_CaseViewProductSupportCaseCreated" action="{!c.handleCaseCreated}"/>
+    
+    <aura:if isTrue="{!v.showLoadingSpinner}">
+        <c:SpinnerComp/>
+    </aura:if>
+    
+    <c:AlertModal isSuccess="{!v.isSuccess}" title="{!v.modalTitle}" description="{!v.errorMessage}" aura:id="alertModal"/>
+    <div aura-id="scroller"></div>
+    
+    
+    
+    <aura:if isTrue="{!v.showEmailBody}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeEmailModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.emailMessage.Subject}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-media">
+                        <div class="slds-size_1-of-1">
+                            <div class="slds-size_1-of-1 slds-grid slds-grid_vertical-stretch slds-grid_align-spread slds-has-flexi-truncate">
+                                <article class="slds-post">
+                                    <header class="slds-post__header slds-media slds-media--center">
+                                        <div class="slds-media__figure">
+                                            <a href="javascript:void(0);" title="{!v.emailMessage.FromName}" class="slds-avatar slds-avatar--circle slds-avatar--large">
+                                                <img src="_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_96.png"  class="image" alt="{!v.emailMessage.FromName}" />
+                                            </a>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                                <p>
+                                                    <a href="javascript:void(0);" title="{!v.emailMessage.FromName}">{!v.emailMessage.FromName}</a>
+                                                </p>
+                                            </div>
+                                            <p class="slds-text-body--small"><a href="javascript:void(0);" title="{!v.emailMessage.MessageDate}" class="slds-text-link--reset">
+                                                <lightning:formattedDateTime value="{!v.emailMessage.MessageDate}" year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long" era="short"/>
+                                                </a></p>
+                                        </div>
+                                    </header>
+                                    <div class="slds-post__content slds-text-longform">
+                                        <div class="slds-scrollable_y" style="maxheight:22rem;">
+                                            <p>
+                                                <aura:if isTrue="{!v.emailMessage.HtmlBody != null}">
+                                                    <aura:unescapedHtml value="{!v.emailMessage.HtmlBody}"/>
+                                                    <aura:set attribute="else">
+                                                        <aura:unescapedHtml value="{!v.emailMessage.TextBody}"/>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" 
+                                      label="{!$Label.c.OTP_Btn_Cancel}"
+                                      title="{!$Label.c.OTP_Btn_Cancel}"
+                                      onclick="{! c.closeEmailModel }"/>
+                </footer>
+                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showKnowledgeArticle}">
+        <section role="dialog" tabindex="-1" style="margin-top:60px;" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    {!v.articleObj.Title}
+                </header>
+                <div class="slds-modal__content slds-p-around_medium"  id="modal-content-id-1">
+                    <div class="slds-grid slds-wrap">
+                        <c:UIP_KnowledgeFieldOutputComp label="Product Component">
+                            {!v.articleObj.Product_Component__c}
+                        </c:UIP_KnowledgeFieldOutputComp>
+                        <c:UIP_KnowledgeFieldOutputComp label="Sub Component">
+                            {!v.articleObj.Sub_Component__c}
+                        </c:UIP_KnowledgeFieldOutputComp>
+                        <c:UIP_KnowledgeFieldOutputComp label="Studio Version">
+                            {!v.articleObj.Studio_Version__c}
+                        </c:UIP_KnowledgeFieldOutputComp>
+                        <c:UIP_KnowledgeFieldOutputComp label="Orchestrator Version">
+                            {!v.articleObj.Orchestrator_Version__c}
+                        </c:UIP_KnowledgeFieldOutputComp>
+                        <c:UIP_KnowledgeFieldOutputComp label="Question" size="12">
+                            <aura:unescapedHtml value="{!v.articleObj.Question_Problem__c}"/>
+                        </c:UIP_KnowledgeFieldOutputComp>
+                        <c:UIP_KnowledgeFieldOutputComp label="Issue Description + Resolution" size="12">
+                            <aura:unescapedHtml value="{!v.articleObj.Resolution__c}"/>
+                        </c:UIP_KnowledgeFieldOutputComp>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button label="Close" onclick="{!c.hideKnowledgeArticle}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        
+    </aura:if>
+    <aura:if isTrue="{!v.showCaseDetails}">
+        <div>
+            <lightning:layout horizontalAlign="spread">
+                <lightning:layoutItem padding="around-small">
+                    <div style="font-size:20px;">
+                        
+                        {!v.currentTabString}
+                        
+                    </div>
+                </lightning:layoutItem>	
+                <lightning:layoutItem padding="around-small" size="4">
+                    <c:customLookup SearchKeyWord="{!v.searchText}" selectedTabId="{!v.selectedTabId}" listOfSearchRecords="{!v.searchResults}" contactObj="{!v.contactObj}" objectAPIName="case;knowledge__kav" IconName="" selectedRecord="{!v.selectedLookUpRecord}" label=""/>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small">
+                    <aura:if isTrue="{!v.selectedTabId != 'AllCaseDetails'}">
+                        <lightning:button label="All Cases" name="All Cases" variant="brand" onclick="{!c.handleAllCasesClick}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.selectedTabId != 'CreateNewCase'}">
+                        <lightning:button label="Create New Technical Case" name="Create New Case" variant="brand" onclick="{!c.handleCreateCaseClick}"/>
+                    </aura:if>
+                    <lightning:button label="Logout" name="Logout" variant="brand" onclick="{!c.reset}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showCaseDetails}">
+        <div>
+            <lightning:tabset selectedTabId="{!v.selectedTabId}">
+                <lightning:tab id="AllCaseDetails" label="{!$Label.c.OTP_Heading_CaseView_Details}">
+                    
+                    <div class="slds-box slds-m-around_small">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3">
+                                <div class="slds-page-header__row div-height">
+                                    <ul class="slds-has-dividers_bottom slds-has-block-links_space slds-p-around_small" style="width: 100%">
+                                        <aura:iteration items="{!v.caseList}" var="item" indexVar="index">
+                                            
+                                            <li class="{!v.currentCaseIndex == index ? 'slds-p-around_xx-small selectedCase' : 'slds-p-around_xx-small unselectedCase'}" >
+                                                <div style="width:50%;">
+                                                    <a href="javascript:void(0);" data-index="{!index}" onclick="{!c.getCaseDetails}" class="slds-text-heading_small">{!item.CaseNumber}</a>
+                                                </div>
+                                                <div style="float:right;">
+                                                    <aura:if isTrue="{!item.SurveyTakers__r == null &amp;&amp; item.Status=='Closed' &amp;&amp; item.ClosedDate>=v.surveyPendingStart}">
+                                                        <c:FlashingBadge label="Survey Pending!"/>	
+                                                    </aura:if>
+                                                </div>
+                                                <lightning:formattedDateTime value="{!item.CreatedDate}" year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long" class="slds-p-left_small"/>
+                                                <div class="slds-text-body_regular slds-p-left_small">{!item.Subject}</div>
+                                                
+                                            </li>
+                                            <br/>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="9" largeDeviceSize="9">
+                                <aura:if isTrue="{!v.currentCaseIndex > -1}">
+                                    <lightning:tabset selectedTabId="{!v.selectedSubTabId}" variant="vertical" class="caseDetails">
+                                        <lightning:tab id="CaseDetails" iconName="utility:case" label="Case Details">
+                                            <div class="slds-page-header__row div-height">
+                                                <div class="slds-grid slds-wrap">
+                                                    <aura:iteration items="{!v.caseResponse.lstDataTableColumns}" var="item">
+                                                        <c:UIP_CaseFieldOutputComp column="{!item}" data="{!v.caseResponse.firstRow}"/>
+                                                    </aura:iteration>
+                                                </div>
+                                            </div>
+                                        </lightning:tab>
+                                        <lightning:tab id="EmailDetails" iconName="utility:email" label="{!$Label.c.OTP_Heading_Email_Details}">
+                                            <aura:if isTrue="{!v.emailList.length == 0}">
+                                                <div style="font-size:15px;">
+                                                    There are no Email Details for this case.
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-page-header__row div-height">
+                                                <div class="slds-grid slds-wrap">
+                                                    <aura:iteration items="{!v.emailList}" var="emailMessage" indexVar="index">
+                                                        <div class="slds-media slds-p-top_x-small">
+                                                            <div class="slds-size_1-of-1">
+                                                                <div class="slds-size_1-of-1 slds-grid slds-grid_vertical-stretch slds-grid_align-spread slds-has-flexi-truncate">
+                                                                    <article class="slds-post">
+                                                                        <header class="slds-post__header slds-media slds-media--center">
+                                                                            <div class="slds-media__figure">
+                                                                                <a href="javascript:void(0);" title="{!emailMessage.FromName}" class="slds-avatar slds-avatar--circle slds-avatar--large">
+                                                                                    <img src="_slds/images/themes/lightning_blue/lightning_blue_profile_avatar_96.png"  class="image" alt="{!emailMessage.FromName}" />
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="slds-media__body">
+                                                                                <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                                                                                    <p>
+                                                                                        <a href="javascript:void(0);" title="{!emailMessage.FromName}">{!emailMessage.FromName}</a>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <p class="slds-text-body--small"><a href="javascript:void(0);" title="{!emailMessage.MessageDate}" class="slds-text-link--reset">
+                                                                                    <lightning:formattedDateTime value="{!emailMessage.MessageDate}" year="2-digit" month="short" day="2-digit" hour="numeric" weekday="long" />
+                                                                                    </a></p>
+                                                                                <p class="slds-text-body--small"><a href="javascript:void(0);" title="{!emailMessage.Subject}" class="slds-text-link--reset">{!emailMessage.Subject}</a></p>
+                                                                                <div class="slds-grid" style="width: 300px;">
+                                                                                    <div class="slds-grid slds-has-flexi-truncate">
+                                                                                        <p class="slds-truncate" title="{!emailMessage.TextBody}">{!emailMessage.TextBody}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <a href="javascript:void(0);" title="More" onclick="{!c.openEmailPopup}" data-index="{!index}">{!$Label.c.OTP_More_HyperLink}</a>
+                                                                            </div>
+                                                                        </header>
+                                                                    </article>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </aura:iteration>
+                                                </div>
+                                            </div>
+                                        </lightning:tab>
+                                        <lightning:tab id="RelatedArticles" iconName="utility:knowledge_base" label="Related Articles">
+                                            <aura:if isTrue="{!v.knowledgeArticles.length == 0}">
+                                                <div style="font-size:15px;">
+                                                    There are no Related Articles for this case.
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <lightning:datatable
+                                                                         keyField="id"
+                                                                         data="{! v.knowledgeArticles }"
+                                                                         columns="{! v.articleColumns }"
+                                                                         hideCheckboxColumn="true"
+                                                                         showRowNumberColumn="false"
+                                                                         onrowaction="{!c.handleRowAction}"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:tab>
+                                        <aura:if isTrue="{!v.caseObj.SurveyTakers__r == null &amp;&amp; v.caseObj.Status=='Closed' &amp;&amp; v.caseObj.ClosedDate>=v.surveyPendingStart}">
+                                            <lightning:tab id="Survey" iconName="utility:survey" label="Take Survey">
+                                                <iframe src="{!v.surveySrc}" class="surveyVfFrame"/>
+                                            </lightning:tab>
+                                        </aura:if>
+                                        
+                                    </lightning:tabset>
+                                    <aura:set attribute="else">
+                                        <div style="font-size:25px;">
+                                            Please select a case to view details
+                                        </div>
+                                        
+                                    </aura:set>
+                                </aura:if>
+                                
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                    
+                </lightning:tab>
+                <lightning:tab id="CreateNewCase" label="Create New Case">
+                    <div class="slds-p-around_small">
+                        For any other queries please <a href="https://www.uipath.com/company/contact-us" target="_blank">click here</a>
+                    </div>
+                    <aura:if isTrue="{!$Locale.language == 'ja'}">
+                        <c:JapaneseSupportForm/>
+                        <aura:set attribute="else">
+                            <c:UIP_ProductSupportWithLicenseCodeComponent contactObj="{!v.contactObj}"/>
+                        </aura:set>
+                    </aura:if>
+                    
+                </lightning:tab>
+                <lightning:tab id="KnowledgeArticles" label="Knowledge Articles">
+                    
+                    <aura:if isTrue="{!v.articleSearchResults.length > 0}">
+                        <div style="font-size:25px;">Articles ({!v.articleSearchResults.length}):</div>
+                        <div class="datatable">
+                            <lightning:datatable
+                                                 keyField="id"
+                                                 data="{! v.articleSearchResults }"
+                                                 columns="{! v.articleSearchResultColumns }"
+                                                 hideCheckboxColumn="true"
+                                                 showRowNumberColumn="true"
+                                                 onrowaction="{!c.handleArticleSearchRowAction}"/>
+                        </div>
+                        <br/>
+                        
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.caseSearchResults.length > 0}">
+                        <div style="font-size:25px;">Cases ({!v.caseSearchResults.length}):</div>
+                        <div class="datatable">
+                            <lightning:datatable
+                                                 keyField="id"
+                                                 data="{! v.caseSearchResults }"
+                                                 columns="{! v.caseSearchResultColumns }"
+                                                 hideCheckboxColumn="true"
+                                                 showRowNumberColumn="true"
+                                                 onrowaction="{!c.handleCaseSearchRowAction}"/>
+                        </div>
+                        
+                    </aura:if>
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,184 @@
+<aura:component controller="KnowledgeArticleController" implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="caseId" type="String" default=""/>
+    <aura:attribute name="knowledgeObj" type="Knowledge__kav"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="productComponent" type="String"/>
+    <aura:attribute name="subComponent" type="String"/>
+    <aura:attribute name="productComponentVersion" type="String"/>
+    <aura:attribute name="productComponentValues" type="List"  default="[]"/>
+    <aura:attribute name="productComponentMappings" type="List"  default="[]"/>
+    <aura:attribute name="subComponentValues" type="List"  default="[]"/>
+    <aura:attribute name="productComponentVersionValues" type="List"  default="[]"/>
+    <aura:attribute name="prodCompAndSubCompValues" type="Map"/>
+    <aura:attribute name="prodCompAndVersionValues" type="Map"/>
+    <aura:attribute name="studioVersionOptions" type="List"  default="[]"/>
+    <aura:attribute name="orchestratorVersionOptions" type="List"  default="[]"/>
+    <aura:attribute name="categoryOptions" type="List" default="[{'label' : 'How Tos','value': 'How Tos'},{'label' : 'Problems','value': 'Problems'},{'label' : 'Troubleshooting','value': 'Troubleshooting'}]"/>
+    <aura:attribute name="studioVersionValues" type="List" default="[]"/>
+    <aura:attribute name="orchestratorVersionValues" type="List"  default="[]"/>
+    <aura:handler event="aura:locationChange" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner class="" variant="brand" alternativeText="Loading" size="large"/>
+    </aura:if>
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem>
+            <lightning:icon iconName="standard:knowledge" alternativeText="Knowledge"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-small">
+            <div class="page-section page-header">
+                <h1 class="slds-text-heading--label">Knowledge</h1>
+                <h2 class="slds-text-heading--medium">New Article</h2>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+    <div aria-labelledby="newarticleform">
+        
+            <lightning:card>
+                
+                
+                
+                <form class="slds-form--stacked">          
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:input aura:id="articleForm" name="Title" label="Title" value="{!v.knowledgeObj.Title}" required="true" onfocusout="{!c.setUrlName}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:input aura:id="articleForm" name="URLName" value="{!v.knowledgeObj.UrlName}" label="URL Name" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:select aura:id="articleForm" label="Product Component" value="{!v.knowledgeObj.Product_Component__c}" required="true" onchange="{!c.handleProductComponentChange}">
+                                <aura:iteration items="{!v.productComponentValues}" var="pc">
+                                    <option value="{!pc}" selected="{!pc == v.knowledgeObj.Product_Component__c}">{!pc}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:select aura:id="articleForm" label="Sub Component" value="{!v.knowledgeObj.Sub_Component__c}" required="{!v.subComponentValues.length > 0}" disabled="{!v.subComponentValues.length == 0}">
+                                <aura:iteration items="{!v.subComponentValues}" var="sc">
+                                    <option value="{!sc}" selected="{!sc == v.knowledgeObj.Sub_Component__c}">{!sc}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:select aura:id="articleForm" label="Product Component Version" value="{!v.knowledgeObj.Product_Component_Version__c}" required="{!v.productComponentVersionValues.length > 0}" disabled="{!v.productComponentVersionValues.length == 0}">
+                                <aura:iteration items="{!v.productComponentVersionValues}" var="pcv">
+                                    <option value="{!pcv}" selected="{!pcv == v.knowledgeObj.Product_Component_Version__c}">{!pcv}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:helptext
+                                                content="Indicates that an article is of technical nature and requires a technical review by a Technical Reviewer."
+                                                />
+                            <lightning:input name="TechnicalContent" type="checkbox" label="Technical Content" checked="{!v.knowledgeObj.Technical_content__c}" disabled="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:dualListbox aura:id="articleForm" name="studioVersion"
+                                                   label= "Studio Version"
+                                                   sourceLabel="Available"
+                                                   selectedLabel="Chosen"
+                                                   options="{!v.studioVersionOptions}"
+                                                   required="true" size="5"
+                                                   value="{!v.knowledgeObj.Studio_Version__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:dualListbox aura:id="articleForm" name="orchestratorVersion"
+                                                   label= "Orchestrator Version"
+                                                   sourceLabel="Available"
+                                                   selectedLabel="Chosen"
+                                                   options="{!v.orchestratorVersionOptions}"
+                                                   required="true" size="5"
+                                                   value="{!v.knowledgeObj.Orchestrator_Version__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:textarea aura:id="articleForm" required="true" label="Question" value="{!v.knowledgeObj.Question_Problem__c}"/>
+                        </div> 
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:textarea label="Internal Notes" value="{!v.knowledgeObj.Internal_Notes__c}"/>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small hasTooltipAndRequired">
+                            <lightning:helptext class="toolTipPosition"
+                                                content="This section describes the answer, or the steps required to solve a problem."
+                                                />
+                            <abbr lightning-textarea_textarea="" title="required" class="slds-required positionAbsolute">*</abbr>
+                            <lightning:inputRichText aura:id="richText" messageWhenBadInput="Complete this field." label="Issue Description + Resolution" labelVisible="true" value="{!v.knowledgeObj.Resolution__c}">
+                                <lightning:insertImageButton/>
+                            </lightning:inputRichText>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small hasTooltip">
+                            <lightning:helptext class="toolTipPosition"
+                                                content="Describe how to verify the Root/Cause of a problem and the steps to reproduce."
+                                                />
+                            <lightning:inputRichText class=""  label="Root Cause" labelVisible="true" value="{!v.knowledgeObj.Root_Cause__c}"
+                                                     >
+                                <lightning:insertImageButton/>
+                            </lightning:inputRichText>
+                            
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:inputRichText label="Related Links" labelVisible="true" value="{!v.knowledgeObj.Related_Links__c}">
+                                <lightning:insertImageButton/>
+                            </lightning:inputRichText>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <!--<lightning:textarea aura:id="articleForm" required="true" label="Error" value="{!v.knowledgeObj.Error__c}"/>-->
+                            <lightning:inputRichText label="Error" labelVisible="true" value="{!v.knowledgeObj.Error__c}">
+                                <lightning:insertImageButton/>
+                            </lightning:inputRichText>
+                        </div>
+                        <!--<div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <lightning:dualListbox name="categories"
+                                               label= "Category Groups"
+                                               sourceLabel="Available"
+                                               selectedLabel="Chosen"
+                                               options="{!v.categoryOptions}"
+                                               size="5"/>
+                    </div>-->
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:input type="checkbox" label="Is confidential?" checked="{!v.knowledgeObj.Is_confidential__c}" />
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:input type="checkbox" label="Is Not External?" checked="{!v.knowledgeObj.Is_Not_External__c}"/>
+                        </div>
+                        <aura:if isTrue="{!v.knowledgeObj.Is_confidential__c}">
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                <lightning:textarea aura:id="articleForm" required="{!v.knowledgeObj.Is_confidential__c}" label="Reason for Confidential" value="{!v.knowledgeObj.Reason_for_Confidential__c}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.knowledgeObj.Is_Not_External__c}">
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                <lightning:textarea aura:id="articleForm" required="{!v.knowledgeObj.Is_Not_External__c}" label="Reason for Not External" value="{!v.knowledgeObj.Reason_for_Not_External__c}"/>
+                            </div>
+                        </aura:if>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:textarea label="Reason for Removal" value="{!v.knowledgeObj.Reason_for_Removal__c}"/>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning:input type="date" name="ValidUntil" label="Valid Until" value="{!v.knowledgeObj.Review_Date1__c}"/>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                </form>
+                <aura:set attribute="footer"> 
+                    <div class="slds-p-around_small" >
+                        <lightning:button label="Create" variant="brand" onclick="{!c.clickCreate}"/>
+                        <lightning:button label="Cancel" onclick="{!c.closeFocusedTab}"/>
+                    </div>
+                </aura:set>
+                
+            </lightning:card>
+            
+        </div>
+    
+    
+</aura:component>

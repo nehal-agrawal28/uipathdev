@@ -1,0 +1,7 @@
+lightning-button.my-brand {
+	--sds-c-button-brand-color-background: #FA4616;
+    --sds-c-button-brand-color-background-hover: #e23105;
+    --sds-c-button-text-color: #f4f7f9;
+    --sds-c-button-line-height: 2.5rem;
+    --sds-c-button-sizing-border: 0rem;
+}

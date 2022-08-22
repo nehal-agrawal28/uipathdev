@@ -1,0 +1,568 @@
+<template>
+    <div class="slds-card slds-p-horizontal_medium slds-is-relative card-container">
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+            <!-- filters section -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-p-right_medium">
+                <lightning-record-edit-form record-id="" object-api-name="ApprovalRuleMatrix__c" density="comfy">
+                    <lightning-messages></lightning-messages>
+                    <template if:true={showFilters}>
+                        <div class="slds-text-heading_small filter-heading">Filter Table Records</div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-input-field class="filter-field" data-field-type="TEXT" field-name="Name">
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-input-field class="filter-field" data-field-type="BOOLEAN"
+                                                       field-name="Active__c"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label">Approval Chain</label>
+                                    <lightning-input-field class="filter-field" variant="label-hidden"
+                                                           data-field-type="LOOKUP" field-name="ApprovalChain__c">
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label">Approval Step</label>
+                                    <lightning-input-field class="filter-field" variant="label-hidden"
+                                                           data-field-type="DOUBLE" field-name="ApprovalStep__c">
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <template if:true={approverListFilter.length}>
+                                        <lightning-combobox class="filter-approver" name="approver-select"
+                                                            label="Approver" value="" options={approverListFilter}>
+                                        </lightning-combobox>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <div class="slds-form-element slds-form-element_stacked">
+                                    <label class="slds-form-element__label">Status</label>
+                                    <lightning-input-field class="filter-field" data-field-type="PICKLIST"
+                                                           field-name="SyncStatus__c" variant="label-hidden">
+                                    </lightning-input-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class={filterSection.sectionCSS}>
+                                    <div class="slds-accordion__summary">
+                                        <h3 class="slds-accordion__summary-heading">
+                                            <template if:true={filterSection.isOpen}>
+                                                <a href="javascript:void();" aria-controls="accordion-details-01"
+                                                   aria-expanded="true" onclick={handleFilterSectionClose}
+                                                   class="slds-button slds-button_reset slds-accordion__summary-action">
+                                                    <lightning-icon icon-name="utility:chevrondown" size="x-small">
+                                                    </lightning-icon>
+                                                    <span class="slds-truncate" title="Criteria">&nbsp;Criteria</span>
+                                                </a>
+                                            </template>
+                                            <template if:false={filterSection.isOpen}>
+                                                <a href="javascript:void();" aria-controls="accordion-details-01"
+                                                   aria-expanded="true" onclick={handleFilterSectionOpen}
+                                                   class="slds-button slds-button_reset slds-accordion__summary-action">
+                                                    <lightning-icon icon-name="utility:chevronright" size="x-small">
+                                                    </lightning-icon>
+                                                    <span class="slds-truncate" title="Criteria">&nbsp;Criteria</span>
+                                                </a>
+                                            </template>
+                                        </h3>
+                                    </div>
+                                    <div class="slds-accordion__content" id="accordion-details-01">
+                                        <div class="slds-clearfix slds-m-top_small slds-p-right_small">
+                                            <div class="slds-float_right">
+                                                <lightning-input type="toggle" checked={isFilterAND} label="Filter Type"
+                                                                 name="input1" message-toggle-inactive="OR"
+                                                                 message-toggle-active="AND"
+                                                                 onclick={handleFilterToggle}></lightning-input>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap">
+                                            <template for:each={criteriaFieldList} for:item="field">
+                                                <div key={field.fieldAPI} class="slds-col slds-size_1-of-1">
+                                                    <lightning-input-field class="filter-field"
+                                                                           data-criteria-field="true"
+                                                                           data-field-type={field.fieldType}
+                                                                           field-name={field.fieldAPI}>
+                                                    </lightning-input-field>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+
+                        <div class="slds-m-top_medium slds-text-align_center">
+                            <template if:true={disableActionButtons}>
+                                <lightning-button class="slds-m-right_small" name="clear" label="Clear" disabled>
+                                </lightning-button>
+                                <lightning-button variant="brand" name="filter" label="Filter" disabled>
+                                </lightning-button>
+                            </template>
+                            <template if:false={disableActionButtons}>
+                                <lightning-button class="slds-m-right_small" name="clear" label="Clear"
+                                                  onclick={handleClearFilter}></lightning-button>
+                                <lightning-button variant="brand" name="filter" label="Filter"
+                                                  onclick={handleFilterClick}></lightning-button>
+                            </template>
+                        </div>
+                    </template>
+                </lightning-record-edit-form>
+            </div>
+            <!--/ filters section -->
+
+            <!-- matrix section -->
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4">
+
+                <!-- matrix button section -->
+                <div class="slds-m-vertical_medium slds-clearfix">
+                    <template if:true={disableActionButtons}>
+                        <lightning-button label="Generate Rule" variant="brand" title="Generate Rule"
+                                          icon-name="utility:task" class="slds-m-right_x-small slds-float_left"
+                                          disabled></lightning-button>
+                        <lightning-button label="Delete" variant="destructive" title="Delete" icon-name="utility:delete"
+                                          class="slds-m-right_x-small slds-float_left" disabled></lightning-button>
+                        <!-- <lightning-button label="Delete (inc. CPQ Rule)" variant="destructive"
+                                          title="Delete (inc. CPQ Rule)" icon-name="utility:delete"
+                                          class="slds-m-right_x-small slds-float_left" disabled></lightning-button> -->
+
+                        <lightning-button label="Add New Rule" title="New Approval Rule" icon-name="utility:add"
+                                          class="slds-m-left_x-small slds-float_right" disabled></lightning-button>
+                    </template>
+                    <template if:false={disableActionButtons}>
+                        <lightning-button label="Generate Rule" variant="brand" title="Generate Rule"
+                                          icon-name="utility:task" class="slds-m-right_x-small slds-float_left"
+                                          onclick={handleGenerateRule}></lightning-button>
+                        <lightning-button label="Delete" variant="destructive" title="Delete" icon-name="utility:delete"
+                                          class="slds-m-right_x-small slds-float_left" onclick={handleDeleteMatrix}>
+                        </lightning-button>
+                        <!-- <lightning-button label="Delete (inc. CPQ Rule)" variant="destructive"
+                                          title="Delete (inc. CPQ Rule)" icon-name="utility:delete"
+                                          class="slds-m-right_x-small slds-float_left"
+                                          onclick={handleDeleteMatrixWithCPQ}></lightning-button> -->
+
+                        <lightning-button label="Add New Rule" title="New Approval Rule" icon-name="utility:add"
+                                          class="slds-m-left_x-small slds-float_right"
+                                          onclick={handleNewApprovalMatrix}></lightning-button>
+                    </template>
+                </div>
+                <!--/ matrix button section -->
+
+                <!-- message section -->
+                <template if:true={showGenerateWarning}>
+                    <div class="slds-notify_container slds-is-relative slds-m-bottom_medium message-parent">
+                        <div class="slds-notify slds-notify_toast slds-theme_warning slds-theme_alert-texture message-container"
+                             role="alert">
+                            <div class="slds-notify__content message-div">
+                                <h2 class="slds-text-heading_small slds-text-align_center"><b>Rule generation is
+                                        inprogress. Please do not reload the page.</b></h2>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isSandbox}>
+                    <div class="slds-notify_container slds-is-relative slds-m-bottom_medium message-parent">
+                        <div class="slds-notify slds-notify_toast slds-theme_warning slds-theme_alert-texture message-container"
+                             role="alert">
+                            <div class="slds-notify__content message-div">
+                                <h2 class="slds-text-heading_small slds-text-align_center">
+                                    <b>
+                                        This is PRODUCTION environment. Please be careful.
+                                    </b>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <!--/ message section -->
+
+                <!-- matrix table -->
+                <div class="slds-scrollable_x">
+                    <template if:true={showMatrixTable}>
+                        <table class="matrix-table slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col">
+                                        <div class="text-wrap" title="Select"></div>
+                                        <div class="slds-text-align_center">
+                                            <lightning-input type="checkbox" label="Select All" variant="label-hidden"
+                                                             name="select-all-checkbox" onchange={handleAllSelection}>
+                                            </lightning-input>
+                                        </div>
+                                    </th>
+                                    <th class="sort" scope="col" data-column-key="Name" onclick={handleColumnSort}>
+                                        <div class="text-wrap" title="Name">Name</div>
+                                    </th>
+                                    <th class="sort" scope="col" data-column-key="ApprovalRule__r.Name"
+                                        onclick={handleColumnSort}>
+                                        <div class="text-wrap" title="Approval Rule">CPQ Approval Rule</div>
+                                    </th>
+                                    <th class="sort" scope="col" data-column-key="Active__c" onclick={handleColumnSort}>
+                                        <div class="text-wrap" title="Active">Active</div>
+                                    </th>
+                                    <th class="sort" scope="col" data-column-key="combinedApprover.label"
+                                        onclick={handleColumnSort}>
+                                        <div class="text-wrap" title="Approver">Approver</div>
+                                    </th>
+                                    <th class="sort" scope="col" data-column-key="Migration_ID__c"
+                                        onclick={handleColumnSort}>
+                                        <div class="text-wrap" title="Migration Id">
+                                            Migration Id
+                                        </div>
+                                    </th>
+                                    <th class="sort" scope="col" data-column-key="SyncStatus__c"
+                                        onclick={handleColumnSort}>
+                                        <div class="text-wrap" title="Status">Status</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="text-wrap" title="Action">Action</div>
+                                    </th>
+                                    <th class="" scope="col">
+                                        &nbsp;
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={matrixList} for:item="matrix" for:index="index">
+                                    <tr key={matrix.Id} class="slds-hint-parent">
+                                        <td data-label="Select">
+                                            <div class="text-wrap slds-text-align_center" title="Select">
+                                                <template if:false={matrix.disabled}>
+                                                    <lightning-input type="checkbox" checked={matrix.selected}
+                                                                     value={index} label="Selected"
+                                                                     variant="label-hidden" name="select-checkbox"
+                                                                     onchange={handleSelection}></lightning-input>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td data-label="Name">
+                                            <div class="text-wrap" title="Name">
+                                                <template if:false={matrix.isEditMode}>
+                                                    <a href={matrix.matrixURL} data-rec-id={matrix.Id}>{matrix.Name}</a>
+                                                </template>
+                                                <template if:true={matrix.isEditMode}>
+                                                    <lightning-input value={matrix.Name} variant="label-hidden"
+                                                                     data-index={index} data-property="Name"
+                                                                     onchange={handleInlineEditChange}>
+                                                    </lightning-input>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td data-label="Approval Rule">
+                                            <div class="text-wrap" title="Approval Rule">
+                                                <template if:true={matrix.ApprovalRule__r}>
+                                                    <a href={matrix.ruleURL} data-rec-id={matrix.ApprovalRule__c}>
+                                                        {matrix.ApprovalRule__r.Name}
+                                                    </a>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td data-label="Active">
+                                            <div class="text-wrap slds-text-align_center" title="Active">
+                                                <template if:false={matrix.isEditMode}>
+                                                    <lightning-input type="checkbox" checked={matrix.Active__c} disabled
+                                                                     label="Active" variant="label-hidden"
+                                                                     name="active-checkbox"></lightning-input>
+                                                </template>
+                                                <template if:true={matrix.isEditMode}>
+                                                    <lightning-input type="checkbox" checked={matrix.Active__c}
+                                                                     variant="label-hidden" data-index={index}
+                                                                     data-property="Active__c"
+                                                                     onchange={handleInlineEditChange}>
+                                                    </lightning-input>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td data-label="Approver">
+                                            <div class="text-wrap" title="Approver">
+                                                <template if:false={matrix.isEditMode}>
+                                                    <template if:true={matrix.combinedApprover.isStaticApprover}>
+                                                        <a href="javascript:void()"
+                                                           data-rec-id={matrix.combinedApprover.value}
+                                                           onclick={handleNavigateToRecord}>{matrix.combinedApprover.label}</a>
+                                                    </template>
+                                                    <template if:false={matrix.combinedApprover.isStaticApprover}>
+                                                        {matrix.combinedApprover.label}
+                                                    </template>
+                                                </template>
+                                                <template if:true={matrix.isEditMode}>
+                                                    <lightning-combobox data-index={index}
+                                                                        data-property="combinedApprover"
+                                                                        name="approver-select" label="Approver"
+                                                                        variant="label-hidden"
+                                                                        value={matrix.combinedApprover.value}
+                                                                        options={approverList}
+                                                                        onchange={handleInlineEditChange}>
+                                                    </lightning-combobox>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td data-label="Migration Id">
+                                            <div class="text-wrap slds-text-align_center" title="Migration Id">
+                                                {matrix.Migration_ID__c}
+                                            </div>
+                                        </td>
+                                        <td data-label="Status">
+                                            <div class="text-wrap slds-text-align_center" title={matrix.SyncStatus__c}>
+                                                <template if:true={matrix.isError}>
+                                                    <lightning-icon icon-name="utility:close" alternative-text="Error"
+                                                                    size="x-small" variant="error"></lightning-icon>
+                                                </template>
+                                                <!-- <template if:true={matrix.isPending}><lightning-icon icon-name="utility:info_alt" alternative-text="Pending" size="x-small"></lightning-icon></template> -->
+                                                <template if:true={matrix.isSubmitted}>
+                                                    <lightning-icon icon-name="utility:loop"
+                                                                    alternative-text="Submitted" size="x-small"
+                                                                    variant="warning" class="icon_rotate">
+                                                    </lightning-icon>
+                                                </template>
+                                                <template if:true={matrix.isProcessed}>
+                                                    <lightning-icon icon-name="utility:check"
+                                                                    alternative-text="Processed" size="x-small"
+                                                                    variant="success"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td data-label="Action">
+                                            <div class="slds-text-align_center">
+                                                <template if:false={matrix.disabled}>
+                                                    <template if:false={matrix.isEditMode}>
+                                                        <span class="clickable" title="Edit">
+                                                            <lightning-icon icon-name="utility:edit" size="x-small"
+                                                                            alternative-text="Edit" data-index={index}
+                                                                            onclick={handleInlineEdit}>
+                                                            </lightning-icon>
+                                                        </span>
+                                                    </template>
+                                                    <template if:true={matrix.isEditMode}>
+                                                        <span class="clickable" title="Save">
+                                                            <lightning-icon icon-name="utility:save" size="x-small"
+                                                                            alternative-text="Save" data-index={index}
+                                                                            onclick={handleInlineSave}>
+                                                            </lightning-icon>
+                                                        </span>
+                                                        <span class="clickable slds-m-left_small" title="Cancel">
+                                                            <lightning-icon icon-name="utility:close" size="x-small"
+                                                                            alternative-text="Cancel" data-index={index}
+                                                                            onclick={handleInlineCancel}>
+                                                            </lightning-icon>
+                                                        </span>
+                                                    </template>
+                                                </template>
+                                                <template if:true={matrix.disabled}>
+                                                    <span if:true={matrix.Active__c} class="clickable slds-m-left_small"
+                                                          title="Deactivate">
+                                                        <lightning-icon icon-name="utility:ban" size="x-small"
+                                                                        alternative-text="Deactivate" data-index={index}
+                                                                        onclick={handleInlineStatusToggle}>
+                                                        </lightning-icon>
+                                                    </span>
+                                                    <span if:false={matrix.Active__c}
+                                                          class="clickable slds-m-left_small" title="Activate">
+                                                        <lightning-icon icon-name="utility:success" size="x-small"
+                                                                        alternative-text="Activate" data-index={index}
+                                                                        onclick={handleInlineStatusToggle}>
+                                                        </lightning-icon>
+                                                    </span>
+                                                </template>
+                                            </div>
+                                        </td>
+                                        <td class="drawer-section">
+                                            <template if:false={matrix.isDrawerOpened}>
+                                                <span class="clickable">
+                                                    <lightning-icon icon-name="utility:chevronright" size="x-small"
+                                                                    data-index={index} onclick={handleDrawerOpen}>
+                                                    </lightning-icon>
+                                                </span>
+                                            </template>
+                                            <template if:true={matrix.isDrawerOpened}>
+                                                <span class="clickable">
+                                                    <lightning-icon icon-name="utility:chevrondown" size="x-small"
+                                                                    data-index={index} onclick={handleDrawerClose}>
+                                                    </lightning-icon>
+                                                </span>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                    <template if:true={matrix.isDrawerOpened}>
+                                        <tr if:true={matrix.disabled} key={matrix.Id}>
+                                            <td colspan="9" class="drawer-section">
+                                                <p class="slds-text-align_center">
+                                                    This rule is not editable. If need any change then
+                                                    deactivate this rule and create a NEW rule/version.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr key={matrix.Id}>
+                                            <td colspan="9" class="drawer-section">
+                                                <div class="slds-p-horizontal_small slds-p-vertical_x-small">
+                                                    <lightning-record-edit-form record-id={matrix.Id}
+                                                                                object-api-name="ApprovalRuleMatrix__c"
+                                                                                onload={handleDrawerFormLoad}
+                                                                                onsubmit={handleDrawerFormSubmit}
+                                                                                onerror={handleDrawerFormError}
+                                                                                onsuccess={handleDrawerFormSuccess}
+                                                                                data-index={index} density="comfy">
+                                                        <lightning-messages></lightning-messages>
+                                                        <div class="slds-grid slds-wrap slds-gutters">
+                                                            <template for:each={ruleGenerationUIFieldList}
+                                                                      for:item="field">
+                                                                <div key={field.fieldAPI}
+                                                                     class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                                                    <lightning-input-field field-name={field.fieldAPI}>
+                                                                    </lightning-input-field>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                        <div class="slds-text-align_center">
+                                                            <lightning-button label="Close" name="close"
+                                                                              data-index={index}
+                                                                              onclick={handleDrawerClose}>
+                                                            </lightning-button>
+                                                            <template if:false={matrix.disabled}>
+                                                                <lightning-button class="slds-m-left_small"
+                                                                                  type="submit" variant="brand"
+                                                                                  label="Save" name="save">
+                                                                </lightning-button>
+                                                            </template>
+                                                        </div>
+                                                    </lightning-record-edit-form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </template>
+                                <template if:true={matrixList}>
+                                    <template if:false={matrixList.length}>
+                                        <tr>
+                                            <td colspan="9" class="slds-text-align_center">No record found</td>
+                                        </tr>
+                                    </template>
+                                </template>
+                                <template if:false={matrixList}>
+                                    <tr>
+                                        <td colspan="9" class="slds-text-align_center">No record found</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                </div>
+                <!--/ matrix table -->
+            </div>
+            <!--/ matrix section -->
+        </div>
+    </div>
+
+    <!-- New matrix record modal -->
+    <template if:true={showNewMatrixModal}>
+        <div style="height:640px">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+                     aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning-button-icon variant="bare" class="slds-button slds-button_icon slds-modal__close"
+                                               alternative-text="Close" icon-name="utility:close" size="large"
+                                               icon-class="slds-button__icon slds-button slds-button_icon-bare slds-button_icon-inverse slds-button__icon_large"
+                                               onclick={handleNewMatrixModalClose}>
+                        </lightning-button-icon>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Rule</h2>
+                    </header>
+                    <div class="new-matrix-container slds-is-relative slds-modal__content slds-p-around_medium new-matrix-modal-content"
+                         id="modal-content-id-1">
+                        <template if:true={showNewMatrixSpinner}>
+                            <lightning-spinner size="medium" alternative-text="Loading..."></lightning-spinner>
+                        </template>
+
+                        <lightning-record-edit-form class="new-approval-matrix-form"
+                                                    object-api-name="ApprovalRuleMatrix__c"
+                                                    onload={handleNewMatrixFormLoad}
+                                                    onsubmit={handleNewMatrixFormSubmit}
+                                                    onsuccess={handleNewMatrixFormSuccess}
+                                                    onerror={handleNewMatrixFormError} density="comfy">
+                            <lightning-messages></lightning-messages>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                    <lightning-input-field field-name="Name"></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                    <lightning-input-field field-name="Active__c"></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                    <lightning-combobox class="new-approver-field" required name="approver-select"
+                                                        label="Approver" options={approverList}></lightning-combobox>
+                                </div>
+                                <template for:each={ruleGenerationUIFieldList} for:item="field">
+                                    <div key={field.fieldAPI}
+                                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                        <lightning-input-field field-name={field.fieldAPI}></lightning-input-field>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="slds-text-align_center slds-m-top_small">
+                                <lightning-button label="Cancel" name="cancel" onclick={handleNewMatrixModalClose}>
+                                </lightning-button>
+                                <lightning-button class="slds-m-left_small" type="submit" variant="brand" label="Save"
+                                                  name="save"></lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+
+    <!-- Delete Matrix Warning -->
+    <template if:true={showDeleteMatrixWarning}>
+        <div class="confirmation-modal" style="height:300px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-confirmation" aria-modal="true"
+                     aria-describedby="modal-content-confirmation" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-is-relative">
+                        <lightning-button-icon variant="bare" class="slds-button slds-button_icon slds-modal__close"
+                                               alternative-text="Close" icon-name="utility:close" size="large"
+                                               icon-class="slds-button__icon slds-button slds-button_icon-bare slds-button_icon-inverse slds-button__icon_large"
+                                               onclick={handleDeleteMatrixWarningClose}>
+                        </lightning-button-icon>
+                    </div>
+                    <div class="slds-modal__content" id="modal-content-confirmation">
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_warning slds-theme_alert-texture full-width"
+                                 role="alert">
+                                <div class="slds-notify__content full-width">
+                                    <h2 class="slds-text-heading_small slds-text-align_center"><b>Warning</b></h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slds-p-around_medium slds-text-align_center slds-clearfix">
+                            <b class="slds-text-heading_small required">
+                                Are you sure you want to delete selected Rule(s)? Please Confirm!
+                            </b>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer slds-text-align_center">
+                        <lightning-button variant="neutral" label="Cancel" title="cancel"
+                                          onclick={handleDeleteMatrixWarningClose}></lightning-button>
+                        <lightning-button variant="brand" class="slds-m-left_small" label="Confirm" title="confirm"
+                                          onclick={handleDeleteMatrixConfirm}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

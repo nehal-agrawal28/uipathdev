@@ -1,0 +1,11 @@
+.parent-container{
+    min-height: 450px;
+}
+.bold-font{
+    font-weight: bold;
+}
+.header-container{
+    background-color: #fafaf9;
+    border-top: 1px solid #dddbda;
+    border-bottom: 1px solid #dddbda;
+}

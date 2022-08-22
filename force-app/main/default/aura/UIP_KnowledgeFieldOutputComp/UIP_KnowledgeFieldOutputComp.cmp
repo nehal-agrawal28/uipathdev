@@ -1,0 +1,16 @@
+<aura:component>
+
+	<aura:attribute name="label" type="String"/>
+    <aura:attribute name="value" type="String" />
+    <aura:attribute name="size" type="String" default="6"/>
+	<div class="{!'slds-col slds-size_'+v.size+'-of-12 slds-p-around_small'}">
+		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="form-element-01">{!v.label}</label>
+			<div class="slds-form-element__control">
+				{!v.body}
+			</div>
+		</div>
+	</div>
+
+	
+</aura:component>

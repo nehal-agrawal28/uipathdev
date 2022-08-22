@@ -1,0 +1,28 @@
+<!--
+ - Created by Jack Cronin on 6/20/2022.
+ -->
+
+<!-- My Profile Documents -->
+<template>
+    <div style="height: 300px;">
+        <template if:false={loading}>
+            <template if:true={hasData}>
+            <lightning-datatable
+                    key-field="id"
+                    data={data}
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+            </lightning-datatable>
+        </template>
+            <template if:false={hasData}>
+                <lightning-card>
+                    <p class="slds-p-horizontal_small">No Documents Found</p>
+                </lightning-card>
+            </template>
+        </template>
+        <template if:true={loading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+    </div>
+</template>

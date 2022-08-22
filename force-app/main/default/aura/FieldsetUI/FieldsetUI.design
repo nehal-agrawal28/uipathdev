@@ -1,0 +1,8 @@
+<design:component >
+    <design:attribute name="fieldSet" label="Fieldset API Name" datasource="apex://FieldsetUIValues" required="true"/>
+    <design:attribute name="sectionName" label="Collapsible Section Name" default="Section Name"/>
+    <design:attribute name="hideSection" label="Hide Collapsible Section"/>
+    <design:attribute name="cardTitle" label="Card Title"/>
+    <design:attribute name="cardIcon" label="Card Icon" description="Slds icon name eg:standard:account"/>
+    <design:attribute name="disableEdit" label="Disable Edit" description="Disable edit fields feature"/>
+</design:component>

@@ -1,0 +1,42 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+
+    <aura:attribute name="quote" type="Object" default="{}"/>
+
+    <!-- ********** CSS Hack :START ********** -->
+    <aura:html tag="style">
+        .slds-modal__container {
+            width: 1000px !important;
+            max-width: 99% !important;
+            margin: auto;
+            padding: 2.50rem 0 !important;
+        }
+        .slds-modal__container .modal-body.slds-modal__content{
+            height: 100%!important;
+            max-height: 600px!important;
+        }
+    </aura:html>
+    <!-- ********** CSS Hack :END ********** -->
+
+    <force:recordData aura:id="recordLoader"
+        recordId="{!v.recordId}"
+        fields="Name"
+        targetFields="{!v.quote}"/>
+        
+
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:approval" alternativeText="Approval" title="Approval" />
+                </div>
+                <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+                    Quote {!v.quote.Name}
+                </h2>
+                </div>
+        </header>
+        </div>
+    </article>
+      
+    <c:approvalPreview recordId="{!v.recordId}" oncloseaction="{!c.closeAction}"/>
+</aura:component>

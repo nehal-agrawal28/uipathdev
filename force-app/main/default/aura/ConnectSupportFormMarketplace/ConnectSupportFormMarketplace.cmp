@@ -1,0 +1,275 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="FileUploadController" access="global">
+    <ltng:require
+                  scripts="{!join(',', 
+                           $Resource.jquery,
+                           '../../soap/ajax/30.0/connection.js'
+                           )
+                           }" afterScriptsLoaded="{!c.onScriptLoaded}"/>
+    
+    <aura:attribute name="parentId" type="Id" default="50018000007OlFu" />
+    
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <aura:attribute name="isFileSelected" type="boolean" default="false" />
+    
+    <aura:attribute name="priorityList" type="List" />
+    <aura:attribute name="jobLevelList" type="List" />
+    
+    <aura:attribute name="selectedPriority" type="String"/>
+    <aura:attribute name="selectedjobLevel" type="String"/>
+    <aura:attribute name="selectedrequestSubCategory" type="String"/>
+    <aura:attribute name="selectedrequestCategory" type="String"/>
+    <aura:attribute name="selectedCountry" type="String"/>
+    
+    <!--- Dependent Pick List-->
+    <aura:attribute name="objDetail" type="Case" default="{'sobjectType' : 'Case'}"/>
+    <aura:attribute name="contrfieldApiName" type="String" default="What_feature_is_this_related_to__c"/>
+    <aura:attribute name="depfieldApiName" type="String" default=""/>
+    
+    <aura:attribute name="dependentMap" type="map" description="map to store dependent values with controlling value"/>
+    <aura:attribute name="countryDependentMap" type="map" description="map to store dependent values with controlling value"/>
+    
+    
+    <aura:attribute name="requestCategory" type="list" description="to store controller field values"/>
+    <aura:attribute name="requestSubCategory" type="list" default="['--- None ---']" description="to store dependent field values"/>
+    <aura:attribute name="country" type="list" default="['--- None ---']" description="to store controller field values"/>
+    <aura:attribute name="isDependentDisabled" type="boolean" default="true"/> 
+    <aura:attribute name="recTypeId" type="String" default="true"/> 
+    <!--End-->
+    
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="caseobj" type="Case" default="{'Status' : 'New', 
+                                                        'Origin' : 'Web',
+                                                        'SuppliedName' : '',
+                                                        'ContactEmail' : '',
+                                                        'Subject': '',
+                                                        'Description' : '',
+                                                        'End_Customer_s_Name__c' : '',
+                                                        'Error_Message__c' : '',
+                                                        'Device_Id__c' : '',
+                                                        'License_Code__c' : '',
+                                                        'Subscription_ID__c' :'',
+                                                        'Webform_Acknowledgement__c':false
+                                                        }" />
+    <aura:attribute name="blackListDomains" type="list" description="to store controller balcklisted domain values"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <aura:attribute name="frameWidth" type="String" default="450" />
+    <aura:attribute name="frameHeight" type="String" default="100"/>
+    <aura:attribute name="capFrameHeight" type="String" default="500"/>
+    <aura:attribute name="vfHost" type="String" default="" />
+    <aura:attribute name="lcHost" type="String" />
+    <aura:attribute name="frameSrc" type="String" />
+    <aura:attribute name="captaSrc" type="String" />
+    
+    
+    <aura:attribute name="errorMessage" type="String" default="{!$Label.c.Mandatory_error_msg}"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="modalTitle" type="String" default="Ui-Path"/>
+    <aura:attribute name="IsAckSelected" type="boolean" default="false"/>
+    <aura:attribute name="isCapta" type="boolean" default="false"/>
+    <aura:attribute name="showEmailMessage" type="boolean" default="false"/>
+    
+    <aura:attribute name="vfHost1" type="String" default="uipath--servcloud.cs1.my.salesforce.com"/>
+    
+    <aura:attribute name="isInValidLicenseCode" default="true" type="Boolean"/>
+    <aura:attribute name="resMapAccountId" type="String"/>
+    <aura:attribute name="SubscriptionType" type="String"/>
+    <aura:attribute name="restrictedSubCode" type="boolean" default="false"/>
+    <aura:attribute name="SubscriptionCode" type="String"/>
+    <aura:attribute name="endDate" type="String"/>
+    <aura:attribute name="duration" type="String"/>
+    <aura:attribute name="createdDateTime" type="String"/>
+    <aura:attribute name="endCustomerName" type="String"/>
+    <aura:attribute name="licenseCode" type="String"/>
+    <aura:attribute name="bundleName" type="String"/>
+    <aura:attribute name="selectedTimeZone" type="String"/>
+    <aura:attribute name="TimeZoneList" type="List" />
+    <!--<aura:attribute name="selectedPreferredLanguage" type="String"/>
+    <aura:attribute name="preferredLanguageList" type="List" />-->
+    <aura:attribute name="selectedCountryCode" type="String"/>
+    
+    <aura:handler name="alertEvent" event="c:AlertModalEvent" action="{!c.callBackOnSuccess}"/>
+    <aura:if isTrue="{!v.showLoadingSpinner}">
+        <c:SpinnerComp/>
+    </aura:if>
+    
+    <c:AlertModal isSuccess="{!v.isSuccess}" title="{!v.modalTitle}" description="{!v.errorMessage}" aura:id="alertModal"/>
+    
+    <lightning:layout horizontalAlign="spread" multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small">
+            <div class="slds-box">
+                <div class="slds-p-around_small">
+                    <div class="slds-page-header__row">
+                        <lightning:input class="full-width"   maxlength="80"  name="caseContactName" type="text" required="true" aura:id="caseContactName" label="{!$Label.c.SupportFormName}"/>
+                    </div>
+                </div>
+                
+                <div class="slds-p-around_small">
+                    <div class="slds-page-header__row">
+                        <aura:if isTrue = "{!v.showEmailMessage}">
+                            <lightning:input type="email" class="full-width" name="caseContactEmail" required="true" aura:id="caseContactEmail1" label="Email - If you are a partner or customer, please raise the case using your partner or customer email id in order to have priority" placeholder="" />                        
+                            <aura:set attribute="else"> 
+                                <lightning:input type="email" class="full-width" name="caseContactEmail" required="true" aura:id="caseContactEmail2" label="{!$Label.c.SupportFormEmail}" placeholder="" /> 
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>                             
+                
+                <div class="slds-p-around_small">
+                    <c:ItemLabelComp label="{!$Label.c.SupportFormCountry}" desc="{!$Label.c.CountryDescription}" required="true"/>
+                    <div class="slds-page-header__row">
+                        <lightning:select name="controllerFld"
+                                          aura:id="countryPickList"
+                                          value="{!v.selectedCountry}"
+                                          class="full-width" label=""
+                                          messageWhenValueMissing="{!$Label.c.J_RequestersCompanyNameError}"
+                                          onchange="{!c.onControllerFieldChange}">
+                            <aura:iteration items="{!v.country}" var="val">
+                                <option value="{!val.value}" selected="{!val.value==v.selectedCountry}">{!val.label}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="slds-p-around_small">
+                    <lightning:select name="controllerFld"
+                                      required="true"
+                                      aura:id="What_is_your_request_related_to__c"
+                                      value="{!v.selectedrequestCategory}"
+                                      class="full-width" label="{!$Label.c.SupportFromwhatFeatureRelatedTo}">
+                        <aura:iteration items="{!v.requestCategory}" var="val">
+                            <option value="{!val.value}">{!val.label}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <!-- End Dependent Picklist-->
+                
+                <aura:if isTrue="{!v.selectedrequestCategory == 'Support on Demand'}">
+                    
+                    <c:LicenseCodeComponent aura:id="licenceCodeCmp" isInValidLicenseCode="{!v.isInValidLicenseCode}" showLoadingSpinner="{!v.showLoadingSpinner}" 
+                                            resMapAccountId="{!v.resMapAccountId}" SubscriptionType="{!v.SubscriptionType}" 
+                                            restrictedSubCode="{!v.restrictedSubCode}" SubscriptionCode="{!v.SubscriptionCode}"
+                                            endDate="{!v.endDate}" duration="{!v.duration}" createdDateTime="{!v.createdDateTime}"
+                                            endCustomerName="{!v.endCustomerName}" licenseCode="{!v.licenseCode}" bundleName="{!v.bundleName}"/>
+                    
+                    <aura:if isTrue="{!!v.isInValidLicenseCode}">
+                        <div class="slds-p-around_small">
+                            <c:ItemLabelComp label="{!$Label.c.SupportFormPhone}" desc="" required="true"/>
+                            <div class="slds-page-header__row">
+                                <div class="slds-align_absolute-center"><span>{!v.selectedCountryCode}</span></div>
+                                <lightning:input class="full-width" type="text" updateOn="keyup" maxlength="15" onchange="{!c.checkIsNumber}"  label="" name="casePhoneName" placeholder="" aura:id="casePhone"/>
+                            </div>
+                        </div>
+                        <div class="slds-p-around_small">
+                            <div class="slds-page-header__row">
+                                <lightning:input class="full-width"   maxlength="255"  name="listingName" type="text" required="true" aura:id="listingName" label="Listing Name"/>
+                            </div>
+                        </div>
+                        <div class="slds-p-around_small">
+                            <div class="slds-page-header__row">
+                                <lightning:input class="full-width"   maxlength="255"  name="listingURL" type="text" required="true" aura:id="listingURL" label="Listing URL"/>
+                            </div>
+                        </div>
+                        <div class="slds-p-around_small">
+                            <div class="slds-page-header__row">
+                                <lightning:select name="TimeZoneList" class="full-width" label="{!$Label.c.SupportFormTimeZone}" required="true" aura:id="TimeZoneName" value="{!v.selectedTimeZone}" messageWhenValueMissing="Please fill this field">
+                                    <aura:iteration items="{!v.TimeZoneList}" var="option">
+                                        <option text="{!option.label}" value="{!option.value}" selected="{!option.isSelected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                        <div class="slds-p-around_small">
+                            <div class="slds-page-header__row">
+                                <lightning:input class="full-width"   maxlength="255"   name="caseError_Message__c" aura:id="caseErrMsg" label="{!$Label.c.SupportFormErrorMessage}" />
+                            </div>
+                        </div>
+                        <!--<div class="slds-p-around_small">
+                            <div class="slds-page-header__row">
+                                <lightning:select name="PreferredLanguage" class="full-width" label="Preferred Language" required="true" aura:id="prefLang" value="{!v.selectedPreferredLanguage}" messageWhenValueMissing="Please fill this field">
+                                    <aura:iteration items="{!v.preferredLanguageList}" var="option">
+                                        <option text="{!option.label}" value="{!option.value}" selected="{!option.isSelected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>-->
+                    </aura:if>
+                </aura:if>
+                <div class="slds-p-around_small">
+                    <div class="slds-page-header__row">
+                        <lightning:input class="full-width"   maxlength="255"  name="caseSubject " required="true" aura:id="caseSubject" label="{!$Label.c.SupportFormSubject}" />
+                    </div>
+                </div>
+                
+                <div class="slds-p-around_small">
+                    <div class="slds-page-header__row">
+                        <lightning:textarea class="full-width" name="caseDescription" label="{!$Label.c.SupportFormDescription}"  required="true" aura:id="caseDescription" />
+                    </div>
+                </div>
+                <aura:if isTrue="{!(v.selectedrequestCategory == 'Request refund')}">
+                <div class="slds-p-around_small">
+                    <div class="slds-page-header__row">
+                        <lightning:input class="full-width"   maxlength="255"  name="caseSubscription" required="true" aura:id="caseSubscription" label="Subscription ID" />
+                    </div>
+                </div>    
+                </aura:if>
+                
+                
+                
+                <div class="slds-p-around_small">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-form_inline">
+                                <lightning:input style="padding-top: 4px;" aura:id="caseAcknowledge" type="checkbox"
+                                                 checked="{!v.IsAckSelected}"
+                                                 name="caseAcknowledge"  onchange="{!c.handleCheck}" />
+                                
+                                <span class="slds-form-element__label"><aura:unescapedHtml value="{!$Label.c.Webform_Acknowledgement}"/></span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>	
+                
+                
+                <div class="slds-p-around_small">
+                    <c:ItemLabelComp label="{!$Label.c.SupportFormAttachment}" desc="{!$Label.c.AttachmentDescription}"/>
+                    <div class="slds-page-header__row">
+                        <!--
+                            Developer Note:
+                            Single file upload is done here
+                            Modify the snippet to incorporate the multiple file upload
+                        -->
+                        <div class="slds-page-header__row">
+                            <div class="slds-page-header__col-details slds-m-top_small">
+                                <iframe aura:id="vfFrame" src="{! v.frameSrc}" width="{!v.frameWidth}" height="{!v.frameHeight}" class="vfFrame"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="{!if(v.isCapta,'slds-hide slds-page-header__row ','slds-show slds-page-header__row')}">
+                        <div class="slds-page-header__col-details slds-m-top_small">
+                            <iframe aura:id="vfFrame1" src="{!v.captaSrc}" width="100%" height="{!v.capFrameHeight}" class="vfFrame"/>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="slds-page-header__row">
+                        <div class="slds-page-header__col-details slds-m-top_small">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col">
+                                    <lightning:button aura:id="myButton" variant="brand" label="Submit" title="Submit" disabled="true" onclick="{! c.handleSubmitClick }" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

@@ -1,0 +1,28 @@
+.radio-button-left-from-tile {
+    float: left; 
+    padding-top:.55rem; 
+    padding-right:.5rem;
+}
+
+.margin-right-body-button {
+    margin-right:1rem;
+}
+
+.margin-right-footer-button {
+    margin-right:.2rem;
+}
+
+a:link {
+    color: #08c;
+    background-color: transparent;
+}
+  
+a:visited {
+    color: #131d40;
+    background-color: transparent;
+}
+  
+a:hover {
+    color: #131d40;
+    background-color: transparent;
+}

@@ -1,0 +1,146 @@
+<template>
+    <lightning-card class="slds-is-relative" if:true={signerData} title={title}
+                    icon-name="standard:record_signature_task">
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading..." size="small"></lightning-spinner>
+        <div slot="actions">
+            <template if:false={signerData.disalbeEdit}>
+                <lightning-button-icon icon-name="utility:edit" alternative-text="Change" title="Change"
+                                       onclick={editHandler}>
+                </lightning-button-icon>
+            </template>
+        </div>
+        <div class="slds-var-m-around_medium">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1">
+                    <div
+                         class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked">
+                        <div class="slds-form-element__label">
+                            UiPath Signer Entity
+                        </div>
+                        <div class="slds-form-element__control">
+                            <span class="slds-form-element__static slds-grow word-break-ie11">
+                                {signerData.caseRecord.UiPath_Signing_Entity__c}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <div
+                         class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked">
+                        <div class="slds-form-element__label">
+                            UiPath Signer Title
+                        </div>
+                        <div class="slds-form-element__control">
+                            <span class="slds-form-element__static slds-grow word-break-ie11">
+                                <template if:true={signerData.caseRecord.UiPath_Signer_Name__c}>
+                                    {signerData.caseRecord.UiPath_Signer_Title__c}
+                                </template>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <div
+                         class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked">
+                        <div class="slds-form-element__label">
+                            UiPath Signer Name
+                        </div>
+                        <div class="slds-form-element__control">
+                            <span class="slds-form-element__static slds-grow word-break-ie11">
+                                <template if:true={signerData.caseRecord.UiPath_Signer_Name__c}>
+                                    <a href="javascript:void()" onclick={openRecord}
+                                       data-id={signerData.caseRecord.UiPath_Signer_Name__c}>
+                                        {signerData.caseRecord.UiPath_Signer_Name__r.Name}
+                                    </a>
+                                </template>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <div
+                         class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked">
+                        <div class="slds-form-element__label">
+                            UiPath Signing Entity Address
+                        </div>
+                        <div class="slds-form-element__control">
+                            <span class="slds-form-element__static slds-grow word-break-ie11">
+                                {signerData.caseRecord.UiPath_Signing_Entity_Address__c}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+
+    <template if:true={showEditModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning-button-icon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                           icon-name="utility:close" variant="bare-inverse" size="large"
+                                           onclick={cancelModalHandler}>
+                    </lightning-button-icon>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit {title}</h2>
+                </header>
+                <div class="slds-modal__content modal-content" id="modal-content-id-1">
+
+                    <div class="slds-var-m-around_large">
+                        <lightning-combobox name="signer-entiry" label="UiPath Signer Entity" value={selectedEntity}
+                                            placeholder="Select Progress" options={signerData.entities}
+                                            onchange={entityChangeHandler} disabled={signerData.disalbeEditEntity}>
+                        </lightning-combobox>
+                    </div>
+
+                    <table class="data-table slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title=""></div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">Title</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">Signer Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">Address</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={availableEntities} for:item="signer">
+                                <tr key={signer.metadataId} class="slds-hint-parent">
+                                    <td scope="row">
+                                        &nbsp;&nbsp;<input type="radio" name="entityMetadata" value={signer.metadataId}
+                                               onclick={selectMetadataHandler} />&nbsp;
+                                    </td>
+                                    <td>
+                                        <div class="text-wrap">{signer.title}</div>
+                                    </td>
+                                    <td>
+                                        <div class="text-wrap">{signer.name}</div>
+                                    </td>
+                                    <td>
+                                        <div class="text-wrap">{signer.address}</div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button class="slds-var-m-right_x-small" label="Cancel" title="Cancel"
+                                      onclick={cancelModalHandler}>
+                    </lightning-button>
+                    <lightning-button variant="brand" label="Save" title="Save" onclick={saveModalHandler}>
+                    </lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

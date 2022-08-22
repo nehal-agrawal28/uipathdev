@@ -1,0 +1,18 @@
+.margin-right-footer-button {
+    margin-right:.2rem;
+}
+
+a:link {
+    color: #08c;
+    background-color: transparent;
+}
+  
+a:visited {
+    color: #131d40;
+    background-color: transparent;
+}
+  
+a:hover {
+    color: #131d40;
+    background-color: transparent;
+}

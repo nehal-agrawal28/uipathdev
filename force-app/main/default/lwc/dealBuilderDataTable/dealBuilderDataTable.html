@@ -1,0 +1,249 @@
+<template>
+  <div class="slds-var-p-bottom_medium">
+    <div class="slds-scrollable_x">
+      <table class="data-table slds-table slds-table_cell-buffer slds-table_bordered slds-no-row-hover">
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th if:true={hasSelection} class="" scope="col">
+              <div if:false={singleSelection} class="slds-text-align_center">
+                <lightning-input type="checkbox" label="Select All" variant="label-hidden" name="select-all-checkbox"
+                                 onchange={handleAllSelection}>
+                </lightning-input>
+              </div>
+            </th>
+            <th if:true={showFlag} class="" scope="col">&nbsp;</th>
+            <template for:each={columnDataLocal} for:item="column" for:index="columnIndex">
+              <th key={column.key} class="sort" data-index={columnIndex} scope="col" onclick={handleColumnSort}>
+                <div class="text-wrap" title={column.label}>{column.label}</div>
+                <div class="column-resizer"></div>
+              </th>
+            </template>
+            <th if:true={showRowActionColumn} class="" scope="col">&nbsp;</th>
+            <th if:true={showDrawerColumn} class="" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template for:each={rowDataLocalVisible} for:item="row" for:index="rowIndex">
+            <tr key={row.key} class={row.customRowClass}>
+              <td if:true={hasSelection} class="select-cell">
+                <div class="text-wrap slds-text-align_center" title="Select">
+                  <template if:false={singleSelection}>
+                    <lightning-input type="checkbox" checked={row.selected} value={rowIndex} data-index={rowIndex}
+                                     label="Selected" variant="label-hidden" name="select-checkbox"
+                                     onchange={handleSelection}>
+                    </lightning-input>
+                  </template>
+                  <template if:true={singleSelection}>
+                    <input type="radio" name="select-radio" value={rowIndex} data-index={rowIndex}
+                           onclick={handleSingleSelection} />
+                  </template>
+                </div>
+              </td>
+              <td if:true={showFlag}>
+                <template if:true={row.flag}>
+                  <span class="flag-wrapper">
+                    <lightning-helptext if:true={row.flag.inprogressFlag} icon-name="utility:loop"
+                                        class="flag_inprogress" content={row.flag.message} icon-variant="warning">
+                    </lightning-helptext>
+                    <lightning-helptext if:true={row.flag.successFlag} icon-name="utility:check" class="flag_success"
+                                        content={row.flag.message} icon-variant="success">
+                    </lightning-helptext>
+                    <lightning-helptext if:true={row.flag.infoFlag} icon-name="utility:info" class="flag_info"
+                                        content={row.flag.message} icon-variant="warning">
+                    </lightning-helptext>
+                    <lightning-helptext if:true={row.flag.errorFlag} icon-name="utility:warning" class="flag_error"
+                                        content={row.flag.message} icon-variant="error">
+                    </lightning-helptext>
+                  </span>
+                </template>
+              </td>
+              <template for:each={row.cellData} for:item="cell" for:index="cellIndex">
+                <td key={cell.key} data-cell-index={cellIndex} data-wide-cell={cell.wideCell}>
+                  <div class="text-wrap">
+                    <template if:true={cell.isText}> {cell.data} </template>
+                    <template if:true={cell.isDate}>
+                      <lightning-formatted-date-time value={cell.data} year="numeric" month="short" day="2-digit" time-zone="UTC">
+                      </lightning-formatted-date-time>
+                    </template>
+                    <template if:true={cell.isCurrency}>
+                      <lightning-formatted-number value={cell.data} format-style="currency"
+                                                  currency-code={cell.currencyCode}>
+                      </lightning-formatted-number>
+                    </template>
+                    <template if:true={cell.isHtml}>
+                      <lightning-formatted-rich-text value={cell.data}> </lightning-formatted-rich-text>
+                    </template>
+                    <template if:true={cell.isLookup}>
+                      <a href={cell.lookupHref} data-rec-id={cell.lookupId}
+                         onclick={handleNavigateToRecord}>{cell.data}</a>
+                    </template>
+                    <template if:true={cell.isCheckbox}>
+                      <lightning-input type="checkbox" checked={cell.data} disabled> </lightning-input>
+                    </template>
+                  </div>
+                </td>
+              </template>
+
+              <template if:true={showRowActionColumn}>
+                <td if:true={row.showRowAction} class="slds-text-align_center">
+                  <span class="clickable">
+                    <lightning-button-menu alternative-text="Show menu" variant="bare" menu-alignment="auto"
+                                           class="row-action">
+                      <template for:each={row.rowActionData} for:item="action">
+                        <lightning-menu-item key={action.key} value={action.value} label={action.label}
+                                             data-row-key={row.key} onclick={handleRowActionClick}>
+                        </lightning-menu-item>
+                      </template>
+                    </lightning-button-menu>
+                  </span>
+                </td>
+                <td if:false={row.showRowAction}></td>
+              </template>
+              <template if:true={showDrawerColumn}>
+                <td if:true={row.showDrawer} class="drawer-section slds-text-align_center">
+                  <template if:false={row.isDrawerOpened}>
+                    <span class="clickable">
+                      <lightning-icon icon-name="utility:chevronright" size="x-small" data-index={rowIndex}
+                                      onclick={handleDrawerOpen}>
+                      </lightning-icon>
+                    </span>
+                  </template>
+                  <template if:true={row.isDrawerOpened}>
+                    <span class="clickable">
+                      <lightning-icon icon-name="utility:chevrondown" size="x-small" data-index={rowIndex}
+                                      onclick={handleDrawerClose}>
+                      </lightning-icon>
+                    </span>
+                  </template>
+                </td>
+                <td if:false={row.showDrawer}></td>
+              </template>
+            </tr>
+            <template if:true={row.isDrawerOpened}>
+              <tr key={row.key} class="drawer-section">
+                <td colspan={fullColspan}>
+                  <!-- Drawer data -->
+                  <template if:true={row.drawerData}>
+                    <div class="slds-grid slds-wrap">
+                      <template for:each={row.drawerData} for:item="drawerItem">
+                        <div key={drawerItem.key} class="
+                            slds-col
+                            slds-size_1-of-1
+                            slds-medium-size_1-of-3
+                            slds-large-size_1-of-4
+                            slds-m-bottom_medium
+                            drawer-data
+                          ">
+                          <div class="slds-form-element">
+                            <label class="slds-form-element__label"> {drawerItem.label} </label>
+                            <div class="slds-form-element__control">
+                              <template if:true={drawerItem.isText}> {drawerItem.data} </template>
+                              <template if:true={drawerItem.isDate}>
+                                <lightning-formatted-date-time value={drawerItem.data} year="numeric" month="short"
+                                                               day="2-digit">
+                                </lightning-formatted-date-time>
+                              </template>
+                              <template if:true={drawerItem.isCurrency}>
+                                <lightning-formatted-number value={drawerItem.data} format-style="currency"
+                                                            currency-code={drawerItem.currencyCode}>
+                                </lightning-formatted-number>
+                              </template>
+                              <template if:true={drawerItem.isHtml}>
+                                <lightning-formatted-rich-text value={drawerItem.data}> </lightning-formatted-rich-text>
+                              </template>
+                              <template if:true={drawerItem.isLookup}>
+                                <a href={drawerItem.lookupHref} data-rec-id={drawerItem.lookupId}
+                                   onclick={handleNavigateToRecord}>{drawerItem.data}</a>
+                              </template>
+                            </div>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </template>
+                  <!-- Sub table -->
+                  <template if:true={row.subTableData}>
+                    <c-deal-builder-data-table class="sub-data-table" column-data={row.subTableData.columnData}
+                                               row-data={row.subTableData.rowData}
+                                               has-selection={row.subTableData.hasSelection}
+                                               has-pagination={row.subTableData.hasPagination}
+                                               no-data-message={row.subTableData.noDataMessage}
+                                               single-selection={row.subTableData.singleSelection}
+                                               show-flag={row.subTableData.showFlag}
+                                               onrowaction={handleSubtableRowAction}>
+                    </c-deal-builder-data-table>
+                  </template>
+                </td>
+              </tr>
+            </template>
+          </template>
+
+          <!-- No data message -->
+          <template if:true={rowDataLocal}>
+            <template if:false={rowDataLocal.length}>
+              <tr>
+                <td colspan={fullColspan} class="slds-text-align_center">
+                  <div class="slds-illustration slds-illustration_small">
+                    <c-deal-builder-empty-illustration></c-deal-builder-empty-illustration>
+                    <div class="slds-text-longform">
+                      <h3 class="slds-text-heading_small">{noDataMessage}</h3>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </template>
+          <template if:false={rowDataLocal}>
+            <tr>
+              <td colspan={fullColspan} class="slds-text-align_center">
+                <div class="slds-illustration slds-illustration_small">
+                  <c-deal-builder-empty-illustration></c-deal-builder-empty-illustration>
+                  <div class="slds-text-longform">
+                    <h3 class="slds-text-heading_small">{noDataMessage}</h3>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <div if:true={hasPagination} class="slds-grid">
+      <template if:true={pagination}>
+        <div class="slds-col slds-var-p-top_small">
+          <div class="page-size-block slds-show_inline-block">
+            <lightning-combobox name="page-size" label="Page Size" value={pageSize} variant="label-hidden"
+                                options={pageSizeOptions} onchange={handlePageSize}>
+            </lightning-combobox>
+          </div>
+          <div class="slds-show_inline-block page-size-text slds-var-m-bottom_xx-small">
+            &nbsp;&nbsp;
+            <i>Total {pagination.totalItems} row(s)</i>
+          </div>
+        </div>
+        <div class="slds-col_bump-left slds-var-p-top_small">
+          <lightning-button-icon if:true={pagination.totalPages} icon-name="utility:jump_to_left"
+                                 class="slds-m-right_x-small" variant="border-filled" alternative-text="First"
+                                 title="First" onclick={paginateStart}>
+          </lightning-button-icon>
+
+          <lightning-button-group>
+            <template for:each={pagination.pages} for:item="page">
+              <lightning-button if:true={page.isCurrentPage} key={page.label} label={page.label} disabled="true">
+              </lightning-button>
+              <lightning-button if:false={page.isCurrentPage} key={page.label} label={page.label}
+                                data-page-number={page.label} onclick={paginateSelectedPage}>
+              </lightning-button>
+            </template>
+          </lightning-button-group>
+
+          <lightning-button-icon if:true={pagination.totalPages} icon-name="utility:jump_to_right"
+                                 class="slds-m-left_x-small" variant="border-filled" alternative-text="Last"
+                                 title="Last" onclick={paginateEnd}>
+          </lightning-button-icon>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>

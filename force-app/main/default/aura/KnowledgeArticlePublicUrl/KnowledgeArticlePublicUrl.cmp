@@ -1,0 +1,25 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="knowledgeRecord" type="Knowledge__kav"/>
+    <aura:attribute name="isCopied" type="Boolean" default="false"/>
+    <force:recordData aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    fields="UrlName, PublishStatus, IsVisibleInPkb, IsVisibleInCsp"
+    targetFields="{!v.knowledgeRecord}"
+    />
+   
+    <aura:if isTrue="{!v.knowledgeRecord.PublishStatus == 'Online'}">
+    	<aura:if isTrue="{!v.knowledgeRecord.IsVisibleInPkb}">
+            <lightning:card title="{!v.isCopied ? 'Copied!' : 'Copy Public Link'}" class="{!v.isCopied ? 'copied' : ''}">
+            	<lightning:layout>
+                <lightning:layoutItem padding="around-small" size="10">
+                    <lightning:input aura:id="url" class="urlInput" disabled="true" title="{!$Label.c.CaseViewUrl +v.knowledgeRecord.UrlName}" value="{!$Label.c.CaseViewUrl+v.knowledgeRecord.UrlName}"></lightning:input>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="2" padding="around-small">
+                	<lightning:buttonIcon iconName="{!v.isCopied ? 'utility:check' : 'utility:copy_to_clipboard'}" variant="bare" onclick="{! c.handleClick }" alternativeText="Copy" title="Copy" />
+                </lightning:layoutItem>
+            </lightning:layout>
+            </lightning:card>
+        	
+        </aura:if>
+    </aura:if>
+</aura:component>

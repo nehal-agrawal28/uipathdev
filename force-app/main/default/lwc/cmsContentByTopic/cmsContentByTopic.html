@@ -1,0 +1,7 @@
+<template>
+    <lightning-card title="CMS Content">
+        <template for:each={jsonData.data} for:item="content">
+            <a key={content.managedContentId} href={content.contentNodes.source.url}><span key={content.managedContentId}>{content.contentNodes.title.value}</span></a>
+        </template>
+    </lightning-card>
+</template>

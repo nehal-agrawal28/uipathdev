@@ -1,0 +1,53 @@
+<template>
+    <div class="c-container">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12">
+                <div style="font-weight: bold;">
+                    <div class="slds-checkbox">
+                        <input class="checkbox-tac" type="checkbox" name="options" id="checkbox-tac"  onchange={onchangeCheckbox} />
+                        <label class="slds-checkbox__label" for="checkbox-tac">
+                            <span class="slds-checkbox_faux"></span>
+                            <template if:true={isJapanUser}>
+                                <span class="slds-form-element__label slds-m-left_x-small">By checking this box I agree to the UiPath Partner Portal <a href="https://partnerportal.uipath.com/terms-of-use-japan" target="_blank">Terms of Use</a>.</span>
+                            </template>
+                            <template if:false={isJapanUser}>
+                                <span class="slds-form-element__label slds-m-left_x-small">By checking this box I agree to the UiPath Partner Portal <a href="https://partnerportal.uipath.com/terms-of-use" target="_blank">Terms of Use</a>  and the <a href="https://partnerportal.uipath.com/code-of-conduct" target="_blank">UiPath Partner Code of Conduct</a>.</span>
+                            </template>
+                        </label>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12">
+                <div style="font-weight: bold;">
+                    <div class="slds-checkbox">
+                        <input class="checkbox-pp" type="checkbox" name="options" id="checkbox-pp" onchange={onchangeCheckbox}/>
+                        <label class="slds-checkbox__label" for="checkbox-pp">
+                            <span class="slds-checkbox_faux"></span>
+                            <template if:true={isJapanUser}>
+                                <span class="slds-form-element__label slds-m-left_x-small">By checking this box I agree to the <a href="https://www.uipath.com/ja/legal/trust-and-security/privacy-policy" target="_blank">UiPath Privacy Policy</a>.</span>
+                            </template>
+                            <template if:false={isJapanUser}>
+                                <span class="slds-form-element__label slds-m-left_x-small">By checking this box I agree to the <a href="https://www.uipath.com/legal/privacy-policy" target="_blank">UiPath Privacy Policy</a>.</span>
+                            </template>
+                        </label>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+
+    <footer class="slds-card__footer">
+        <div>
+            <!--
+            <lightning-button class="margin-right-footer-button" label={customLabels.RESET} variant="neutral" onclick={onclickBtnReset}></lightning-button>
+            -->
+            <lightning-button class="margin-right-footer-button" label={customLabels.PREVIOUS} variant="neutral" onclick={handleClickPrevious}></lightning-button>
+            <lightning-button label={customLabels.NEXT} variant="brand" onclick={onclickBtnSubmit} disabled={tacNotAccepted}></lightning-button>
+        </div>
+    </footer>
+
+    <template if:false={isLoaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+</template>

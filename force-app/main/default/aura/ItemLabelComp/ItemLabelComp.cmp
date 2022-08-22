@@ -1,0 +1,18 @@
+<aura:component >
+    
+    <aura:attribute type="String" name="label" default=""/>
+    <aura:attribute type="String" name="desc" default=""/>
+   	<aura:attribute type="Boolean" name="required" default="false"/>
+    
+    <div class="slds-page-header__row">
+        <label class="slds-form-element__label" >
+            <aura:if isTrue="{!v.required}">
+            	<abbr title="required" class="slds-required" lightning-input_input="">*</abbr>
+            </aura:if>
+            <span class="" >{!v.label}</span>
+        </label>
+    </div>
+    <div class="slds-page-header__row">
+        <aura:unescapedHtml value="{!v.desc}"/>
+    </div>
+</aura:component>

@@ -1,0 +1,14 @@
+/* message section CSS */
+.message-parent{
+    z-index: 1!important;
+}
+.message-container{
+    display: block!important;
+    padding: 10px!important;
+    margin: 0px!important;
+    min-width: 0px!important;
+}
+.message-div{
+    width: 100%!important;
+    color: white!important;
+}

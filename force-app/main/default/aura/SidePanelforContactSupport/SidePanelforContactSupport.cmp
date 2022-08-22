@@ -1,0 +1,73 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    
+
+<lightning:card title="" >
+    
+    <aura:set attribute="actions"></aura:set>
+    <aura:set attribute="footer" ><a href="/customer/s/international-contact" class="slds-text-link ">View All</a></aura:set>
+    <div class="slds-card__body_inner">
+        <lightning:layout>
+           
+      
+    
+           
+            <lightning:layoutItem flexibility="grow">
+              
+                
+            <lightning:tile label="US">
+                <aura:set attribute="media">
+                    <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/USA_-512.png'}" variant="circle"></lightning:avatar>
+                </aura:set>
+                <div>
+                    <dl class="slds-wrap slds-list_horizontal">
+                       <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                        <dd class="slds-item_detail slds-truncate" title="+1 (888) 621 4999"><a href="tel:+1 (888) 621 4999">+1 (888) 621 4999</a></dd>
+                    </dl>
+                </div>
+            </lightning:tile>
+                <div class="slds-p-top_small">
+            <lightning:tile label="UK">
+                <aura:set attribute="media">
+                    <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Britain-512.png'}" variant="circle"></lightning:avatar>
+                </aura:set>
+                <div>
+                    <dl class="slds-wrap slds-list_horizontal">
+                       <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                        <dd class="slds-item_detail slds-truncate" title="+44 (800) 3689854"><a href="tel:+44 (800) 3689854">+44 (800) 3689854</a></dd>
+                    </dl>
+                </div>
+            </lightning:tile>
+                </div>
+                <div class="slds-p-top_small">
+                 <lightning:tile label="India">
+                <aura:set attribute="media">
+                    <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/India1.png'}" variant="circle"></lightning:avatar>
+                </aura:set>
+                <div>
+                    <dl class="slds-wrap slds-list_horizontal">
+                        <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                        <dd class="slds-item_detail slds-truncate" title="000 (800) 9190254"><a href="tel:+000 (800) 9190254">000 (800) 9190254</a></dd>
+                    </dl>
+                </div>
+            </lightning:tile>
+                </div>
+            </lightning:layoutItem>
+            
+           
+         
+        </lightning:layout>
+    </div>
+    <div class="slds-p-top_small">
+    <a> <aura:unescapedHtml value="{!$Label.c.CommunityFloatingTextForSidePannel}"/></a>
+        </div>
+</lightning:card>    
+    
+   
+    
+    
+    
+    
+    
+    
+</aura:component>

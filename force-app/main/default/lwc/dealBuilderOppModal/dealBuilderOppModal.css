@@ -1,0 +1,25 @@
+.detail-container {
+	max-width: 600px;
+}
+.message-container {
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
+	max-width: 600px;
+}
+.footer-height {
+	min-height: 50px;
+}
+ol {
+	list-style: initial !important;
+}
+
+.opp-warning-list {
+	list-style: disc !important;
+}
+
+.ack-checkbox {
+	display: inline-block !important;
+}

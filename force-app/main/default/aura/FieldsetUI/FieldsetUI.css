@@ -1,0 +1,46 @@
+.THIS .slds-accordion__list-item{
+    border-top : 0px;
+}
+.THIS .slds-accordion__summary{
+    background: #F3F2F2;
+    padding: .35rem;
+    border-radius: 0.25rem;
+}
+.THIS .slds-accordion__summary-heading button.slds-accordion__summary-action{
+    text-decoration: none!important;
+}
+.THIS .slds-accordion__section{
+    padding: 0px;
+}
+
+.THIS .field-cell{
+    min-height: 35px;
+    position: relative;
+}
+.THIS .edit-icon{
+    position: absolute;
+    right: 1rem;
+    top: 0.6rem;
+    cursor: pointer;
+}
+.THIS .edit-icon svg{
+    fill: rgba(112, 110, 107, 0.2);
+}
+.THIS .field-cell:hover .edit-icon svg{
+    fill: rgba(112, 110, 107, 1);
+}
+
+.THIS .hide-section .slds-accordion__summary{
+    display: none;
+}
+.THIS.hide-header .slds-card__header{
+    display: none;
+}
+.THIS.hide-header .slds-card__body{
+    margin-top: 0px; 
+    margin-bottom: 0px; 
+}
+
+.THIS .slds-spinner_container{
+    z-index: 10!important;
+}

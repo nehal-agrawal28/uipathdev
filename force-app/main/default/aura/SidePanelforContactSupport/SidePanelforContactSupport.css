@@ -1,0 +1,26 @@
+.THIS .slds-card__footer {
+    text-align: center;
+    
+}
+
+.marquee.THIS {
+    width: 100%;
+    line-height: 50px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: red;
+}
+ 
+.marquee.THIS p {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 20s linear infinite;
+    font-size:30px;
+}
+ 
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}

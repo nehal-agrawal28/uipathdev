@@ -1,0 +1,48 @@
+.custom-spinner-css {
+  margin: var(--lwc-squareIconLargeBoundary, 3rem) 0;
+}
+
+/* message section CSS */
+.message-parent {
+  z-index: 1 !important;
+}
+.message-div {
+  width: 100% !important;
+  color: white !important;
+}
+
+.detail-container {
+  max-width: 550px;
+}
+
+.rep-input-container {
+  max-width: 80%;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  border: none !important;
+}
+
+.req-field {
+  color: var(--lwc-colorTextError, rgb(234, 0, 30));
+}
+
+ol {
+  list-style: initial !important;
+}
+.warning-list,
+.validation-list {
+  list-style: disc !important;
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+.finance-warning {
+  font-size: 1rem;
+  font-weight: 600 !important;
+}
+.ack-checkbox,
+.ex-opp-checkbox {
+  display: inline-block !important;
+}

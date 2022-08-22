@@ -1,0 +1,61 @@
+<aura:component
+        implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId"
+        controller="ProductSelectionController_PP">
+
+    <aura:html tag="style">
+        .cuf-content { padding: 0 0rem !important; }
+        .slds-p-around--medium { padding: 0rem !important; }
+        .slds-modal__content
+        {
+            overflow-y:hidden !important;
+            height:unset !important;
+            max-height:unset !important;
+            min-width: 49rem !important;
+        }
+    </aura:html>
+
+    <!-- Variables -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="finishedInit" type="String" />
+    <aura:attribute name="priceBookName" type="String" />
+    <aura:attribute name="currencyIsoCode" type="String" />
+    <aura:attribute name="noProductsSelected" type="Boolean" default="true" />
+    <aura:attribute name="onSelectProductsScreen" type="Boolean" default="true" />
+    <aura:attribute name="onSubmitProductsScreen" type="Boolean" default="false" />
+    
+    <!-- Handler -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+    <!-- View -->
+    <div class="slds-modal__title slds-hyphenate slds-text-heading--medium modal-header slds-modal__header modal-header slds-modal__header">
+        <h2>{! $Label.c.Add_Products }</h2>
+    </div>
+
+    <aura:if isTrue="{! v.finishedInit }">
+        <c:productSelectionComponent
+            aura:id="productSelectionCMP"
+            context="quickaction"
+            currencyIsoCode="{! v.currencyIsoCode }"
+            priceBook="{! v.priceBookName }"
+            ongetselectedproductslength="{! c.processSelectedProductsLength }"
+            ongetshowselected="{! c.processShowSelectedChange }">
+        </c:productSelectionComponent>
+    </aura:if>
+
+    <div class="modal-footer slds-modal__footer" style="min-height:3.6rem">
+        <aura:if isTrue="{! v.onSelectProductsScreen }">
+            <div class="slds-list_horizontal slds-float_right">
+                <lightning:button label="{! $Label.c.Cancel }" onclick="{! c.onclickCancel }"/>
+                <lightning:button label="Next" variant="brand" onclick="{! c.onclickNext }"/>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{! v.onSubmitProductsScreen }">
+            <div class="slds-list_horizontal slds-float_right">
+                <lightning:button label="Back" onclick="{! c.onclickBack }"/>
+                <lightning:button label="{! $Label.c.Add_Products }" variant="brand" onclick="{! c.onclickAddProducts }" disabled="{! v.noProductsSelected }"/>
+            </div>
+        </aura:if>
+    </div>
+
+</aura:component>

@@ -1,0 +1,9 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <div class="slds-box slds-button_neutral">
+       
+        <p><lightning:formattedUrl value="{!$Resource.proActiveCare}" tooltip="Go to ProActivecare" label="Know More About ProActiveCare" target="_blank" /></p>
+          
+    </div>
+    
+</aura:component>

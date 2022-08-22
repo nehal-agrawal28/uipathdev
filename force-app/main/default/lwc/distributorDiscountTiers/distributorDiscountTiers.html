@@ -1,0 +1,12 @@
+<template>
+    <template if:true={showDiscountTiers}>
+        <lightning-card title="Discount Tiers" icon-name="standard:thanks">
+            <lightning-record-view-form record-id={recordId} object-api-name="Account">
+                <div class="slds-p-horizontal_small slds-m-bottom_medium">
+                    <lightning-output-field field-name="BPO_Discount_Tier__c"></lightning-output-field>
+                    <lightning-output-field field-name="Resale_Discount_Tier__c"></lightning-output-field>
+                </div>
+            </lightning-record-view-form>
+        </lightning-card>
+    </template>
+</template>

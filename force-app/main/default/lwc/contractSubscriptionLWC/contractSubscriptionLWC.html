@@ -1,0 +1,173 @@
+<template>
+  <lightning-card class="slds-scrollable_y">
+    <div if:true={isLoaded}>
+      <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </div>
+
+    <div style="text-align: center; font-size: x-large; font-weight: 400">
+      Edit ELA Quantities
+      <a style="font-size: 15px; padding-left: 10px" href={reportURL} target="_blank"> (View Report) </a>
+    </div>
+    <div style="text-align: right; margin-right: 15px; margin-top: -30px; font-size: 18px; font-weight: 400">
+      TOTAL SWAP VALUE :
+      <lightning-formatted-number
+        value={totalEstSwap}
+        format-style="currency"
+        currency-code={CurrencyIsoCode}
+      ></lightning-formatted-number>
+    </div>
+    <div if:false={isDataAvailable} style="padding: 30px; font-size: 18px; text-align: center; color: #ca4321">
+      {errorMessage}
+    </div>
+    <div if:true={isDataAvailable}>
+      <div if:true={showCalculationError}>
+        <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+          <span class="slds-assistive-text">error</span>
+          <span
+            class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+            title="Description of icon when needed"
+          >
+            <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#error"></use>
+            </svg>
+          </span>
+          <h2>{calculationErrorMessage}</h2>
+        </div>
+      </div>
+      <div class="slds-m-around_medium slds-scrollable">
+        <table
+          class="
+            slds-table slds-table_bordered slds-table_cell-buffer
+            slds-no-row-hover
+            slds-table_fixed-layout slds-table_resizable-cols
+          "
+          style="border: 2px solid rgb(169 169 169); min-width: 1200px; border-collapse: collapse"
+        >
+          <thead>
+            <tr class="slds-text-title_caps">
+              <th class="slds-is-resizable" scope="col" style="width: 300px">
+                <div title="Key" class="slds-truncate">Product Name</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">Start Date</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">True Up Date</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">Current ACCUM. CAP</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">SWAP QTY</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">UPDATED ACCUM. CAP</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">Above Cap</div>
+              </th>
+              <th scope="col" class="slds-is-resizable">
+                <div title="Value" class="slds-truncate">EST. SWAP VALUE</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <template for:each={subList} for:item="Item" for:index="index">
+              <template for:each={Item.subscriptions} for:item="subscription" for:index="subIndex">
+                <tr key={Item.subId} class={subscription.isFirst}>
+                  <template if:true={subscription.isFirst}>
+                    <td scope="col" rowspan={Item.subscriptions.length} style="border-right: 1px solid #a9a9a9">
+                      <div style="font-weight: bold">{Item.name}</div>
+                      <div>({subscription.subscription.SBQQ__Product__r.ProductCode})</div>
+                    </td>
+                  </template>
+                  <td scope="col">
+                    <div style="text-align: center">
+                      <lightning-formatted-date-time
+                        value={subscription.subscription.SBQQ__StartDate__c}
+                        year="numeric"
+                        month="2-digit"
+                        day="2-digit"
+                      >
+                      </lightning-formatted-date-time>
+                    </div>
+                  </td>
+                  <td scope="col">
+                    <div style="text-align: center">
+                      <lightning-formatted-date-time
+                        value={subscription.subscription.ELA_End_Date__c}
+                        year="numeric"
+                        month="2-digit"
+                        day="2-digit"
+                      >
+                      </lightning-formatted-date-time>
+                    </div>
+                  </td>
+                  <td scope="col">
+                    <div style="text-align: center">
+                      <lightning-formatted-number value={subscription.currentAccum}></lightning-formatted-number>
+                    </div>
+                  </td>
+                  <td scope="col">
+                    <div>
+                      <lightning-input
+                        type="number"
+                        data-productcode={subscription.subscription.SBQQ__Product__r.ProductCode}
+                        data-id={subscription.subscription.Id}
+                        variant="label-hidden"
+                        disabled={subscription.isDisabled}
+                        value={subscription.swapRequest}
+                        onblur={changeCapQuantity}
+                      ></lightning-input>
+                    </div>
+                  </td>
+                  <td scope="col">
+                    <div style="text-align: center">
+                      <lightning-formatted-number value={subscription.accum}></lightning-formatted-number>
+                    </div>
+                  </td>
+                  <td scope="col">
+                    <div style="text-align: center">
+                      <lightning-formatted-number
+                        value={subscription.subscription.qtc_Above_the_Cap_Price__c}
+                        format-style="currency"
+                        currency-code={CurrencyIsoCode}
+                      ></lightning-formatted-number>
+                    </div>
+                  </td>
+                  <td scope="col">
+                    <div style="text-align: center">
+                      <lightning-formatted-number
+                        value={subscription.estSwap}
+                        format-style="currency"
+                        currency-code={CurrencyIsoCode}
+                      ></lightning-formatted-number>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </template>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align: center">
+        <lightning-button
+          variant=""
+          label="Cancel"
+          title="Cancel"
+          onclick={cancel}
+          class="slds-m-left_x-small"
+        ></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Save"
+          title="Save"
+          onclick={saveOpration}
+          class="slds-m-left_x-small"
+          disabled={showCalculationError}
+        ></lightning-button>
+      </div>
+    </div>
+  </lightning-card>
+</template>

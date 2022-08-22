@@ -1,0 +1,8 @@
+.THIS .orangeColor{
+    background-color:orange;
+}
+.THIS .ColorBlue,
+.THIS .ColorBlue:active,
+.THIS .ColorBlue:hover {
+    background-color: rgb(0, 95, 178) !important;
+}

@@ -1,0 +1,71 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="OpportunityListController" access="global">
+    
+    <aura:attribute name="recordId" type="string" />
+    <aura:attribute name="opportunities" type="Opportunity[]" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:registerEvent name="updateMergeCandidates" type="c:OpportunityMergeCandidateUpdate" />
+    
+    <aura:method name="reInit" action="{!c.doInit}" description="Re-runs the initialisation of this component. Useful when Opps are merged" access="PUBLIC" />
+    
+    <aura:if isTrue="{!empty(v.opportunities)}">
+        <div class="slds-p-left_medium">There are no opportunities available from which to merge into this Opportunity.</div>
+    </aura:if>
+    <aura:if isTrue="{!not(empty(v.opportunities))}">
+        <aura:iteration items="{!v.opportunities}" var="opp">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-max-medium-table_stacked-horizontal slds-no-row-hover">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="slds-text-title_caps" scope="col">
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Opportunity Name">Opportunity Name</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Close Date">Close Date</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Stage">Stage</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Stage">Owner</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Amount">Amount</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="slds-hint-parent">
+                        <td data-label="Select Row">
+                            <lightning:input type="checkbox" aura:id="{!'selectForMergeCheckbox-' + opp.Id}" label="" name="{!opp.Id}" value="{!opp.Id}" onchange="{!c.handleOppSelectToMergeCheckbox}" />
+                        </td>
+                        <th data-label="Opportunity Name" scope="row">
+                            <div class="slds-truncate" title="{!opp.Name}">{!opp.Name}</div>
+                        </th>
+                        <td data-label="Close Date">
+                            <div class="slds-truncate" title="{!opp.CloseDate}">{!opp.CloseDate}</div>
+                        </td>
+                        <td data-label="Stage">
+                            <div class="slds-truncate" title="{!opp.StageName}">{!opp.StageName}</div>
+                        </td>
+                        <td data-label="Stage">
+                            <div class="slds-truncate" title="{!opp.Owner.Name}">{!opp.Owner.Name}</div>
+                        </td>
+                        <td data-label="Amount">
+                            <div class="slds-truncate" title="{!opp.Amount}">
+                                <lightning:formattedNumber value="{!opp.Amount}" maximumFractionDigits="2"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <c:OpportunityProductList recordId="{!opp.Id}" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </aura:iteration>
+    </aura:if>
+</aura:component>

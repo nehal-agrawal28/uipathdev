@@ -1,0 +1,59 @@
+<template>
+    <div class="slds-box">
+        <template if:false={showSelected}>
+            <lightning-input
+                label=""
+                placeholder="Search Products..."
+                type="text"
+                variant="label-hidden"
+                onkeyup={onkeyupInput}>
+            </lightning-input>
+        </template>
+
+        <lightning-button
+            disabled={noProductSelected}
+            label={showSelectedButtonLabel}
+            variant="base"
+            onclick={toggleShowSelected}>
+        </lightning-button>
+    </div>
+    
+    <template if:false={showSelected}>
+        <div style="height: 50vh">
+
+            <template if:false={isLoaded}>
+                <div class="slds-is-relative">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+           
+            <lightning-datatable
+                class="product-datatable"
+                columns={columns}
+                data={visibleProducts}
+                key-field="id"
+                enable-infinite-loading
+                show-row-number-column
+                selected-rows={selectedRowIds}
+                suppress-bottom-bar
+                oncellchange={processCellChange}
+                onloadmore={loadMoreData}
+                onrowselection={processSelection}>
+            </lightning-datatable>
+        </div>
+    </template>
+
+    <template if:true={showSelected}>
+        <lightning-datatable
+            columns={columnsSelectedTable}
+            data={selectedProducts}
+            errors={errors}
+            hide-checkbox-column
+            key-field="id"
+            show-row-number-column
+            suppress-bottom-bar
+            oncellchange={processCellChange}>
+        </lightning-datatable>
+    </template>
+
+</template>

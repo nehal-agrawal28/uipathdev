@@ -1,0 +1,264 @@
+<template>
+        <lightning-card class="slds-card__header-link slds-truncate" title="Order Addresses" icon-name="standard:address">
+            <!--  <lightning-button label="Show Success" onclick={showSuccessToast}></lightning-button>-->
+            <!-- Start: Address Display Component -->
+    
+            <!-- Start: Account Table -->
+            <table class="slds-table slds-table_bordered 
+                      slds-max-medium-table_stacked-horizontal slds-p-horizontal_small" role="grid">
+                <!-- Table Header-->
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th class="slds-cell-shrink" scope="col">
+                            <div class="slds-truncate" title="Bill To Account">Bill To Account</div>
+                        </th>
+                        <th class="slds-cell-shrink" scope="col">
+                            <div class="slds-truncate" title="Ship To Account">Ship To Account</div>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- Table Body - Fields to display -->
+                <tbody>
+                    <tr class="slds-hint-parent">
+                        <template if:true={billToaddress.data}>
+                            <td data-label="Bill To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Bill To Account">
+                                    {billToaddress.data.Account__r.Name}<br />
+                                </div>
+                            </td>
+                        </template>
+                        <template if:false={billToaddress.data}>
+                            <td data-label="Bill To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Bill To Account">
+                                    No bill to address selected.<br />
+                                </div>
+                            </td>
+                        </template>
+                        <template if:true={shipToaddress.data}>
+                            <td data-label="Ship To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Ship To Account">
+                                    {shipToaddress.data.Account__r.Name}<br />
+                                </div>
+                            </td>
+                        </template>
+                        <template if:false={shipToaddress.data}>
+                            <td data-label="Ship To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Ship To Account">
+                                    No ship to address selected.<br />
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                </tbody>
+                <!-- End: Address Display Component -->
+            </table>
+            <!-- End: Account Table -->
+    
+            <br /><br />
+            <!-- Start: Address Table-->
+            <table class="slds-table slds-table_bordered 
+            slds-max-medium-table_stacked-horizontal slds-p-horizontal_small" role="grid">
+                <!-- Address Table Header-->
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th class="slds-cell-shrink" scope="col">
+                            <div class="slds-truncate" title="Bill To Address">Bill To Address</div>
+                        </th>
+                        <th class="slds-cell-shrink" scope="col">
+                            <div class="slds-truncate" title="Ship To Address">Ship To Address</div>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- Table Body - Address Fields to display -->
+                <tbody>
+                    
+                    <tr class="slds-hint-parent">
+                        <template if:true={billToaddress.data}>
+                            <td data-label="Bill To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Bill To Address">
+                                        <div class="slds-truncate slds-cell-wrap" title="Bill To Address">
+                                                <lightning-tile>
+                                                    <lightning-button variant="Base" label={billToaddress.data.Name}
+                                                        onclick={viewAddressRecord} value={billToaddress.data.Id}></lightning-button>
+                                                </lightning-tile>
+                                            </div>
+                                    {billToaddress.data.Street_Line_1__c}<br />
+                                    <!-- display only if address line 2 is not empty -->
+                                    <template if:true={billToaddress.data.Street_Line_2__c}>
+                                        {billToaddress.data.Street_Line_2__c}<br />
+                                    </template>
+                                    {billToaddress.data.City__c}, {billToaddress.data.State__c}
+                                    {billToaddress.data.Zip_Postal_Code__c}</br>
+                                    {billToaddress.data.Country__c}<br />
+    
+                                </div>
+                            </td>
+                        </template>
+                        <template if:false={billToaddress.data}>
+                            <td data-label="Bill To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Bill To Address">
+                                    No bill to address selected.<br />
+                                </div>
+                            </td>
+                        </template>
+                        <template if:true={shipToaddress.data}>
+                            <td data-label="Ship To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Ship To Address">
+                                        <div class="slds-truncate slds-cell-wrap" title="Ship To Address">
+                                                <lightning-tile>
+                                                    <lightning-button variant="Base" label={shipToaddress.data.Name}
+                                                        onclick={viewAddressRecord} value={shipToaddress.data.Id}></lightning-button>
+                                                </lightning-tile>
+                                            </div>
+                                    {shipToaddress.data.Street_Line_1__c}</br>
+                                    <template if:true={shipToaddress.data.Street_Line_2__c}>
+                                        {shipToaddress.data.Street_Line_2__c}<br />
+                                    </template>
+                                    {shipToaddress.data.City__c}, {shipToaddress.data.State__c}
+                                    {shipToaddress.data.Zip_Postal_Code__c}</br>
+                                    {shipToaddress.data.Country__c}</br>
+    
+                                </div>
+                            </td>
+                        </template>
+                        <template if:false={shipToaddress.data}>
+                            <td data-label="Ship To Address">
+                                <div class="slds-truncate slds-cell-wrap" title="Ship To Account">
+                                    No ship to address selected.<br />
+                                </div>
+                            </td>
+                        </template>
+                    </tr>
+                    <!-- Address change buttons -->
+                    <tr class="slds-hint-parent">
+                      <!-- <template> -->
+                            <td data-label="Bill To Address">
+                                <div class="slds-truncate" title="Bill To Address">
+                                    <lightning-button variant="brand" label="Change Bill To Address"
+                                        title="Change Bill To Address" onclick={handleSelectBillToClick}
+                                        class="slds-m-left_x-small"></lightning-button>
+                                </div>
+                            </td>
+                            <td data-label="Ship To Address">
+                                <div class="slds-truncate" title="Ship To Address">
+                                    <lightning-button variant="brand" label="Change Ship To Address"
+                                        title="Change Ship To Address" onclick={handleSelectShipToClick}
+                                        class="slds-m-left_x-small"></lightning-button>
+                                </div>
+                            </td>
+                       <!-- </template> -->
+                    </tr>
+                </tbody>
+            </table>
+            <!--End: Address Table-->
+    
+            <!-- End: Address Display Component -->
+    
+            <!-- Start: Address Selection Modal -->
+            <template if:true={isOpen}>
+                <div >
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container" style="height:640px;width:35">
+                            <!-- MODAL HEADER -->
+                            <header class="slds-modal__header"  >
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                    title="Close" onclick={closeModal}>
+                                    <lightning-icon icon-name="utility:close" size="medium">
+                                    </lightning-icon>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Select Address</h2>
+                            </header>
+                            <!-- MODAL BODY -->
+                            <!-- Start: Address Selection Table -->
+                            <div class="slds-scrollable" >
+                                <div class="slds-text-longform">
+                                <table 
+                                    class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-p-horizontal_small"
+                                    role="grid" >
+                                    <thead >
+                                        <tr class="slds-text-title_caps" >
+                                            <th class="slds-cell-shrink" scope="col">
+                                                <div class="slds-truncate" title="Select">Select</div>
+                                            </th>
+                                            <th class="slds-cell-shrink" scope="col">
+                                                <div class="slds-truncate" title="Account Name">Account Name</div>
+                                            </th>
+                                            <th class="slds-cell-shrink" scope="col">
+                                                <div class="slds-truncate" title="Address">Address</div>
+                                            </th>
+                                            <th class="slds-cell-shrink" scope="col">
+                                                <div class="slds-truncate" title="Prim. Bill To">Primary<br />Bill To</div>
+                                            </th>
+                                            <th class="slds-cell-shrink" scope="col">
+                                                <div class="slds-truncate" title="Prim. Ship To">Primary<br />Ship To</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >    
+                                        <!-- Iterates the collection of records stored in the addressList -->
+                                        <template if:true={addressList}>
+                                    
+                                            <template for:each={addressList} for:item="addVar" >
+                                                    
+                                                <tr class="slds-hint-parent" key={addVar.Id}>
+                                                    <td data-label="Select">
+                                                    <input type="radio" id={addVar.Id} value={addVar.Id} onclick={handleradiochange} class="address-selector" checked={addVar.isChecked} >
+                                                    </td>
+                                                    <!--Display Addresslist-->
+                                                    <td data-label="Account Name">
+                                                        <div class="slds-truncate" title={addVar.address.Account__r.Name}>
+                                                            {addVar.address.Account__r.Name}
+                                                        </div>
+                                                    </td>
+                                                    
+                                                    <td data-label="Address">
+                                                        <div class="slds-truncate slds-cell-wrap"
+                                                            title={addVar.address.Account__r.Name}>
+                                                            {addVar.address.Street_Line_1__c}<br />
+                                                            {addVar.address.Street_Line_2__c}<br />
+                                                            {addVar.address.City__c}, {addVar.address.State__c}
+                                                            {addVar.address.Zip_Postal_Code__c}<br />
+                                                            {addVar.address.Country__c}<br />
+                                                        
+                                                        </div>
+                                                    </td> 
+                                                    <!--Display primary billing and primary shipping checkbox-->
+                                                    
+                                                    <td data-label="Prim. Bill To">
+    
+                                                        <input type="checkbox" value={addVar.address.Primary_Billing__c} disabled
+                                                            checked={addVar.address.Primary_Billing__c}>
+                                                    </td>
+                                                    <td data-label="Prim. Ship To">
+                                                        <input type="checkbox" value={addVar.address.Primary_Shipping__c} disabled
+                                                            checked={addVar.address.Primary_Shipping__c}>
+    
+                                                    </td>  
+                                                </tr>
+                                            
+                                            </template>
+                                            
+                                        </template>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                            <!-- End: Address Selection Table -->
+    
+                            <!-- MODAL FOOTER -->
+                            <div class="slds-modal__footer" >
+                                <button class="slds-button slds-button--neutral" onclick={closeModal}>Cancel</button>
+                                <button class="slds-button slds-button--brand" onclick={updateAndCloseModal}>Ok</button>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </template>
+            <!-- End: Address Selection Modal -->
+        </lightning-card>
+    
+    </template>

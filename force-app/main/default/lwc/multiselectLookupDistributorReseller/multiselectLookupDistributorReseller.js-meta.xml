@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="sampleLookupContainer">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Multiselect Lookup Distributor/Reseller</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property label="Max Results" name="maxResults" type="Integer" default="5" description="Maximum amount of result items to display in lookup." role="inputOnly" />
+            <property label="Business Partner Type" name="businessPartnerType" type="String" description="Account Business Partner Type to search." datasource="Distributor,Reseller" default="Distributor" role="inputOnly" />
+            <property label="Account Ids" name="accountIds" type="String" description="Selected Distributor/Reseller Account Ids." role="outputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

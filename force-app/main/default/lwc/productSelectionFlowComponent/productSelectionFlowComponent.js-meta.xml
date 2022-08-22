@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="campaignId" type="String"/>
+            <property name="city" type="String"/>
+            <property name="competition" type="String"/>
+            <property name="country" type="String"/>
+            <property name="currencyIsoCode" type="String"/>
+            <property name="dealRegNotes" type="String"/>
+            <property name="dealRegName" type="String"/>
+            <property name="dealRegId" type="String"/>
+            <property name="endCustomerAccountName" type="String"/>
+            <property name="endCustomerWebsite" type="String"/>
+            <property name="dealType" type="String"/>
+            <property name="salesEmail" type="String"/>
+            <property name="salesPhone" type="String"/>
+            <property name="salesRep" type="String"/>
+            <property name="partnerLeadSource" type="String"/>
+            <property name="isBPO" type="Boolean"/>
+            <property label="Distributor Account Id" name="distributorAccountId" type="String" description="Selected or user's Distributor Account Id." role="inputOnly" />
+            <property label="Reseller Account Id" name="resellerAccountId" type="String" description="Selected or user's Reseller/Tier 2 Partner Account Id." role="inputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

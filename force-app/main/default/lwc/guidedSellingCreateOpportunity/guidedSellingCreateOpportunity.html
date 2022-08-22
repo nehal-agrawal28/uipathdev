@@ -1,0 +1,60 @@
+<template>
+  <div class="slds-align_absolute-center slds-p-bottom_large slds-p-left_large">
+    <lightning-card>
+      <div
+        class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info"
+        role="alert"
+      >
+        <h2>
+          There are no active Contracts for this Account. Please continue to
+          create a new Opportunity. Note that contracts that ended over 2 months
+          ago are considered inactive and cannot be renewed.
+        </h2>
+      </div>
+
+      <lightning-record-edit-form
+        object-api-name="Opportunity"
+        record-type-id={recordTypeId}
+        onsuccess={navigateToViewOptyPage}
+        onerror={handleError}
+      >
+        <lightning-messages></lightning-messages>
+
+        <lightning-input-field field-name="Name"></lightning-input-field>
+        <lightning-input-field field-name="CloseDate"></lightning-input-field>
+        <lightning-input-field field-name="LeadSource"></lightning-input-field>
+        <lightning-input-field
+          field-name="Deal_Type__c"
+        ></lightning-input-field>
+        <lightning-input-field
+          field-name="Do_We_Know_End_Customer__c"
+        ></lightning-input-field>
+        <lightning-input-field
+          field-name="BPO_MS_End_Customer__c"
+        ></lightning-input-field>
+
+        <lightning-input-field field-name="StageName"></lightning-input-field>
+
+        <label for="AccountIdinput">Account</label>
+        <lightning-input-field
+          id="AccountIdinput"
+          field-name="AccountId"
+          value={accountId}
+          variant="label-hidden"
+          disabled
+        ></lightning-input-field>
+
+        <footer class="slds-card__footer">
+          <template if:false={isSubmitted}>
+            <a class="slds-button slds-button_brand" onclick={handleSubmit}>
+              Create Opportunity
+            </a>
+          </template>
+          <template if:true={isSubmitted}>
+            <lightning-spinner variant="brand"></lightning-spinner>
+          </template>
+        </footer>
+      </lightning-record-edit-form>
+    </lightning-card>
+  </div>
+</template>

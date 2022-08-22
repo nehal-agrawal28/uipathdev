@@ -1,0 +1,77 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes"  controller="CustomerCommunityServicesCntl" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+     <aura:attribute name="isPremiumAccount" type="Boolean" default="false"/>
+   
+     <div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+        <div class="slds-grid slds-m-around_small">
+            <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">            
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!$Label.c.Customer_Community_Services}">{!$Label.c.Customer_Community_Services}</h1>
+                        <p class="slds-text-body_small slds-line-height_reset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+        </div>
+    </div>
+     <div>
+        <aura:if isTrue="{!v.isPremiumAccount}">
+            <div class="cards-container ">
+                <ul class="cards list-unstyled">
+                    <li class="card" > <!--onclick="{!c.onGetStartedClick}"-->
+                        <div>
+                            <a href="/customer/s/premiumservicepage">
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Community_PS_PremiumServiceTab}</h4>
+                            </a>
+                          
+                        </div>
+                    </li>
+                     <li class="card" > <!--onclick="{!c.onGetStartedClick}"-->
+                        <div>
+                            <a href="javaScript:void(0)" onclick="">
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Customer_Contact_your_Technical_Advisor}</h4>
+                            </a>
+                           
+                        </div>
+                    </li>
+                     <li class="card" > <!--onclick="{!c.onGetStartedClick}"-->
+                        <div>
+                            <a href="javaScript:void(0)" onclick="">
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Community_PS_phonesupportTab}</h4>
+                            </a>
+                      </div>
+                    </li>
+                    
+                </ul>
+            </div>
+              <aura:set attribute="else">
+                   <div class="cards-container ">
+                       <ul class="cards list-unstyled">
+                        <li class="card overlay" > <!--onclick="{!c.onGetStartedClick}"-->
+                            <div>
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Community_PS_PremiumServiceTab}</h4>
+                            </div>
+                        </li>
+                            <li class="card overlay" > <!--onclick="{!c.onGetStartedClick}"-->
+                            <div>
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Customer_Contact_your_Technical_Advisor}</h4>
+                            </div>
+                        </li>
+                            <li class="card overlay" > <!--onclick="{!c.onGetStartedClick}"-->
+                            <div>
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Community_PS_phonesupportTab}</h4>
+                            </div>
+                        </li>
+                       </ul>
+                  </div>
+            </aura:set>
+         </aura:if>
+    </div>
+</aura:component>

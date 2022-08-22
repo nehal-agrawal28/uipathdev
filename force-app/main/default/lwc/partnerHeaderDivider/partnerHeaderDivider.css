@@ -1,0 +1,10 @@
+.partner-header-divider {
+    margin-bottom: 2em;
+    content: '';
+    top: 0;
+    left: 0;
+    background: #fa4616;
+    border-radius: 0px;
+    height: 4px;
+    width: 80px;
+}

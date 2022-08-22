@@ -1,0 +1,41 @@
+<aura:component >
+    <ltng:require
+                          scripts="{!join(',', 
+                                   $Resource.jquery
+                                   )
+                                   }" afterScriptsLoaded="{!c.onScriptLoaded}"/>
+    
+    <aura:attribute name="title" type="String" default="Ui-Path"/>
+    <aura:attribute name="description" type="String" default=""/>
+    <aura:attribute name="isSuccess" type="boolean" default="false"/>
+    <aura:attribute name="top" type="String"/>
+    
+    <aura:method name="hide" action="{!c.hide}"/>
+    <aura:method name="showNotification" action="{!c.show}"/>
+    
+    <aura:registerEvent name="alertEvent" type="c:AlertModalEvent"/>
+    <div aura:id="myModal" class="modal slds-hide">
+        <!-- Modal content -->
+        <div class="modal-content" style="{! 'transform: translate(0%,' + v.top + ');'}"><!--style="{! 'top :' + v.top}"-->
+            <header class="slds-modal__header">
+                <lightning:buttonIcon iconName="utility:close"
+                                      onclick="{! c.closeModel }"
+                                      alternativeText="close"
+                                      variant="bare-inverse"
+                                      class="slds-modal__close"/>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.title}</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium">
+                <aura:unescapedHtml value="{!v.description}"/>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning:button variant="brand" 
+                                  label="{!$Label.c.J_Close_BtnLabel}"
+                                  title="{!$Label.c.J_Close_BtnLabel}"
+                                  onclick="{! c.closeModel }"/>
+            </footer>
+        </div>
+        
+    </div>
+
+</aura:component>

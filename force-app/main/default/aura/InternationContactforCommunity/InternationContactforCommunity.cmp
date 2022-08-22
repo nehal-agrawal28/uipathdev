@@ -1,0 +1,152 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	
+   <lightning:card  class="slds-has-flexi-truncate" title="Toll Free Numbers" iconName="utility:call">
+       <aura:set attribute="actions"><div class="slds-show_small"><lightning:button class="slds-theme_destructive" iconPosition="left" variant="neutral" label="Back" iconName="utility:chevronleft" onclick="{!c.back}"></lightning:button></div><div class="slds-hide_small"> <lightning:button class="slds-theme_destructive" iconPosition="left" variant="neutral"  iconName="utility:chevronleft" onclick="{!c.back}"></lightning:button></div></aura:set>
+    <aura:set attribute="footer"></aura:set>
+    <div class="slds-card__body_inner slds-p-top_small">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize ="6">
+                <lightning:layout horizontalAlign="spread">
+                    <lightning:layoutItem>
+                        <lightning:tile class="slds-border_bottom" label="Australia">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Australia.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="English">English</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="24*7">24*7</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+61 (1800) 934234"><a href="tel:+61 (1800) 934234">+61 (1800) 934234</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile  class="slds-border_bottom" label="France">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/France.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="French">French</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Mon to Fri (6:00 - 15:00)">Mon to Fri (6:00 - 15:00)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+33 (800) 945645"><a href="tel:+33 (800) 945645">+33 (800) 945645</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile class="slds-border_bottom" label="Japan">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Japan-512.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="English">Japanese</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="24*7">Mon to Fri (3:00 to 12:00 GMT)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+81 (800) 9190291"><a href="tel:+81 (800) 9190291">+81 (800) 9190291</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile class="slds-border_bottom" label="Singapore">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Singapore.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="English">English</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="24*7">24*7</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+65 18003211202"><a href="tel:+65 18003211202">+65 18003211202</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                    
+                        <lightning:tile label="Spain" class="slds-border_bottom">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Spain-512.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Spanish">Spanish</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Mon to Fri(6:00 - 15:00 GMT)">Mon to Fri(6:00 - 15:00 GMT)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+34 (900) 838904"><a href="tel:+34 (900) 838904">+34 (900) 838904</a></dd>
+                                </dl>
+                            </div>
+                            
+                        </lightning:tile>
+                        
+                    </lightning:layoutItem>
+                    <lightning:layoutItem></lightning:layoutItem>
+                </lightning:layout>
+                
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize ="6">
+                <lightning:layout horizontalAlign="spread">
+                    <lightning:layoutItem>
+                        <lightning:tile class="slds-border_bottom" label="China">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/China2.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Chinese">Chinese</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Mon to Fri (1:00 - 10:00 GMT)">Mon to Fri (1:00 - 10:00 GMT)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+86 400 1200848"><a href="tel:+86 400 1200848">+86 400 1200848</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile class="slds-border_bottom" label="Germany">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Germany.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="German">German</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title=" Mon to Fri ( 3:00 to 12:00 GMT)"> Mon to Fri ( 3:00 to 12:00 GMT)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+81 (800) 9190291"><a href="tel:+81 (800) 9190291">+81 (800) 9190291</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile class="slds-border_bottom" label="Russia">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Russia_flag.PNG.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Russian">Russian</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title=" Mon to Fri (5:00 to 14:00 GMT))"> Mon to Fri (5:00 to 14:00 GMT))</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+7 (800) 1009601"><a href="tel:+7 (800) 1009601">+7 (800) 1009601</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile class="slds-border_bottom" label="South Korea">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Southkorea.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Korean">Korean</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title=" Mon to Fri (2:00 - 11:00 GMT)"> Mon to Fri (2:00 - 11:00 GMT)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+82 3083210234"><a href="tel:+82 3083210234">+82 3083210234</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                        <lightning:tile  label="Thailand" class="slds-border_bottom">
+                            <aura:set attribute="media">
+                                <lightning:avatar alternativeText="" size="medium" src="{!$Resource.Flags + '/Thailand-512.png'}" variant="circle"></lightning:avatar>
+                            </aura:set>
+                            <div>
+                                <dl class="slds-wrap slds-list_horizontal"><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Language">Language</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="Thai">Thai</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Timings">Timings</dt>
+                                    <dd class="slds-item_detail slds-truncate" title=" Mon to Fri (1:00 - 10:00 GMT)"> Mon to Fri (1:00 - 10:00 GMT)</dd><dt class="slds-item_label slds-text-color_weak slds-truncate" title="Phone">Phone</dt>
+                                    <dd class="slds-item_detail slds-truncate" title="+66 180 0012663"><a href="tel:+66 180 0012663">+66 180 0012663</a></dd>
+                                </dl>
+                            </div>
+                        </lightning:tile>
+                       
+                    </lightning:layoutItem>
+                    <lightning:layoutItem></lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</lightning:card>
+    
+    
+</aura:component>

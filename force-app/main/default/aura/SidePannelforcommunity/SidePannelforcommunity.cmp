@@ -1,0 +1,133 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <div class="slds-card slds-card_boundary">
+    <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+       
+        <lightning:layoutItem>
+            
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:catalog" size="large" variant="slds-icon-inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                    <a class="" href="https://docs.uipath.com/activities" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">Activities Guide</div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span>UiPath Activities are part of the UiPath Studio application and are designed to help you create a clear and smooth automation process.</span></div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+            
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+        <lightning:layoutItem>
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:code_playground" size="large" variant="slds-icon-inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                    <a class="" href="https://docs.uipath.com/studio" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">Studio Guide</div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span>UiPath Studio is a complete solution for application integration, and automating third-party applications, administrative IT tasks and business IT processes. One of the most important notions in Studio is the automation project.</span></div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+        <lightning:layoutItem>
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:bot" size="large" variant="inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                    <a class="" href="https://docs.uipath.com/robot" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">Robot Guide</div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span>The Robot is UiPath’s execution agent that enables you to run workflows built in Studio.</span></div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+        <lightning:layoutItem>
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:customer_portal_users" size="large" variant="slds-icon-inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                    <a class="" href="https://docs.uipath.com/orchestrator" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">Orchestrator Guide </div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span>UiPath Orchestrator is a web application that enables you to orchestrate your UiPath Robots in executing repetitive business processes.</span></div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+    <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+        <lightning:layoutItem>
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:default" size="large" variant="slds-icon-inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                    <a class="" href="https://docs.uipath.com/cloudplatform" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">UiPath Cloud Platform</div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span>UiPath Cloud Platform is our cloud-based Enterprise SaaS solution, ready to provision and use immediately, which helps you manage all your automation work and resources in one place. It enables you to deploy, operate, and scale your robotic factory in just a few seconds</span></div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+          <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+        <lightning:layoutItem>
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:product_required" size="large" variant="slds-icon-inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                     <a class="" href="https://docs.uipath.com/releasenotes" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">Release Notes</div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span>Welcome to the UiPath Release Notes guide. You'll find comprehensive information about all the versions that have been released within the UiPath ecosystem. It includes all major and minor releases, as well as hotfixes.</span></div>
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+         <lightning:layout class="slds-p-around_medium slds-border_bottom" horizontalAlign="spread" verticalAlign="center">
+        <lightning:layoutItem>
+            <div class="slds-media slds-media_center">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:social" size="large" variant="slds-icon-inverse"></lightning:icon>
+                </div>
+                <div class="slds-media__body">
+                    <a class="" href="https://docs.uipath.com/integrations" target="_blank" rel="noopener noreferrer">
+                    <div style="font-size: 1rem;">UiPath Integrations</div>
+                    </a>
+                    <div style="font-size: 0.8125rem;"><span></span></div>Welcome to the UiPath Integrations guide. You will find comprehensive guides and documentation to help you start working with UiPath Integrations, as well as support if you get stuck.
+                </div>
+                <div class="slds-media__figure slds-media__figure_reverse"></div>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem></lightning:layoutItem>
+    </lightning:layout>
+        
+        
+        
+        
+</div>
+    
+</aura:component>

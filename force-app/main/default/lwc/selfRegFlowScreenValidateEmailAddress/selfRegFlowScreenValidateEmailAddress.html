@@ -1,0 +1,29 @@
+<template>
+    
+    <div class="slds-m-bottom_large flowruntimeRichTextWrapper flowruntimeDisplayText" style="font-size: 14px">
+        An email with a verification code has been sent to your email address
+    </div>
+
+    <div class="slds-p-around_medium lgc-bg">
+        <lightning-input
+            class="inputVerificationCode"
+            label="Please Enter Verification Code"
+            max-length="5"
+            placeholder="Verification Code"
+            required
+            type="text">
+        </lightning-input>
+    </div>
+
+    <footer class="slds-card__footer">
+        <div>
+            <lightning-button class="margin-right-footer-button" label={customLabels.PREVIOUS} variant="neutral" onclick={onclickBtnPrevious}></lightning-button>
+            <lightning-button label='Submit' variant="brand" onclick={onclickBtnSubmit}></lightning-button>
+        </div>
+    </footer>
+
+    <template if:false={isLoaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+</template>

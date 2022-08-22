@@ -1,0 +1,54 @@
+<template>
+    <div class="slds-card slds-p-horizontal_medium slds-p-bottom_medium slds-is-relative card-container">
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium"></lightning-spinner>
+
+        <div class="slds-page-header slds-page-header_record-home">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div if:true={tableTitleIcon} class="slds-media__figure">
+                            <lightning-icon icon-name={tableTitleIcon} alternative-text={tableTitle} title={tableTitle}>
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate">{tableTitle}</span>
+                                        <span if:true={tableSubTitle}>{tableSubTitle}</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh"
+                                                           title="Refresh Table" onclick={refreshCurrentData}>
+                                    </lightning-button-icon>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data table view -->
+        <template if:true={tableData}>
+            <div>
+                <c-deal-builder-data-table has-selection="true" has-pagination="true"
+                                           no-data-message={tableNoDataMessage} column-data={tableData.columns}
+                                           row-data={tableData.rows} onrowaction={handleTableRowAction}>
+                </c-deal-builder-data-table>
+            </div>
+        </template>
+        <template if:false={tableData}>
+            <c-deal-builder-table-stencil></c-deal-builder-table-stencil>
+        </template>
+    </div>
+</template>

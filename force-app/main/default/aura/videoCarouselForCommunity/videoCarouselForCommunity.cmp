@@ -1,0 +1,46 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:appHostable" access="global" controller="CustomerCommunityServicesCntl" >
+        <meta http-equiv="Content-Security-Policy" content="default-src *; video-src 'self' https://drive.google.com/ 'unsafe-inline'; video-src 'self'  'unsafe-inline' 'unsafe-eval'" />
+    <aura:attribute name="slideIndex" access="global" type="Integer"/>
+    <aura:attribute name="totalVideos" access="global" type="Integer"/>
+    <aura:attribute name="captionForVideo" access="global" type="String"/>
+    <aura:attribute name="allVideos" access="global" type="List"/>
+    <aura:attribute name="srcUrl" access="global" type="String" />
+    <aura:attribute name="selectedVideo" access="global" type="Object" />
+    <aura:attribute name="width" access="global" type="Decimal" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- Container for the image gallery -->
+    <div class="container">
+        
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_2-of-12" style="margin-top: 5%;">
+                <div class="column" style="width:100%;">
+                    <aura:iteration items="{!v.allVideos}"  var="eachVideo">
+                        <div class="row">
+                            <div class="demo cursor index" id="{!'Video-'+eachVideo.Order}" src="{!eachVideo.ImageURL}" onclick="{!c.currentSlide}" alt="{!eachVideo.Name}">
+                                {!eachVideo.Caption}
+                            </div>  
+                        </div>
+                    </aura:iteration> 
+                </div>
+            </div>
+            <div class="slds-col slds-size_10-of-12">
+                <div class="caption-container" style="display:inline-flex;width:100%;">
+                        <p aura:id="caption" style="width: 90%;padding-left: 10%;">{!v.selectedVideo.Caption}</p>
+                        <div class="numbertext">{!v.selectedVideo.Order} / {!v.totalVideos}</div>
+                </div>
+                <br/>
+                <iframe name="videoPlayer" style="height: 530px; width: 100%;" class="video-player" src="{!v.selectedVideo.URL}" aura:id="videoPlayer"
+                                        allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"> </iframe>
+            </div>
+
+        </div>
+        
+        
+        
+        <!-- Full-width images with number text -->
+        
+        <!-- Thumbnail images -->
+        
+    </div>
+</aura:component>

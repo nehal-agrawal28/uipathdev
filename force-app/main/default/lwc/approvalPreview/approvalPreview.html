@@ -1,0 +1,100 @@
+<template>
+	<div class="slds-is-relative ap-container">
+
+		<!-- Loading spinner -->
+		<template if:true={loading}>
+			<lightning-spinner size="medium"
+							   alternative-text="Loading...">
+			</lightning-spinner>
+		</template>
+
+		<template if:true={wrapper}>
+			<!-- Approval preview UI -->
+			<div class="slds-grid slds-wrap">
+				<div
+					 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-var-p-bottom_large slds-var-p-left_medium">
+					<div class="approval-ui side-border slds-var-p-around_medium">
+						<div class="slds-text-heading_medium slds-var-p-bottom_large text-upper">
+							Approval Preview
+						</div>
+
+						<div class="a-image-line-container">
+							<template iterator:it={wrapper.approvalSteps}>
+								<div key={it.value.stepNumber}
+									 class="a-image-container">
+									<template if:false={it.value.selfOrManual}>
+										<img if:false={it.value.isQueue}
+											 src={it.value.approverPhotoUrl}
+											 class="a-image clickable"
+											 alt={it.value.approver}
+											 data-user-id={it.value.approverId}
+											 onclick={handleUserClick} />
+										<img if:true={it.value.isQueue}
+											 src={avatarUrl}
+											 class="a-image"
+											 alt={it.value.approver} />
+									</template>
+									<template if:true={it.value.selfOrManual}>
+										<img src={avatarUrl}
+											 class="a-image"
+											 alt="Approval" />
+									</template>
+								</div>
+								<div key={it.value.stepNumber}
+									 class="a-content slds-var-p-around_x-small slds-var-m-left_medium">
+									<div class="slds-text-title_caps">
+										Approver {it.value.stepNumber}
+									</div>
+									<div class="slds-text-heading_small">
+										<template if:false={it.value.selfOrManual}>
+											{it.value.approver}
+										</template>
+										<template if:true={it.value.selfOrManual}>
+											<template if:true={it.first}>
+												Automatic Approval
+											</template>
+											<template if:false={it.first}>
+												User Approval
+											</template>
+										</template>
+									</div>
+									<lightning-formatted-email if:false={it.value.selfOrManual}
+															   value={it.value.approverEmail}>
+									</lightning-formatted-email>
+								</div>
+
+								<template if:false={it.last}>
+									<div key={it.value.stepNumber}
+										 class="a-line"></div>
+								</template>
+							</template>
+						</div>
+					</div>
+				</div>
+				<!-- Approval submit UI -->
+				<div
+					 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-var-p-left_medium">
+					<div class="submit-ui slds-var-p-around_medium">
+						<div class="slds-text-heading_medium text-upper slds-var-p-bottom_large">
+							Submit record for approval (Deprecated)
+						</div>
+
+						<lightning-textarea placeholder="Type here"
+											class="slds-var-m-bottom_medium"
+											name="comments"
+											label="Comments"
+											onchange={handleComments}>
+						</lightning-textarea>
+						<lightning-button icon-name="utility:approval"
+										  variant="brand"
+										  label="Submit"
+										  title="Submit for Approval"
+										  disabled="true"> <!--onclick={submitRecord}-->
+						</lightning-button>
+					</div>
+				</div>
+			</div>
+		</template>
+
+	</div>
+</template>

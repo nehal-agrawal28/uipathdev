@@ -1,0 +1,10 @@
+lightning-card {
+  padding-bottom: 200px;
+  max-width: 500px;
+}
+label {
+  color: rgb(107, 109, 112);
+}
+/* lightning-input-field {
+  max-width: 100px;
+} */

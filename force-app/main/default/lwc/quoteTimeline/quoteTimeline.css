@@ -1,0 +1,118 @@
+:host {
+  --slds-c-card-header-spacing-block-start: 0px;
+  --slds-c-card-header-spacing-block-end: 0px;
+}
+
+.gantt_overlay_area {
+  z-index: 1;
+}
+
+/* normal mode link hide */
+.normal-mode .gantt_task_line .gantt_link_point,
+.normal-mode .gantt_links_area .gantt_task_link {
+  display: none !important;
+}
+
+/* link mode task row hover */
+.link-mode .gantt_row.gantt_row_task {
+  cursor: pointer;
+}
+.link-mode .gantt_row.gantt_row_task:hover {
+  border-bottom: 2px dashed #3db9d369;
+}
+
+/* link hover css */
+.gantt_task_link.finish_to_start:hover .gantt_line_wrapper div {
+  box-shadow: 0px 0px 1px 1px red !important;
+}
+.gantt_task_link.finish_to_start:hover .gantt_link_arrow_right {
+  border-left-color: red !important;
+}
+
+.readonly-message {
+  color: red;
+}
+.calculating-message {
+  color: #e75a05;
+  position: relative;
+}
+
+.quote_start_marker {
+  background-color: #ff00009f;
+}
+.quote_start_marker .gantt_marker_content {
+  right: 1px !important;
+}
+.quote_end_marker {
+  background-color: #ff00009f;
+}
+.contract_start_marker {
+  background-color: #0051ff9f;
+}
+.contract_start_marker .gantt_marker_content {
+  right: 1px !important;
+}
+.billing_segment_marker {
+  background-color: #0051ff9f;
+}
+
+.link_layer {
+  position: relative;
+  z-index: 1;
+  color: rgba(7, 7, 7, 0.87);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 0.75rem;
+}
+
+.task_validation_error {
+  background-color: red;
+}
+.exising_quoteline {
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.1) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 64px 64px;
+}
+.exising_quoteline_removed .gantt_task_content {
+  background-color: #ff0000de;
+}
+.negative_line {
+  background: #ee1f1f6e;
+}
+
+.gantt_task_line,
+.gantt_task_link {
+  transition: opacity 300ms;
+}
+.overlay_visible .gantt_task_line,
+.overlay_visible .gantt_task_link {
+  opacity: 0.5;
+}
+
+/* icon-rotate */
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.icon_rotate {
+  animation: rotateAnimation 1500ms linear infinite;
+}
+
+.calc-wait-header {
+  color: #e75a05;
+}
+.calc-wait-modal {
+  width: 460px !important;
+}

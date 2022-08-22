@@ -1,0 +1,95 @@
+<template>
+    <template if:true={currentOrderItems}>
+        <template for:each={currentOrderItems}
+                  for:item="item">
+            <div key={item.Id}>
+                <div
+                     class="slds-grid slds-wrap slds-gutters_xx-small slds-var-m-bottom_x-small slds-var-p-bottom_x-small slds-border_bottom">
+                    <div class="slds-col slds-size_3-of-12">
+                        <div class={indentClass}>{item.Product2.Name}</div>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12 slds-grid slds-wrap">
+                        <div class="slds-col slds-size_2-of-12">
+                            {item.Quantity}
+                        </div>
+                        <div class="slds-col slds-size_5-of-12">
+                            <lightning-formatted-date-time value={item.ServiceDate}
+                                                           year="2-digit"
+                                                           month="2-digit"
+                                                           day="2-digit"></lightning-formatted-date-time>
+                        </div>
+                        <div class="slds-col slds-size_5-of-12">
+                            <lightning-formatted-date-time value={item.EndDate}
+                                                           year="2-digit"
+                                                           month="2-digit"
+                                                           day="2-digit"></lightning-formatted-date-time>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-grid slds-wrap">
+                        <div class="slds-col slds-size_3-of-12">
+                            <!--<template if:true={fieldPermissionMap.Product_Version__c}>
+                                <lightning-combobox name="product-version"
+                                                    label="Product Version"
+                                                    value={item.Product_Version__c}
+                                                    data-item-id={item.Id}
+                                                    data-item-field="Product_Version__c"
+                                                    variant="label-hidden"
+                                                    options={productList}
+                                                    onchange={dataChange}>
+                                </lightning-combobox>
+                            </template>
+                            <template if:false={fieldPermissionMap.Product_Version__c}>-->
+                                {item.Product_Version__c}
+                            <!--<</template>--> 
+                        </div>
+                        <div class="slds-col slds-size_3-of-12">
+                            <!--<<template if:true={fieldPermissionMap.Orchestration_type__c}>
+                                <lightning-combobox name="orchestration-type"
+                                                    label="Orchestration Type"
+                                                    value={item.Orchestration_type__c}
+                                                    data-item-id={item.Id}
+                                                    data-item-field="Orchestration_type__c"
+                                                    variant="label-hidden"
+                                                    options={orchestrationTypeList}
+                                                    onchange={dataChange}>
+                                </lightning-combobox>
+                            </template>
+                            <template if:false={fieldPermissionMap.Orchestration_type__c}>-->
+                                {item.Orchestration_type__c}
+                            <!--<</template>-->
+                        </div>
+                        <div class="slds-col slds-size_6-of-12">
+                            <template if:true={fieldPermissionMap.License_Codes__c}>
+                                <lightning-input variant="label-hidden"
+                                                 type="text"
+                                                 name="license-code"
+                                                 label="License Codes"
+                                                 data-item-id={item.Id}
+                                                 data-item-field="License_Codes__c"
+                                                 value={item.License_Codes__c}
+                                                 onchange={dataChange}>
+                                </lightning-input>
+                                <!-- <lightning-textarea variant="label-hidden" name="license-code" label="License Codes"
+                                    data-item-id={item.Id} data-item-field="License_Codes__c" value={item.License_Codes__c}
+                                    onchange={dataChange}>
+                                </lightning-textarea> -->
+                            </template>
+                            <template if:false={fieldPermissionMap.License_Codes__c}>
+                                {item.License_Codes__c}
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <c-cpq-order-product-row required-by-id={item.Id}
+                                        is-root-item="false"
+                                        order-items={childrenItem}
+                                        field-permission-map={fieldPermissionMap}
+                                        hierarchy-level={hierarchyLevelChild}
+                                        product-list={productList}
+                                        orchestration-type-list={orchestrationTypeList}>
+                </c-cpq-order-product-row>
+            </div>
+        </template>
+    </template>
+</template>

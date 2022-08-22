@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="sampleLookupContainer">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Lookup Distributor/Reseller Account</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property label="Deal Type" name="dealType" type="String" default="false" role="inputOnly" />
+            <property label="isBpoOpportunity" name="isBpoOpportunity" type="Boolean" default="false" role="inputOnly" />
+            <property label="Users Country" name="userCountry" type="String" default="false" role="inputOnly" />
+            <property label="Distributor Account Id" name="distributorAccountId" type="String" description="Selected or user's Distributor Account Id." role="outputOnly" />
+            <property label="Reseller Account Id" name="resellerAccountId" type="String" description="Selected or user's Reseller/Tier 2 Partner Account Id." role="outputOnly" />
+            <property label="Max Results" name="maxResults" type="Integer" default="5" description="Maximum amount of result items to display in lookup." role="inputOnly" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

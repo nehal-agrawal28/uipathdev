@@ -1,0 +1,127 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:appHostable" controller="CustomerCommunityServicesCntl" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="isFileSelected" type="boolean" default="false" />
+    <aura:attribute name="Serviceobjlist" type="List" />
+    <aura:attribute name="requestTypes" type="List" />
+    <aura:attribute name="accountType" type="String" />
+    <aura:attribute name="startDate" type="Date" />
+    <aura:attribute name="description" type="String" />
+    <aura:attribute name="accId" type="String" />
+    <aura:attribute name="accountName" type="String"/>
+    <aura:attribute name="contactName" type="String"/>
+    <aura:attribute name="contactId" type="String" />
+    <aura:attribute name="TechSupportId" type="String" />
+    <aura:attribute name="Servdesc" type="String"/>
+    <aura:attribute name="selectedRequest" type="Object"/>
+    <aura:attribute name="selectedRequestType" type="String"/>
+    <aura:attribute name="counter" type="Integer" default="0"/>
+    <aura:attribute name="fields" type="String[]" default="['Subject','Service_Type__c','Start_Date__c','Description__c']" />
+    <aura:attribute name="disabled" type="Boolean" default="true" />
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" />
+    <aura:attribute name="errorMessage" type="String" default="{!$Label.c.Mandatory_error_msg}"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="modalTitle" type="String" default="Ui-Path"/>
+    
+    
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="vfHost" type="String" default="" />
+    <aura:attribute name="lcHost" type="String" />
+    <aura:attribute name="frameSrc" type="String" />
+    <aura:attribute name="frameWidth" type="String" default="450" />
+    <aura:attribute name="frameHeight" type="String" default="100"/>
+    <aura:attribute name="captaSrc" type="String" />
+    
+    
+    <c:AlertModal isSuccess="{!v.isSuccess}" title="{!v.modalTitle}" description="{!v.errorMessage}" aura:id="alertModal"/>
+    <div class="slds-grid slds-gutters slds-box slds-wrap">
+        <div class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-3">
+            <span>
+                
+                <lightning:verticalNavigation selectedItem="{!v.selectedRequestType}">
+                    <lightning:verticalNavigationSection label="Request Types" >
+                        <div class="slds-scrollable_y" style="height:35rem;">
+                            <aura:iteration items="{!v.requestTypes}"  var="requestTypes">  
+                                <div class="slds-p-around_xxx-small">
+                                    <div class="slds-list_vertical-space-medium">
+                                        <div class="slds-item">
+                                            <div class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default">
+                                                <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                                    <div style="font-size: 0.8125rem;"><lightning:verticalNavigationItem Classs="" label="{!requestTypes}" name="{!requestTypes}" onclick="{!c.showDescription}"/></div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </aura:iteration>
+                        </div>
+                    </lightning:verticalNavigationSection>
+                </lightning:verticalNavigation>                 
+            </span>
+        </div>
+        <div class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_2-of-3">
+            
+            <div class="text">Description</div>
+            <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
+                                    <div class="slds-icon slds-page-header__icon"><lightning:icon iconName= "standard:opportunity"/></div>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1><span class="slds-page-header__title slds-truncate" title="{!v.selectedRequestType}">{!v.selectedRequestType}</span></h1>
+                                    </div>
+                                </div>
+                                <br/>
+                                <p> <aura:unescapedHtml value="{!v.selectedRequest.Servicedesc}"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="slds-clearfix">                
+                <div class="slds-float_left ">                    
+                    <aura:if isTrue="{!v.showSpinner}">
+                        <lightning:spinner />
+                    </aura:if>
+                    <aura:if isTrue="{!!v.saved}">
+                        <lightning:input type="text" value="{!v.accountName}" label="Account Name" disabled="true"/>
+                        <lightning:input type="text" label="Contact Name" value="{!v.contactName}" disabled="true"/>
+                        <lightning:input type="text" label="Subject" value="{!v.selectedRequestType}" disabled="true" />
+                        <lightning:input type="Date" value="{!v.startDate}" label="Start Date" required="true" onchange="{!c.changeDatecheck}"/>
+                        <c:ItemLabelComp label="Description" desc="" required="true"/>
+                        <lightning:inputRichText value="{!v.description}"/>
+                        
+                        <div class="slds-p-around_small">
+                            <c:ItemLabelComp label="Attachment" desc="{!$Label.c.AttachmentDescription}"/>
+                            <div class="slds-page-header__row">
+                                <div class="slds-page-header__row">
+                                    <div class="slds-page-header__col-details slds-m-top_small">
+                                        <iframe aura:id="vfFrame" src="{!v.frameSrc}" width="{!v.frameWidth}" style="border:none" height="{!v.frameHeight}" class="vfFrame"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-page-header__row">
+                                <div class="slds-page-header__col-details slds-m-top_small">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <lightning:button variant="brand" label="Save" title="Submit" disabled="{!v.disabled}" onclick="{! c.handleSubmitClick }"/>
+                                            <lightning:button variant="brand" name="cancel" label="Cancel" onclick="{!c.handleClick}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>                
+        </div>
+    </div>
+</aura:component>

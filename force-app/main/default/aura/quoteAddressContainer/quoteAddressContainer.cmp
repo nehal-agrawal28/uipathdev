@@ -1,0 +1,185 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="QuoteAddressContainerController" access="global" >
+	
+    <aura:attribute name="quote" type="SBQQ__Quote__c"/>
+    <aura:attribute name="billToAddressPresent" type="Boolean" default="true"/>
+    <aura:attribute name="shipToAddressPresent" type="Boolean" default="true"/>
+    <aura:attribute name="billToAddressId" type="string"/>
+    <aura:attribute name="shipToAddressId" type="string"/>
+    <aura:attribute name="billToAddress" type="Address__c"/>
+    <aura:attribute name="shipToAddress" type="Address__c"/>
+    <!-- modal attributes -->
+    <aura:attribute name="modalHeader" type="String" default="Select Address"/>
+    <aura:attribute name="modalMessage" type="String" default=""/>
+	<aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="selectorMode" type="string"/>    
+    <aura:attribute name="addressOptionsList" type="Address__c[]"/> 
+    <aura:attribute name="selectedAddress" type="String"/> 
+    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:card class="slds-card__header-link slds-truncate" 
+                    title="Quote Addresses"
+                    iconName="standard:address">
+        <table class="slds-table slds-table_bordered 
+                      slds-max-medium-table_stacked-horizontal slds-p-horizontal_small" role="grid">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th class="slds-cell-shrink" scope="col">
+                        <div class="slds-truncate" title="Bill To Address">Bill To Address</div>
+                    </th>
+                    <th class="slds-cell-shrink" scope="col">
+                        <div class="slds-truncate" title="Ship To Address">Ship To Address</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="slds-hint-parent">
+                    <td data-label="Bill To Address">
+                        <div class="slds-truncate slds-cell-wrap" title="Bill To Address">
+                            <aura:if isTrue="{!v.billToAddressPresent}">
+                                {!v.billToAddress.Account__r.Name}<br/>
+                                {!v.billToAddress.Attention__c}<br/>
+                                {!v.billToAddress.JP_Attention_2__c}<br/>
+                                {!v.billToAddress.Street_Line_1__c}<br/>
+                                {!v.billToAddress.Street_Line_2__c}<br/>
+                                {!v.billToAddress.City__c}, {!v.billToAddress.State__c} {!v.billToAddress.Zip_Postal_Code__c}<br/>
+                                {!v.billToAddress.Country__c}<br/>            
+                                <aura:set attribute="else">
+                                    No bill to address selected.<br/>                                    
+                                </aura:set>
+                            </aura:if> 
+                        </div>
+                    </td>
+                    <td data-label="Ship To Address">
+                        <div class="slds-truncate slds-cell-wrap" title="Ship To Address">
+                            <aura:if isTrue="{!v.shipToAddressPresent}">
+                                {!v.shipToAddress.Account__r.Name}<br/>
+                                {!v.shipToAddress.Attention__c}<br/>
+                                {!v.shipToAddress.JP_Attention_2__c}<br/>
+                                {!v.shipToAddress.Street_Line_1__c}<br/>
+                                {!v.shipToAddress.Street_Line_2__c}<br/>
+                                {!v.shipToAddress.City__c}, {!v.shipToAddress.State__c} {!v.shipToAddress.Zip_Postal_Code__c}<br/>
+                                {!v.shipToAddress.Country__c}<br/>            
+                                <aura:set attribute="else">
+                                    No ship to address selected.<br/>
+                                </aura:set>
+                            </aura:if> 
+                        </div>
+                    </td>
+                </tr>
+                <tr class="slds-hint-parent">
+                    <td data-label="Bill To Address">
+                        <div class="slds-truncate" title="Bill To Address">
+                            <aura:if isTrue="{!v.billToAddressPresent}">        
+                                <lightning:button label="Change Bill To Address" variant="brand" onclick="{!c.handleSelectBillToClick}"/><br/>
+                                <aura:set attribute="else">
+                                    <lightning:button label="Select Bill To Address" variant="brand" onclick="{!c.handleSelectBillToClick}" /><br/>
+                                </aura:set>
+                            </aura:if> 
+                        </div>
+                    </td>
+                    <td data-label="Ship To Address">
+                        <div class="slds-truncate" title="Ship To Address">
+                            <aura:if isTrue="{!v.shipToAddressPresent}">         
+                                <lightning:button label="Change Ship To Address" variant="brand" onclick="{!c.handleSelectShipToClick}"/><br/>
+                                <aura:set attribute="else">
+                                    <lightning:button label="Select Ship To Address" variant="brand" onclick="{!c.handleSelectShipToClick}" /><br/>
+                                </aura:set>
+                            </aura:if> 
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </lightning:card>
+    
+    
+    <!-- Modal -->
+	<div class="slds-m-around--xx-large">     
+        <aura:if isTrue="{!v.isOpen}">      
+            <!--###### MODAL BOX Start From Here ######--> 
+            <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                    <div class="slds-modal__header">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+                            X
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="header99" class="slds-text-heading--medium">{!v.modalHeader}</h2>
+                    </div>
+                    <!--###### MODAL BOX BODY Part Start From Here ######-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        {!v.modalMessage}<br/>
+                        <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-p-horizontal_small" role="grid">
+                            <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th class="slds-cell-shrink" scope="col">  
+                                        <!-- No title only action , for selection checkbox header -->
+                                    </th>
+                                    <th class="slds-cell-shrink" scope="col">
+                                        <div class="slds-truncate" title="Account Name">Account Name</div>
+                                    </th>
+                                    <th class="slds-cell-shrink" scope="col">
+                                        <div class="slds-truncate" title="Address ID">Address ID</div>
+                                    </th>
+                                    <th class="slds-cell-shrink" scope="col">
+                                        <div class="slds-truncate" title="Address">Address</div>
+                                    </th>
+                                    <th class="slds-cell-shrink" scope="col">
+                                        <div class="slds-truncate" title="Prim. Bill To">Primary<br/>Bill To</div>
+                                    </th>
+                                    <th class="slds-cell-shrink" scope="col">
+                                        <div class="slds-truncate" title="Prim. Ship To">Primary<br/>Ship To</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Iterates the collection of records stored in the data attribute-->
+                                <aura:iteration items="{!v.addressOptionsList}" var="address">
+                                    <tr class="slds-hint-parent">
+                                        <td data-label="" scope="row">  
+                                            <!-- checkbox selection invokes the onCheckboxChange controller method-->
+                                            <ui:inputRadio aura:id="rowSelectionCheckboxId" name="{!address.Id}" value="false" text="{!address.Id}" change="{!c.onCheckboxChange}"/>
+                                        </td>
+                                        <td data-label="Account Name">  
+                                            <div class="slds-truncate" title="{!address.Account__r.Name}">{!address.Account__r.Name}</div>
+                                        </td>
+                                        <td data-label="Address ID">  
+                                            <div class="slds-truncate" title="{!address.Name}">{!address.Name}</div>
+                                        </td>
+                                        <td data-label="Address">
+                                            <div class="slds-truncate slds-cell-wrap" title="{!address.Account__r.Name}">
+                                                {!address.JP_Attention_2__c}<br/>
+                                                {!address.Attention__c}<br/>
+                                                {!address.Street_Line_1__c}<br/>
+                                                {!address.Street_Line_2__c}<br/>
+                                                {!address.City__c}, {!address.State__c} {!address.Zip_Postal_Code__c}<br/>
+                                                {!address.Country__c}<br/> 
+                                            </div>
+                                        </td>
+                                        <td data-label="Prim. Bill To">  
+                                            <ui:outputCheckbox aura:id="outputCheckbox" value="{!address.Primary_Billing__c}"/>
+                                        </td>
+                                        <td data-label="Prim. Ship To">  
+                                            <ui:outputCheckbox aura:id="outputCheckbox" value="{!address.Primary_Shipping__c}"/>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button--neutral" onclick="{!c.closeModal}">Cancel</button>
+                        <button class="slds-button slds-button--brand" onclick="{!c.selectAndCloseModal}">Ok</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>		
+            <!--###### MODAL BOX Part END Here ######-->
+        </aura:if>
+	</div>
+    
+</aura:component>

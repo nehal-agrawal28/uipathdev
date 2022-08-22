@@ -1,0 +1,127 @@
+<template>
+    <template if:true={isVisible}>
+        <div class="slds-card slds-is-relative">
+            <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="medium">
+            </lightning-spinner>
+
+            <div class="slds-page-header slds-page-header_record-home">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <lightning-icon size="x-small" icon-name="action:new_task" alternative-text="Async Jobs"
+                                                title="Async Jobs">
+                                </lightning-icon>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate">
+                                                Async Jobs
+                                            </span>
+                                            <span>
+                                                Asynchronous jobs related to this record
+                                            </span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-page-header__col-actions">
+                        <div class="slds-page-header__controls">
+                            <div class="slds-page-header__control">
+                                <ul class="slds-button-group-list">
+                                    <li>
+                                        <!-- <button class="slds-button slds-button_neutral" onclick={refreshTable}>
+                                            RefreshTable
+                                        </button> -->
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-scrollable_x">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                       aria-label="Example default base table of Opportunities">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Async Task">Async Task</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Type">Type</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Desciption">Desciption</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Retry Count">Retry Count</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Status">Status</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="action">&nbsp;</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <template for:each={asyncTasks} for:item="task" for:index="index">
+                            <tr key={task.Id} class="slds-hint-parent">
+                                <td>
+                                    <div class="slds-truncate" title="Async Task">
+                                        <a href={task.url} target="_blank">{task.Name}</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate" title="Type">
+                                        {task.Type__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate" title="Desciption">
+                                        {task.UIMessage__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate" title="Retry Count">
+                                        {task.RetryCount__c}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate" title="Status">
+                                        <span if:true={task.isError} class="status red">
+                                            {task.Status__c}
+                                        </span>
+                                        <span if:true={task.isSuccess} class="status green">
+                                            {task.Status__c}
+                                        </span>
+                                        <span if:true={task.isOther} class="status yellow">
+                                            {task.Status__c}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td if:true={task.allowRetry} class="slds-text-align_center">
+                                    <span class="clickable">
+                                        <lightning-button-menu variant="bare" menu-alignment="auto" class="row-action">
+                                            <lightning-menu-item value="Retry" label="Retry" data-index={index}
+                                                                 onclick={retryTask}>
+                                            </lightning-menu-item>
+                                        </lightning-button-menu>
+                                    </span>
+                                </td>
+                                <td if:false={task.allowRetry}></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+</template>

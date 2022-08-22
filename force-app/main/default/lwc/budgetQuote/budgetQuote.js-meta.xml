@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Budget Quote</masterLabel>
+    <description>Manage renewal uplift on Contract</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="opportunityId" type="String" label="OpportunityId" description="Opportunity Id" />
+            <property name="durationMonths" type="Integer" label="Duration (Months)" description="Duration (Months)" />
+            <property name="totalAmount" type="Integer" label="Total Amount" description="Total Amount" />
+            <property name="productIds" type="String" label="Product Ids" description="Comma separated Product Ids" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

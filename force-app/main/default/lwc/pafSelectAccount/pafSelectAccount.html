@@ -1,0 +1,45 @@
+<template>
+    <div class="slds-section slds-is-open">
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Configure Lead Conversion">Configure Lead Conversion</span>
+        </h3>
+        <div aria-hidden="false" class="slds-section__content">
+            <lightning-radio-group
+                label="Convert Lead into Account by"
+                onchange={handleChangeLeadIntoAccount}
+                options={leadIntoAccountOptions}
+                type="button"
+                value={leadIntoAccountValue}
+            >
+            </lightning-radio-group>
+            <div if:true={showSearchAccount} class="slds-m-top_x-small">
+                <c-lookup
+                    class="account-lookup"
+                    onsearch={handleLookupSearchAccount}
+                    onselectionchange={handleSelectionChangeAccount}
+                    placeholder="Search Accounts..."
+                >
+                </c-lookup>
+            </div>
+            <div if:true={showContactOptions} class="slds-m-top_x-small">
+                <lightning-radio-group
+                    label="Convert Lead into Contact by"
+                    onchange={handleChangeLeadIntoContact}
+                    options={leadIntoContactOptions}
+                    type="button"
+                    value={leadIntoContactValue}
+                >
+                </lightning-radio-group>
+            </div>
+            <div if:true={showSearchContact} class="slds-m-top_x-small">
+                <c-lookup
+                    class="contact-lookup"
+                    onsearch={handleSearchContact}
+                    onselectionchange={handleSelectionChangeContact}
+                    placeholder="Search Contacts..."
+                >
+                </c-lookup>
+            </div>
+        </div>
+    </div>
+</template>

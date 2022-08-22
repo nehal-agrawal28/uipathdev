@@ -1,0 +1,83 @@
+<!--
+*******************************************************************************
+* @author         :    Bharti Mewada
+* @date           :    Sept 2019
+* @description    :    This component will be used to override the Opportunity Product edit button in lighting. For CPQ opportunity displays readonly page.
+* @Revisions      :
+        #1        :   Created 
+*******************************************************************************
+-->
+
+<aura:component implements="lightning:actionOverride,force:hasRecordId" access="global">
+
+	<aura:attribute name="oliRecord" type="Object" />
+
+	<force:recordData recordId="{!v.recordId}"
+					  targetFields="{!v.oliRecord}"
+					  fields="Id, OpportunityId, CPQ_Opp__c"/>
+
+
+	<div class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container" >
+			<div class="slds-modal__header">
+				<h2 class="slds-text-heading--medium">Opportunity Product</h2>
+			</div>
+			<div class="slds-modal__content slds-p-around--medium slds-grid slds-wrap ">
+				<aura:if isTrue="{!v.oliRecord.CPQ_Opp__c}">
+				<lightning:recordViewForm recordId="{!v.recordId}" objectApiName="OpportunityLineItem">
+					<div class="slds-grid">
+						<div class="slds-col slds-size_1-of-2">
+							<lightning:outputField fieldName="Name"/>
+							<lightning:outputField fieldName="Start_Date_Truncated__c"/>
+							<lightning:outputField fieldName="End_Date__c"/>
+							<lightning:outputField fieldName="Discount"/>
+							<lightning:outputField fieldName="Total_Discount__c"/>
+							<lightning:outputField fieldName="Yearly_Unit_Price__c"/>
+							<lightning:outputField fieldName="UnitPrice"/>
+							<lightning:outputField fieldName="TotalPrice"/>
+							<lightning:outputField fieldName="Business_Type__c"/>
+							<lightning:outputField fieldName="Product_Family__c"/>
+							<lightning:outputField fieldName="License_Model__c"/>
+							<lightning:outputField fieldName="Unit_of_measure__c"/>
+							<lightning:outputField fieldName="Asset__c"/>
+							<lightning:outputField fieldName="ACV__c"/>
+							<lightning:outputField fieldName="TCV__c"/>
+							<lightning:outputField fieldName="TCV_Alt_Mode__c"/>
+							<lightning:outputField fieldName="Contract_Duration_Days__c"/>
+						</div>
+						<div class="slds-col slds-size_2-of-2">
+							<lightning:outputField fieldName="Product2Id"/>
+							<lightning:outputField fieldName="Product_Version__c"/>
+							<lightning:outputField fieldName="Vendor__c"/>
+							<lightning:outputField fieldName="Type__c"/>
+							<lightning:outputField fieldName="Quantity"/>
+							<lightning:outputField fieldName="License_Codes__c"/>
+							<lightning:outputField fieldName="Comments__c"/>
+							<lightning:outputField fieldName="Add_On_For__c"/>
+							<lightning:outputField fieldName="DRR__c"/>
+							<lightning:outputField fieldName="DRR_Variance__c"/>
+							<lightning:outputField fieldName="Opportunity_Product_Type__c"/>
+							<lightning:outputField fieldName="Original_OppPr_Id__c"/>
+							<lightning:outputField fieldName="Is_Add_On__c"/>
+							<lightning:outputField fieldName="CreatedById"/>
+							<lightning:outputField fieldName="LastModifiedById"/>
+						</div>
+					</div>
+				</lightning:recordViewForm>
+					<aura:set attribute="else">
+						<lightning:recordForm
+								recordId="{!v.recordId}"
+								objectApiName="OpportunityLineItem"
+								layoutType="Full"
+								columns="2"
+								mode="edit" />
+					</aura:set>
+				</aura:if>
+
+			</div>
+			<div class="slds-modal__footer">
+				<lightning:button variant="neutral" label="Back" onclick="{!c.cancelDialog}"/>
+			</div>
+		</div>
+	</div>
+</aura:component>

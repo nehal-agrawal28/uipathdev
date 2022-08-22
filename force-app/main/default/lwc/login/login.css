@@ -1,0 +1,64 @@
+.login-form-error {
+  color: var(--lwc-ErrorTextColor, rgb(250, 70, 22));
+}
+
+.login-form-input {
+  margin-bottom: 10px;
+  padding: 12px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.login-form-input-icon {
+  position: absolute;
+}
+
+.login-form-input input {
+  margin-left: 1.5rem;
+  margin-top: 3px;
+  border: 0 solid transparent;
+  width: calc(100% - 20px);
+  -webkit-appearance: none;
+  font-size: 16px;
+  padding: 1px 2px;
+  line-height: normal;
+  min-height: unset;
+  box-shadow: none;
+}
+
+.login-form-button {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  color: var(--lwc-colorTextButtonBrand, rgb(255, 255, 255));
+  cursor: pointer;
+  background-color: var(--lwc-colorBackgroundButtonBrand, rgb(250, 70, 22));
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-family: var(--lwc-fontFamily, "Open Sans");
+  font-weight: 700;
+  line-height: 2;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.login-form-button:hover {
+  background-color: var(--lwc-colorBackgroundButtonBrandHover, #d83105);
+}
+
+.login-form-button:focus {
+  background-color: var(--lwc-colorBackgroundButtonBrandHover, #d83105);
+  outline: 0;
+}

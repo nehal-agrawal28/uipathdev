@@ -1,0 +1,138 @@
+<template>
+	<section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+			 aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+		<div class="slds-modal__container">
+			<header class="slds-modal__header">
+				<lightning-button-icon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+									   icon-name="utility:close" variant="bare-inverse" size="large"
+									   onclick={hideOpportunityModal}>
+				</lightning-button-icon>
+				<h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New Opportunity</h2>
+			</header>
+			<template if:true={askConfirmation}>
+				<div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id">
+					<div class="slds-align_absolute-center">
+						<article class="slds-tile detail-container">
+							<h3 class="slds-tile__title" title="This account has Active Contracts. Creating a new contract Opportunity is strongly
+                                    discouraged.">
+								<span>
+									This account has Active Contracts. UiPath is making an active effort to consolidate
+									contracts towards a single anniversary date. This will make opportunity management
+									easier for our customers and improve our effectiveness.
+									<b> Creating a new contract Opportunity is strongly discouraged.</b> Instead you
+									should Upsell against an existing Contract using the Upsell function of the Deal
+									Builder, on the previous screen.
+								</span>
+							</h3>
+							<br />
+							<div class="slds-tile__detail">
+								<ul class="slds-list_dotted opp-warning-list">
+									<li class="slds-m-bottom_medium">
+										<b>For Upsells/Swaps: </b>
+										In Active Contracts section find the correct Contract you’d like to co-term to
+										and select "Upsell". This will generate an amendment Opportunity and Quote for
+										you.
+									</li>
+									<li>
+										<b>For Renewals: </b>
+										Please do not create a new opportunity to renew an existing contract. Each
+										contract contains a system generated renewal. Please reach out to your renewal
+										specialist who will be able to guide you.
+									</li>
+								</ul>
+							</div>
+							<div class="message-container">
+								<div class="slds-text-heading_small">
+									<lightning-input type="checkbox" class="ack-checkbox" variant="label-hidden"
+													 label="Ack" onclick={handleAcknowledged}>
+									</lightning-input>
+									&nbsp;The creation of multiple active contracts is being actively monitored by
+									sales leadership. Please acknowledge that you’d still want to continue creating a
+									new stand alone Opportunity and you understand this will generate an additional
+									Contract on this customer Account.
+								</div>
+							</div>
+						</article>
+					</div>
+				</div>
+				<footer class="slds-modal__footer slds-text-align_center footer-height">
+					<lightning-button variant="neutral" class="slds-var-m-right_x-small" label="Cancel" title="Cancel"
+									  onclick={hideOpportunityModal}>
+					</lightning-button>
+					<lightning-button variant="brand" if:false={isAcknowledged} label="Confirm" title="Confirm"
+									  disabled="true">
+					</lightning-button>
+					<lightning-button variant="brand" if:true={isAcknowledged} label="Confirm" title="Confirm"
+									  onclick={handleConfirmation}>
+					</lightning-button>
+				</footer>
+			</template>
+
+			<template if:false={askConfirmation}>
+				<template if:true={oppFields}>
+					<lightning-record-edit-form record-id="" object-api-name="Opportunity" onload={handleLoad}
+												onsuccess={handleSuccess} onsubmit={handleSubmit} onerror={handleError}
+												record-type-id={cpqDefaultRT}>
+						<div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id-1">
+							<template if:true={showSpinner}>
+								<lightning-spinner alternative-text="Loading..."></lightning-spinner>
+							</template>
+							<template if:false={oppFormLoaded}>
+								<lightning-spinner alternative-text="Loading..."></lightning-spinner>
+							</template>
+
+							<template if:true={creditHoldMessage}>
+								<c-alert-message message={creditHoldMessage} theme="Warning">
+								</c-alert-message>
+							</template>
+
+							<lightning-messages></lightning-messages>
+							<div class="slds-grid slds-gutters slds-wrap">
+								<template for:each={oppFields} for:item="field">
+									<div key={field.fieldAPI}
+										 class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+										<template if:true={field.defaultValue}>
+											<lightning-input-field value={field.defaultValue}
+																   field-name={field.fieldAPI} disabled={field.disabled}
+																   required={field.required}>
+											</lightning-input-field>
+										</template>
+										<template if:false={field.defaultValue}>
+											<lightning-input-field field-name={field.fieldAPI} disabled={field.disabled}
+																   required={field.required}>
+											</lightning-input-field>
+										</template>
+									</div>
+								</template>
+							</div>
+						</div>
+						<footer class="slds-modal__footer slds-text-align_center footer-height">
+							<template if:true={oppFormLoaded}>
+								<lightning-button variant="neutral" class="slds-var-m-right_x-small" label="Cancel"
+												  title="Cancel" onclick={hideOpportunityModal}>
+								</lightning-button>
+								<lightning-button if:false={showSpinner} type="submit" variant="brand" label="Save"
+												  title="Save">
+								</lightning-button>
+								<lightning-button if:true={showSpinner} variant="brand" label="Save" title="Save"
+												  disabled>
+								</lightning-button>
+							</template>
+						</footer>
+					</lightning-record-edit-form>
+				</template>
+
+				<!-- place holder -->
+				<template if:false={oppFields}>
+					<div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id-0">
+						<template if:true={showSpinner}>
+							<lightning-spinner alternative-text="Loading..."></lightning-spinner>
+						</template>
+					</div>
+					<footer class="slds-modal__footer slds-text-align_center footer-height"></footer>
+				</template>
+			</template>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

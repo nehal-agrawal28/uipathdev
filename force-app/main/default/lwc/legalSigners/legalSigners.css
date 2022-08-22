@@ -1,0 +1,17 @@
+.data-table tr th {
+  padding: 0.25rem 0.2rem;
+}
+.data-table tr th div.text-wrap {
+  margin-right: 12px;
+}
+.data-table tr td {
+  padding: 0.25rem 0.2rem;
+}
+.data-table tr td > div.text-wrap {
+  max-width: 300px;
+  min-height: 25px;
+  white-space: normal;
+}
+.modal-content {
+  min-height: 300px;
+}

@@ -1,0 +1,100 @@
+<aura:component controller="Portal_ViewOpportunity" implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" >
+	
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="opportunity" type="Opportunity" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-form slds-form_compound">
+  		<fieldset class="slds-form-element">
+            <div class="slds-form-element__group">
+                <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Opportunity Name</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Name}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Client</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Client__c}" />
+                        </div>
+                    </div>
+                </div>
+	            <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Opportunity Vertical</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Opportunity_Vertical__c}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Client's Billing Country</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Client_s_Billing_Country__c}" />
+                        </div>
+                    </div>
+                </div>
+	            <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Client Project Name</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Client_Project_Name__c}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Client Contact Email</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Client_Contact_Email__c}" />
+                        </div>
+                    </div>
+                </div>
+    	        <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Contract Duration (Months)</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Contract_Duration__c}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Potential Opportunity Value</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Potential_Opportunity_Value__c}" />
+                        </div>
+                    </div>
+                </div>
+        	    <div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Description</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Description}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Products offered</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Products_offered__c}" />
+                        </div>
+                    </div>
+                </div>
+            	<div class="slds-form-element__row">
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <label class="slds-form-element__label">Working with other partners on this opp?</label>
+                        <div class="slds-form-element__control">
+                        	<ui:outputText value="{!v.opportunity.Working_with_other_partners_on_this_opp__c}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-size_1-of-2">
+                        <aura:if isTrue="{!v.opportunity.Working_with_other_partners_on_this_opp__c == 'Yes'}">
+                        	<label class="slds-form-element__label">Other Partners Involved</label>
+                        	<div class="slds-form-element__control">
+                        		<ui:outputText value="{!v.opportunity.Other_Partners_Involved__c}" />
+                        	</div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</aura:component>

@@ -1,0 +1,126 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable" controller="CustomerCommunityServicesCntl">    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="isPremiumAccount" type="Boolean" default="false"/>
+   
+    <aura:attribute name="isResponseCame" type="Boolean" default="true"/>
+    
+   <!-- <aura:attribute name="infraCount" type="Integer" default="0"/>
+    <aura:attribute name="optiCount" type="Integer" default="0"/>
+    <aura:attribute name="techCount" type="Integer" default="0"/>-->
+    <aura:handler name="alertEvent" event="c:AlertModalEvent" action="{!c.callBackOnSuccess}"/>
+    
+    <aura:attribute name="errorMessage" type="String" default="Successfully created"/>
+    <aura:attribute name="isSuccess" type="Boolean" default="false"/>
+    <aura:attribute name="modalTitle" type="String" default="Ui-Path"/>
+     <c:AlertModal isSuccess="{!v.isSuccess}" title="{!v.modalTitle}" description="{!v.errorMessage}" aura:id="alertModal"/>
+    <aura:attribute name="userId" type="String" required="true" default=""/>
+    <aura:attribute name="CaseId" type="String" default=""/>
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+   <!-- <aura:attribute name="Serviceobj" type="Premium_Service__c"/>-->
+     <aura:if isTrue="{!v.showLoadingSpinner}">
+     	<c:SpinnerComp/>
+    </aura:if>
+  
+   
+    <div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+        <div class="slds-grid slds-m-around_small">
+            <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">            
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!$Label.c.Customer_Community_Services}">{!$Label.c.Customer_Community_Services}</h1>
+                        <p class="slds-text-body_small slds-line-height_reset"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+        </div>
+    </div>
+   <!-- <div class="">
+        <div class="slds-page-header__row">
+            <c:CustomNotification aura:id="customNotification" title="{!v.modalTitle}" description="{!v.errorMessage}" isSuccess="{!v.isSuccess}"/>
+        </div>
+    </div>-->
+    <div>
+        <aura:if isTrue="{!v.isPremiumAccount}">
+            <div class="cards-container ">
+                <ul class="cards list-unstyled">
+                    <li class="card" > <!--onclick="{!c.onGetStartedClick}"-->
+                        <div><!--
+                            <a href="javaScript:void(0)" onclick="{!c.createInfraTask}">
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Customer_Community_Label_Infra}</h4>
+                            </a>
+                            <aura:if isTrue="{!v.infraCount > 0}">
+                                <div class="itemCount">
+                                    <p class="">{!$Label.c.Customer_community_tile_request_text} &nbsp; {!v.infraCount}</p>
+                                </div>
+                            </aura:if>-->
+                             <a href="/customer/s/premiumservicepage">
+                                <div class="orange-line"></div>
+                                <h4 class="lang">{!$Label.c.Community_PS_PremiumServiceTab}</h4>
+                            </a>
+                        </div>
+                    </li>
+                    <!--<li class="card"> 
+                        <a href="javaScript:void(0)" onclick="{!c.createOptimizationTask}">
+                            <div class="orange-line"></div>
+                            <h4 class="lang">{!$Label.c.Customer_community_Label_Optimization}</h4>
+                        </a>
+                        <aura:if isTrue="{!v.optiCount > 0}">
+                            <div class="itemCount">
+                                <p class="">{!$Label.c.Customer_community_tile_request_text} &nbsp;  {!v.optiCount}</p>
+                            </div>
+                        </aura:if>
+                    </li>-->
+                    <li class="card" >
+                        <a href="javaScript:void(0)" onclick="{!c.createPS_Case}">
+                            <div class="orange-line"></div>
+                            <h4 class="lang">{!$Label.c.Customer_Contact_your_Technical_Advisor}</h4>
+                        </a>
+                        <!--
+                        <aura:if isTrue="{!v.techCount > 0}">
+                            <div class="itemCount">
+                                <p class="">{!$Label.c.Customer_community_tile_request_text} &nbsp;  {!v.techCount} </p>
+                            </div>
+                        </aura:if>-->
+                    </li> 
+                    <li class="card" >
+                        <a href="/customer/s/contactsupportpage">
+                            <div class="orange-line"></div>
+                            <h4 class="lang"><lightning:icon iconName="utility:call" size="x-small"/>&nbsp;{!$Label.c.Customer_Community_Contact_Support}</h4>
+                        </a>
+                    </li> 
+                </ul>
+            </div>
+            <aura:set attribute="else">
+                <div class="cards-container ">
+                    <ul class="cards list-unstyled">
+                        <li class="card overlay" > <!--onclick="{!c.onGetStartedClick}"-->
+                            <div>
+                                <div class="orange-line"></div>
+                               <!-- <h4 class="lang">{!$Label.c.Customer_Community_Label_Infra}</h4>-->
+                                <h4 class="lang">{!$Label.c.Community_PS_PremiumServiceTab}</h4>
+                            </div>
+                        </li>
+                        <!--<li class="card overlay"> 
+                            <div class="orange-line"></div>
+                            <h4 class="lang">{!$Label.c.Customer_community_Label_Optimization}</h4>
+                        </li>-->
+                        <li class="card overlay" >
+                            <div class="orange-line"></div>
+                            <h4 class="lang">{!$Label.c.Customer_Contact_your_Technical_Advisor}</h4>
+                        </li>
+                        <li class="card overlay" >
+                            <div class="orange-line"></div>
+                            <h4 class="lang"><lightning:icon iconName="utility:call" size="x-small"/>&nbsp;{!$Label.c.Customer_Community_Contact_Support}</h4>
+                        </li> 
+                    </ul>
+                </div>
+            </aura:set>
+        </aura:if>  
+
+    </div> 
+    
+    <!--aura:unescapedHtml value="{!$Label.c.CommunityFloatingText}"/-->     
+</aura:component>

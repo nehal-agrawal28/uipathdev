@@ -1,0 +1,100 @@
+<template>
+    <div class="slds-card slds-p-horizontal_medium slds-p-bottom_medium slds-is-relative card-container">
+        <div class="slds-page-header slds-page-header_record-home">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div if:true={tableTitleIcon} class="slds-media__figure">
+                            <lightning-icon icon-name={tableTitleIcon} alternative-text={tableTitle} title={tableTitle}>
+                            </lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate">{tableTitle}</span>
+                                        <span if:true={tableSubTitle}>{tableSubTitle}</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li if:true={actionManageUplift}>
+                                    <button class="slds-button slds-button_neutral"
+                                            onclick={actionManageUpliftActivate}>
+                                        Manage Uplift
+                                    </button>
+                                </li>
+                                <li if:true={actionRipReplace}>
+                                    <button class="slds-button slds-button_neutral"
+                                            onclick={actionRipReplaceActivate}>
+                                        Rip &amp; Replace
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-meta">
+                    <p class="slds-page-header__meta-text">&nbsp;</p>
+                </div>
+                <div class="slds-page-header__col-controls">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <lightning-input type="toggle" message-toggle-active="Included"
+                                                     message-toggle-inactive="" label="Include Hierarchy"
+                                                     name="hierarchy-toggle" onchange={toggleHierarchicalContracts}>
+                                    </lightning-input>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Uplift action modal -->
+        <template if:true={actionManageUpliftIsActive}>
+            <c-deal-builder-manage-uplift-modal contract-ids={manageUpliftSelectedContractIds}
+                                                onrefreshcurrentdata={refreshCurrentData}
+                                                onrefreshalldata={refreshAllData}
+                                                onhidemodal={actionManageUpliftDeactivate}>
+            </c-deal-builder-manage-uplift-modal>
+        </template>
+
+        <!-- Manage Rip Replace action modal -->
+        <template if:true={actionRipReplaceIsActive}>
+            <c-deal-builder-rip-replace-modal selected-contracts={ripReplaceSelectedContractIds}
+                                              onmarkcontractupdating={markContractUpdating} account-id={accountId}
+                                              onhidemodal={actionRipReplaceDectivate}>
+            </c-deal-builder-rip-replace-modal>
+        </template>
+
+        <!-- Data table view -->
+        <template if:true={tableData}>
+            <div>
+                <c-navigate-to-quote class="slds-align_absolute-center" style="width: 100%" quote-id={ripReplaceQuoteId}
+                                     header-text={goToNewQuoteCardHeading} desc-text={goToNewQuoteCardDesc}
+                                     if:true={displayGoToNewQuoteCard}>
+                </c-navigate-to-quote>
+
+                <c-deal-builder-data-table has-selection="true" has-pagination="true" show-flag={showFlag}
+                                           no-data-message={tableNoDataMessage} column-data={tableData.columns}
+                                           row-data={tableData.rows} onrowaction={handleTableRowAction}>
+                </c-deal-builder-data-table>
+            </div>
+        </template>
+        <template if:false={tableData}>
+            <c-deal-builder-table-stencil></c-deal-builder-table-stencil>
+        </template>
+    </div>
+</template>

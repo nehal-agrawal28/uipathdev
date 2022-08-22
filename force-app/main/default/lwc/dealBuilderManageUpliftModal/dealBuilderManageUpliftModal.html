@@ -1,0 +1,134 @@
+<template>
+    <section role="dialog"
+             tabindex="-1"
+             class='slds-modal slds-fade-in-open slds-modal_medium'
+             aria-labelledby="modal-heading-01"
+             aria-modal="true"
+             aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+
+            <template if:true={showSpinner}>
+                <div class="slds-spinner_container custom-spinner-css">
+                    <div role="status"
+                         class="slds-spinner slds-spinner_medium">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </template>
+
+            <header class="slds-modal__header">
+                <lightning-button-icon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                       icon-name="utility:close"
+                                       variant="bare-inverse"
+                                       size="large"
+                                       onclick={hideModal}>
+                </lightning-button-icon>
+                <h2 id="modal-heading-01"
+                    class="slds-modal__title slds-hyphenate">Manage Renewal Uplifts</h2>
+            </header>
+            <div if:true={error}
+                 class="error-message slds-modal__header">
+                <div class="slds-notify_container slds-is-relative slds-m-bottom_medium message-parent">
+                    <div class="slds-notify slds-notify_toast slds-theme_alert-texture message-container slds-theme_error"
+                         role="alert">
+                        <div class="slds-notify__content message-div">
+                            <h2 class="slds-text-heading_small slds-text-align_center">
+                                {error}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-modal__content slds-p-around_medium"
+                 id="modal-content-id-1">
+                <template if:true={showContractTable}>
+                    <div class="slds-grid slds-wrap slds-gutters slds-var-m-around_large">
+                        <div class="slds-col">
+                            <div class="slds-form-element slds-form-element_readonly">
+                                <span class="slds-form-element__label">Account Geo</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {accountGeo}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element slds-form-element_readonly">
+                                <span class="slds-form-element__label">Account Uplift Method</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {accountUpliftMethod}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element slds-form-element_readonly">
+                                <span class="slds-form-element__label">Geo Level Uplift %</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        {upliftGeoConfig.UpliftRate__c}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <div class="slds-form-element slds-form-element_readonly">
+                                <span class="slds-form-element__label">Geo Level Uplift Threshold</span>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-form-element__static">
+                                        <lightning-formatted-number value={upliftGeoConfig.UpliftThreshold__c}
+                                                                    format-style="currency">
+                                        </lightning-formatted-number>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <c-deal-builder-data-table column-data={contractTableColumns}
+                                               row-data={contractTableRows}>
+                    </c-deal-builder-data-table>
+                    <div class="slds-text-align_right slds-text-heading_small">
+                        Total ARR to Renew :&nbsp;
+                        <lightning-formatted-number value={ARRTotal}
+                                                    format-style="currency">
+                        </lightning-formatted-number>
+                    </div>
+                </template>
+            </div>
+            <footer class="slds-modal__footer slds-text-align_center">
+                <div class="slds-p-around_medium lgc-bg"
+                     if:true={contractTableRows}>
+                    You can apply/remove Geo level uplift to the selected contracts. 
+                    Please make sure combined ARRToRenew is more than Geo level threshold.
+                </div>
+
+                <lightning-button if:true={contractTableRows}
+                                  label="Apply Uplifts"
+                                  title="Apply Uplifts"
+                                  icon-name="utility:check"
+                                  onclick={applyUplift}>
+                </lightning-button>
+                <lightning-button if:true={contractTableRows}
+                                  class="slds-var-m-left_small"
+                                  variant="destructive-text"
+                                  label="Remove Uplifts"
+                                  title="Remove Uplifts"
+                                  icon-name="utility:close"
+                                  onclick={removeUplift}>
+                </lightning-button>
+                <lightning-button class="slds-var-m-left_small"
+                                  variant="neutral"
+                                  label="Close"
+                                  title="Close"
+                                  onclick={hideModal}>
+                </lightning-button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

@@ -1,0 +1,48 @@
+<template>
+    <template if:true={errorMessage}>
+        <c-alert-message message={errorMessage} theme="Error"></c-alert-message>
+    </template>
+
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+    </template>
+
+    <div class="slds-grid slds-wrap slds-grid_align-center">
+        <div class="slds-col slds-size_3-of-5">
+            <!-- <div class="slds-var-m-bottom_medium">
+                <i>Create a quick quote with placeholder product to forecast ARR</i>
+            </div> -->
+
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning-input type="number" name="duration" label="Duration (Months)" min="0" required
+                                     data-field="duration" onchange={handleFieldChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-var-m-top_large">
+                    <lightning-input type="number" name="totalamount" label="Total Amount" min="0" step="0.01" required
+                                     data-field="totalamount" onchange={handleFieldChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-var-m-top_large">
+                    <i>
+                        A quote containing one ARR worthy SKU will be generated automatically
+                        for the amount and duration you have entered.
+                    </i>
+                </div>
+                <!-- <div if:true={productOptions} class="slds-col slds-size_1-of-1 slds-var-m-top_large">
+                    <lightning-checkbox-group name="products" label="Select Products (ARR Eligible)"
+                                              options={productOptions} value={_productIds} data-field="products"
+                                              onchange={handleFieldChange}>
+                    </lightning-checkbox-group>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-text-align_right slds-var-m-top_large slds-border_top slds-var-p-top_medium">
+        <lightning-button class="slds-var-m-left_small" label="Create Quote" title="Create Quote" variant="brand"
+                          onclick={createQuote}>
+        </lightning-button>
+    </div>
+</template>

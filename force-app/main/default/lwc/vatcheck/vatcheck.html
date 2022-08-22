@@ -1,0 +1,46 @@
+<!--
+ - Created by llyr.jones on 2019-04-09.
+ -->
+
+<!-- vatcheck -->
+<template>
+
+	<lightning-card title="VAT Number" icon-name="custom:custom63">
+		<!--lightning-record-view-form record-id={recordId} object-api-name={accountObject}>-->
+
+
+			<div class="slds-m-around_medium">
+
+				<template if:true={showForm}>
+
+					<lightning-layout vertical-align="end" class="slds-m-bottom_small">
+						<lightning-layout-item size="6" padding="around-small">
+							<lightning-combobox name="country" label="Country" value={countryCode} placeholder="Select Country" options={countryCodeOptions} onchange={handleCountryChange} required></lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="around-small">
+							<lightning-input label="VAT Number" value={vatNumber} data-field="vatNumber" name="inpVatNumber" class="string-input" required></lightning-input>
+						</lightning-layout-item>
+					</lightning-layout>
+
+					<lightning-layout vertical-align="end" class="slds-m-bottom_small">
+						<lightning-layout-item class="slds-p-left_xx-small">
+							<lightning-button label={validateButtonText} title="Update and Validate" onclick={validateVatNumber}></lightning-button>
+							<template if:true={validationText}>
+								<p>{validationText}</p>
+							</template>
+						</lightning-layout-item>
+					</lightning-layout>
+
+					<template if:true={responseMessage}>
+						<p>{responseMessage}</p>
+						<p>{responseName}</p>
+						<p>{responseAddress}</p>
+					</template>
+				</template>
+				<template if:false={showForm}>
+					<lightning-spinner alternative-text="Loading"></lightning-spinner>
+				</template>
+
+			</div>
+	</lightning-card>
+</template>

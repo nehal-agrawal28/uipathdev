@@ -1,0 +1,218 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable">
+<div class="slds-align_absolute-center" style="background-color: rgb(245, 248, 250);">
+    <div class="slds-grid slds-m-around_small">
+        <div class="slds-col slds-p-bottom_xx-small slds-has-flexi-truncate">
+            <div class="slds-media slds-no-space slds-grow">
+                <div class="slds-media__figure"><span class="slds-icon_container slds-icon--">
+                    <lightning:icon iconName="utility:call"/>
+                    <!--<svg class="slds-icon slds-page-header__icon"><use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#undefined"></use></svg>-->
+                    </span></div>                
+                
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Toll Free Numbers">Toll Free Numbers</h1>
+                    <p class="slds-text-body_small slds-line-height_reset"></p>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-no-flex slds-p-bottom_xx-small slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="pageHeader actions"></div>
+    </div>
+</div>
+    <div>
+        <div class="cards-container">
+<ul class="cards list-unstyled">
+
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang">Australia (English)</h4>
+      <p class="telephone">+61 (1800) 934234</p>
+        
+      <div class="timings">
+          <p class="time">24*7</p>
+      </div>
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> China(Chinese)</h4>
+      <p class="telephone">+86 400 1200848</p>
+      <div class="timings">
+          <p class="days">Mon to Fri</p>
+          <p class="time">1:00 - 10:00 GMT</p>
+      </div>
+        
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> France(French)</h4>
+      <p class="telephone">+33 (800) 945645</p>
+      <div class="timings">
+          <p class="days">Mon to Fri</p>
+          <p class="time">6:00 - 15:00 GMT</p>
+      </div>
+        
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> Germany (German)</h4>
+      <p class="telephone">+49 (800) 7234780</p>
+      <div class="timings">
+          <p class="days">Mon to Fri</p>
+          <p class="time">6:00 - 15:00 GMT</p>
+      </div>
+
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> India(English)</h4>
+      <p class="telephone">000 (800) 9190254</p>
+      <div class="timings">
+        
+          <p class="time">24*7</p>
+      </div>
+        
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> Japan (Japanese)</h4>
+      <p class="telephone">+81 (800) 9190291</p>
+      <div class="timings">
+        <p class="days">Mon to Fri</p>
+          <p class="time">3:00 to 12:00 GMT</p>
+      </div>
+
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> Russia(Russian)</h4>
+      <p class="telephone">+7 (800) 1009601</p>
+      <div class="timings">
+        <p class="days">Mon to Fri</p>
+          <p class="time">5:00 to 14:00 GMT</p>
+      </div>
+       
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> Singapore (English)</h4>
+      <p class="telephone">+65 18003211202</p>
+      <div class="timings">
+       <p class="time">24*7</p>
+      </div>
+      
+    </li>
+        <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang"> South Korea(Korean)</h4>
+      <p class="telephone">+82 3083210234</p>
+      <div class="timings">
+          
+       <p class="days">Mon to Fri</p>
+          <p class="time">2:00 - 11:00 GMT</p>
+      </div>
+
+    </li>
+     <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang">Spain(Spanish)</h4>
+      <p class="telephone">+34 (900) 838904</p>
+      <div class="timings">
+          <p class="days">Mon to Fri</p>
+          <p class="time">6:00 - 15:00 GMT</p>
+      </div>
+
+    </li>
+         <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang">Thailand(Thai)</h4>
+      <p class="telephone">+66 180 0012663</p>
+      <div class="timings">
+          <p class="days">Mon to Fri</p>
+          <p class="time">1:00 - 10:00 GMT</p>
+      </div>
+
+    </li>
+     <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang">UK(English)</h4>
+      <p class="telephone">+44 (800) 3689854</p>
+      <div class="timings">
+          
+          <p class="time">24*7</p>
+      </div>
+
+    </li>
+    <li class="card">
+      <div class="orange-line"></div>
+      <h4 class="lang">US(English)</h4>
+      <p class="telephone">+1 (888) 621 4999</p>
+      <div class="timings">
+          
+          <p class="time">24*7</p>
+      </div>
+
+    </li>
+    
+</ul>
+</div>
+    </div>
+<!--<table class="slds-table slds-no-row-hover">
+    <thead>
+        <tr class="slds-text-title_caps">
+            <th>
+                <div class="slds-truncate" title="Column 1"></div>
+            </th>
+            <th>
+                <div class="slds-truncate" title="Column 1"></div>
+            </th>
+            <th>
+                <div class="slds-truncate" title="Column 1"></div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="slds-hint-parent">
+            <td>
+                <lightning:card title="English" iconName="utility:call" variant="base">
+                    <aura:set attribute="actions"></aura:set>
+                    <div class="slds-card__body_inner">                       
+                        <div class="slds-m-right_xx-large slds-m-bottom_xx-large slds-m-left_x-small slds-text-align_left slds-text-heading_small" style="color: rgb(0, 95, 178); float: left;">(888) 621 4999</div>
+                        <div class="slds-text-align_left" style="color: rgb(171, 173, 176); font-size: 0.625rem; float: left;"><b>Mon to Fri</b><b>4:30 am to 10:30 pm GMT</b></div>
+                    </div>
+                </lightning:card>
+            </td>
+            <td>
+                <lightning:card title="French" iconName="utility:call" variant="base">
+                    <aura:set attribute="actions"></aura:set>
+                    <div class="slds-card__body_inner">
+                        <div class="slds-m-right_xx-large slds-m-bottom_xx-large slds-m-left_xx-small slds-text-align_left slds-text-heading_small" style="color: rgb(0, 95, 178); float: left;">+33 (800) 0945645</div>
+                        <div class="slds-text-align_left" style="color: rgb(171, 173, 176); font-size: 0.625rem; float: left;"><b>Mon to Fri</b><b>8 am to 5 pm GMT</b></div>
+                        <div style="font-size: 0.8125rem;"></div>
+                    </div>
+                </lightning:card>
+            </td>
+            <td>
+                <lightning:card title="Spanish" iconName="utility:call" variant="base">
+                    <aura:set attribute="actions"></aura:set>
+                    <div class="slds-card__body_inner">
+                        <div class="slds-m-right_xx-large slds-m-bottom_xx-large slds-m-left_xx-small slds-text-align_left slds-text-heading_small" style="color: rgb(0, 95, 178); float: left;">+34 (800) 3689854</div>
+                        <div class="slds-text-align_left" style="color: rgb(171, 173, 176); font-size: 0.625rem; float: left;"><b>Mon to Fri</b><b>8 am to 5 pm GMT</b></div>
+                    </div>
+                </lightning:card>
+            </td>
+        </tr>
+        <tr class="slds-hint-parent">
+            <td>
+                <lightning:card title="Russian" iconName="utility:call" variant="base">
+                    <aura:set attribute="actions"></aura:set>
+                    <div class="slds-card__body_inner">
+                        <div class="slds-m-right_xx-large slds-m-bottom_xx-large slds-m-left_xx-small slds-text-align_left slds-text-heading_small" style="color: rgb(0, 95, 178); float: left;">+7 (800) 1009601</div>
+                        <div class="slds-text-align_left" style="color: rgb(171, 173, 176); font-size: 0.625rem; float: left;"><b>Mon to Fri</b><b>8 am to 5 pm GMT</b></div>
+                    </div>
+                </lightning:card>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>-->
+    
+</aura:component>

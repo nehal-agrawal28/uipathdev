@@ -1,0 +1,56 @@
+<!--
+  @Component Name     : AlertModal.cmp
+  @Description        : 
+  @Author             : phUser@phDomain.com
+  @Group              : 
+  @Last Modified By   : phUser@phDomain.com
+  @Last Modified On   : 12/18/2018, 3:20:10 PM
+  @Modification Log   : 
+  ==============================================================================
+  Ver         Date                     Author      		      Modification
+  ==============================================================================
+  1.0    12/18/2018, 3:10:42 PM   phUser@phDomain.com     Initial Version
+-->
+<aura:component>
+   
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+   	<aura:attribute name="isSuccess" type="boolean" default="false"/>
+    
+    <aura:attribute name="title" type="String" default="Ui-Path"/>
+    <aura:attribute name="description" type="String" default=""/>
+
+    <aura:method name="hide" action="{!c.hide}"/>
+    <aura:method name="show" action="{!c.show}"/>
+	
+	<aura:registerEvent name="alertEvent" type="c:AlertModalEvent"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+        <aura:if isTrue="{!v.isOpen}">
+            <div class="slds-m-around_xx-large">
+            	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.title}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-content" id="modal-content-id-1">
+						<aura:unescapedHtml value="{!v.description}"/>
+                        <p class="slds-form-element__label slds-align_absolute-center">
+                            
+                        </p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand" 
+                                          label="{!$Label.c.J_Close_BtnLabel}"
+                                          title="{!$Label.c.J_Close_BtnLabel}"
+                                          onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+            	<div class="slds-backdrop slds-backdrop_open"></div>
+           	</div>
+        </aura:if>
+</aura:component>

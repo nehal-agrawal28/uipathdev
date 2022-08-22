@@ -1,0 +1,27 @@
+.THIS .slds-welcome-mat__info  {
+    background-image: url(/assets/images/welcome-mat/bg-info@2x.png);
+}
+.THIS .blueScreen{
+    height:560px;
+    overflow:hidden;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-height: 640px) {
+    .THIS .blueScreen{
+        height:600px;
+		    overflow:hidden;
+    }
+}
+@media only screen and (min-height: 640px) and (max-height:750px) {
+    .THIS .blueScreen{
+        height:600px;
+		    overflow:hidden;
+    }
+}
+@media only screen and (orientation: landscape) and (max-width:920px) {
+  .THIS .blueScreen{
+        height:600px;
+		    overflow:hidden;
+    }
+}

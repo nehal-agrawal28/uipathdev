@@ -1,0 +1,120 @@
+.THIS {
+    
+  box-sizing: border-box;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.THIS .container {
+  position: relative;
+}
+
+
+/* Hide the images by default */
+.THIS .mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.THIS .cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+
+
+.THIS .prev {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.THIS .next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.THIS .next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.THIS .prev:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.THIS .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.THIS .numbertext {
+  color: #f2f2f2;
+  font-size: 15px;
+  margin-left: 6%;
+}
+
+
+/* Container for image text */
+.THIS .caption-container {
+  text-align: center;
+  background-color: #285b9b;
+  color: white;
+  height:50px;
+  font-size: xx-large;
+}
+
+.THIS .index{
+  width:100%;
+  text-align: center;
+  background: #285b9b;
+  color: white;
+  height: 50px;
+  border-style: solid;
+  border-color: white;
+  border-width: thin;
+  padding-top: 10px;
+}
+.THIS .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.THIS .column {
+  float: left;
+  width: 16.66%;
+}
+
+.THIS .active{
+  border-style: solid;
+  border-color: red;
+  border-width: thin;
+}
+.THIS .demo:hover {
+  opacity: 0.5;
+}
+.THIS .video-player{
+    
+  width: inherit;
+  height: 528px;
+}

@@ -1,0 +1,34 @@
+<aura:component >
+    
+    <aura:attribute name="title" type="String" default="Ui-Path"/>
+    <aura:attribute name="description" type="String" default=""/>
+    <aura:attribute name="isSuccess" type="boolean" default="false"/>
+    <aura:attribute name="showModal" type="boolean" default="false"/>
+    <aura:attribute name="theme" type="String" default="slds-theme_error"/>
+    <aura:attribute name="icon" type="String" default="utility:error"/>    
+    
+    <aura:method name="hide" action="{!c.hide}"/>
+    <aura:method name="show" action="{!c.show}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:registerEvent name="alertEvent" type="c:AlertModalEvent"/>
+    <div>
+        <aura:if isTrue="{!v.showModal}">
+            <div aura:id="myModal" >
+                <div class="{! 'slds-notify slds-notify_alert slds-theme_alert-texture ' + v.theme }" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" title="Description of icon when needed">
+                        <lightning:icon iconName="{!v.icon}" alternativeText="Error" variant="inverse" size="small" />
+                    </span>
+                    <aura:unescapedHtml value="{!v.description}"/> &nbsp;&nbsp;
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon slds-button_icon-small slds-button_icon-inverse" title="Close" onclick="{!c.closeModel}">
+                            <lightning:icon iconName="utility:close" alternativeText="Close"  size="small" variant="inverse" />
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

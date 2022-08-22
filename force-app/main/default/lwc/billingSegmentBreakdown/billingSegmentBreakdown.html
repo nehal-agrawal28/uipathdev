@@ -1,0 +1,227 @@
+<!-- 
+   @author Gen Estrada @ Slalom
+   @date 06/10/2020
+   @description Displays MYD Billing Segmentation calculations
+   -->
+   <template>
+	<!-- Error Message -->
+	<template if:true={displayErrorMessage}>
+		<div style="width:100%;">
+			<lightning-card title="">
+				<a href={lineEditorLink} class="slds-button slds-button_brand" variant="brand" slot="actions">Back to Editor</a>
+				<br/>
+				<br/>
+				<br/>
+				<p style="text-align:center;font-weight: bold;">
+                {errorMessage}
+             </p>
+				<br/>
+				<br/>
+				<br/>
+			</lightning-card>
+		</div>
+	</template>
+	<!-- Segmentation Data -->
+	<template if:false={displayErrorMessage}>
+		<div style="width:100%;">
+			<!-- First Section -->
+			<div class="slds-theme_shade slds-box">
+				<table>
+					<tr>
+						<td>
+							<div class="slds-grid primaryFieldRow">
+								<div  class="slds-grid slds-col slds-has-flexi-truncate">
+									<div class="slds-media slds-no-space">
+										<slot name="icon">
+											<slot slot="icon">
+												<div class="highlights-icon-container slds-avatar slds-m-right_small icon">
+													<template if:false={amendmentQuote}>
+														<lightning-icon icon-name="custom:custom93" size="medium"></lightning-icon>
+													</template>
+													<template if:true={amendmentQuote}>
+														<lightning-icon icon-name="standard:shift_type" size="medium"></lightning-icon>
+													</template>
+												</div>
+											</slot>
+										</slot>
+									</div>
+									<div class="slds-media__body">
+										<h1>
+											<slot name="primaryField" class="slds-page-header__title slds-m-right--small slds-align-middle clip-text slds-line-clamp">
+												<slot slot="primaryField">
+													<template if:false={amendmentQuote}>
+                                                {quoteInformationTitle}
+                                            </template>
+													<template if:true={amendmentQuote}>
+                                                {contractInformationTitle}
+                                            </template>
+												</slot>
+											</slot>
+											<div class="entityNameTitle slds-line-height--reset">
+												<a href={quoteLink} variant="base"> {quote.Name}</a>
+											</div>
+										</h1>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div style="text-align:right;">
+								<a href={lineEditorLink} class="slds-button slds-button_brand" variant="brand" slot="actions">Back to Editor</a>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="slds-box">
+				<!-- Quote Data -->
+				<template if:false={amendmentQuote}>
+					<table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+						<tr>
+							<td>Start Date: <lightning-formatted-date-time value={quote.SBQQ__StartDate__c}></lightning-formatted-date-time></td>
+							<td>Quote Duration: {quote.Quote_Duration_YMD__c} </td>
+							<td>Billing Frequency: {quote.SBQQ__BillingFrequency__c}</td>
+						</tr>
+						<tr>
+							<td>End Date: <lightning-formatted-date-time value={quote.SBQQ__EndDate__c}></lightning-formatted-date-time></td>
+							<td>Quote Duration (Days): {quote.Quote_Duration__c} </td>
+							<td> First Anniversary Date: <lightning-formatted-date-time value={quote.First_Anniversary_Date__c}></lightning-formatted-date-time></td>
+						</tr>
+					</table>
+				</template>
+				<!-- Contract Data -->
+				<template if:true={amendmentQuote}>
+					<table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+						<tr>
+							<td>Contract Start Date: <lightning-formatted-date-time value={contract.StartDate}></lightning-formatted-date-time></td>
+							<td>Contract Duration: {contract.Contract_Duration_YMD__c}</td>
+							<td>Amendment Duration: {quote.Quote_Duration_YMD__c}</td>
+						</tr>
+						<tr>
+							<td>Contract End Date: <lightning-formatted-date-time value={contract.EndDate}></lightning-formatted-date-time></td>
+							<td>Contract Anniversary: {contractAnniversary} </td>
+							<td>Amendment Start Date: <lightning-formatted-date-time value={quote.SBQQ__StartDate__c}></lightning-formatted-date-time></td>
+						</tr>
+					</table>
+				</template>
+			</div>
+			<br/>
+			<!-- Segments -->
+			<div class="slds-theme_shade slds-box">
+				<table>
+					<tr>
+						<td>
+							<div slot="title" class="slds-section__title">
+								<lightning-icon icon-name="custom:custom17" size="medium"></lightning-icon>
+								<h2 class="slds-page-header__title slds-m-right--small slds-align-middle clip-text slds-line-clamp">
+                                &nbsp;&nbsp;{billingSegmentationTitle}
+                            </h2>
+							</div>
+						</td>
+						<td>
+							<div style="text-align:right;">
+								<lightning-button variant="brand" label={expandButtonLabel} slot="actions" onclick={handleExpand} class="slds-m-left_x-small" ></lightning-button>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="slds-box">
+				<br/>
+				<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+					<tr class="slds-line-height_reset">
+						<td colspan="2"></td>
+						<template if:true={billingSegments}>
+							<template for:each={billingSegments} for:item="segment">
+								<th key={segment.Segment_No__c}>
+									<lightning-accordion 
+                               allow-multiple-sections-open 
+                               onsectiontoggle={handleSegmentSectionToggle} 
+                               active-section-name={activeSegmentSections}>
+										<lightning-accordion-section name={segment.Name} label={segment.Name}>
+											<br/>
+											<p style="color:#6b6d70">START DATE: </p>
+											<br/>
+											<p style="color:#6b6d70"><lightning-formatted-date-time value={segment.Start_Date__c}></lightning-formatted-date-time></p>
+											<br/>
+											<br/>
+											<br/>
+											<p style="color:#6b6d70">END DATE: </p>
+											<br/>
+											<p style="color:#6b6d70"><lightning-formatted-date-time value={segment.End_Date__c}></lightning-formatted-date-time></p>
+											<br/>
+											<br/>
+											<br/>
+											<p style="color:#6b6d70">DURATION: </p>
+											<br/>
+											<p style="color:#6b6d70">{segment.Duration__c} days </p>
+										</lightning-accordion-section>
+									</lightning-accordion>
+								</th>
+							</template>
+						</template>
+					</tr>
+					<tr></tr>
+					<!-- QLI Segments -->
+					<template if:true={qliSegments}>
+						<template for:each={qliSegments} for:item="qliSegment">
+							<tr key={qliSegment.quoteLine.Id}>
+								<td key={qliSegment.quoteLine.Id}> {qliSegment.quoteLine.SBQQ__Number__c} </td>
+								<td key={qliSegment.quoteLine.Id}>
+									<lightning-accordion 
+                               allow-multiple-sections-open
+                               active-section-name={activeQLISegmentSections}>
+										<lightning-accordion-section name={qliSegment.quoteLine.SBQQ__Product__r.Name} label={qliSegment.quoteLine.SBQQ__Product__r.Name}>
+											<br/>
+											<p style="padding-left:2em;color:#6b6d70">START DATE: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NET TOTAL:</p>
+											<br/>
+											<p style="padding-left:2em;color:#6b6d70"> <lightning-formatted-date-time value={qliSegment.quoteLine.SBQQ__EffectiveStartDate__c}></lightning-formatted-date-time>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <lightning-formatted-number value={qliSegment.quoteLine.SBQQ__NetTotal__c} format-style="currency" currency-code={quoteCurrency} currency-display-as="code" minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+											</p>
+											<br/>
+											<br/>
+											<p style="padding-left:2em;color:#6b6d70">END DATE: </p>
+											<br/>
+											<p style="padding-left:2em;color:#6b6d70"><lightning-formatted-date-time value={qliSegment.quoteLine.SBQQ__EffectiveEndDate__c}></lightning-formatted-date-time></p>
+										</lightning-accordion-section>
+									</lightning-accordion>
+								</td>
+								<template for:each={qliSegment.segmentAmounts} for:item="qliSegmentAmount">
+									<td key={qliSegment.quoteLine.Id}>
+										<p style="padding-left:2em; vertical-align: auto;">
+											<lightning-formatted-number value={qliSegmentAmount} format-style="currency" currency-code={quoteCurrency} currency-display-as="code"></lightning-formatted-number>
+										</p>
+									</td>
+								</template>
+							</tr>
+						</template>
+					</template>
+					<tr>
+						<th></th>
+						<td style="text-align:right;"> SUBTOTAL: </td>
+						<template if:true={billingSegments}>
+							<template for:each={billingSegments} for:item="segment">
+								<th key={segment.Segment_No__c}>
+									<p style="padding-left:2em;">
+										<lightning-formatted-number value={segment.Total_Amount__c}  format-style="currency" currency-code={quoteCurrency} currency-display-as="code" minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+									</p>
+								</th>
+							</template>
+						</template>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<th colspan={segmentNames.length} style="text-align:right;">
+							<div style="font-weight:bold;font-size: 16px;">
+                                QUOTE TOTAL: &nbsp;<lightning-formatted-number value={quoteTotalAmount} format-style="currency" currency-code={quoteCurrency} currency-display-as="code" minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+							</div>
+						</th>
+					</tr>
+				</table>
+				<br/>
+				<div style="text-align:left;font-weight: bold;">{disclaimerMessage}</div>
+			</div>
+			<br/>
+		</div>
+	</template>
+</template>

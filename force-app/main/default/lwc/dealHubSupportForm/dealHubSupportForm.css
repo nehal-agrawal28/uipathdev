@@ -1,0 +1,13 @@
+.full-width {
+    width: 100% !important;
+}
+
+.slds-form-element__label {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.fixed_pos {
+    position: fixed !important;
+}

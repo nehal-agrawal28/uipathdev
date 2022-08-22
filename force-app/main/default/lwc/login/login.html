@@ -1,0 +1,35 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner size="small" variant="brand"></lightning-spinner>
+    </template>
+
+    <template if:true={error}>
+        <div class="login-form-error slds-m-vertical_medium">{error}</div>
+    </template>
+
+    <div class="slds-grid slds-wrap login-form">
+        <div class="slds-col slds-size_1-of-1">
+            <div class="login-form-input">
+                <div class="login-form-input-icon">
+                    <lightning-icon size="x-small" icon-name="utility:user"></lightning-icon>
+                </div>
+                <div>
+                    <input type="text" name="username" placeholder="Username" class="slds-input" onchange={handleUsernameChange} />
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-1">
+            <div class="login-form-input">
+                <div class="login-form-input-icon">
+                    <lightning-icon size="x-small" icon-name="utility:lock"></lightning-icon>
+                </div>
+                <div>
+                    <input type="password" name="password" placeholder="Password" class="slds-input" onchange={handlePasswordChange} />
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-1">
+            <button class="slds-button slds-button_brand login-form-button" onclick={handleLogin}>Log in</button>
+        </div>
+    </div>
+</template>

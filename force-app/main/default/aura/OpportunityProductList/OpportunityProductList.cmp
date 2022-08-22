@@ -1,0 +1,59 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="OpportunityProductListController" access="global">
+
+    <aura:attribute name="recordId" type="string" />
+    <aura:attribute name="oppLineItems" type="OpportunityLineItem[]" />
+        
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- TODO: Don't display the table if there are no products, display a friendly message instead -->
+
+    <table class="slds-table slds-table_cell-buffer slds-max-medium-table_stacked-horizontal slds-no-row-hover" role="grid">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="slds-text-title_caps" scope="col">
+                </th>
+                <th class="slds-text-title_caps" scope="col">
+                    <div class="slds-truncate" title="Product Name">Product Name</div>
+                </th>
+                <th class="slds-text-title_caps" scope="col">
+                    <div class="slds-truncate" title="End Date">End Date</div>
+                </th>
+                <th class="slds-text-title_caps" scope="col">
+                    <div class="slds-truncate" title="Sales Price">Sales Price</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.oppLineItems}" var="oli">
+                    <tr class="slds-hint-parent">
+                        <!--
+                        <td data-label="Select Row">
+                            <div class="slds-checkbox">
+                                <input type="checkbox" name="options" id="{!'checkbox-' + oli.Id}" aria-labelledby="{!'check-button-label-' + oli.Id + ' check-group-header'}" value="{!'checkbox-' + oli.Id}" />
+                                <label class="slds-checkbox__label" for="{!'checkbox-' + oli.Id}" id="{!'check-button-label-' + oli.Id}">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label slds-assistive-text">Select {!oli.Product.Name}</span>
+                                </label>
+                            </div>
+                        </td>
+                        -->
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td data-label="Opportunity Name" scope="row">
+                            <div class="slds-truncate" title="{!oli.Name}">{!oli.Product2.Name}</div>
+                        </td>
+                        <td data-label="End Date">
+                            <div class="slds-truncate" title="{!oli.End_Date__c}">{!oli.End_Date__c}</div>
+                        </td>
+                        <td data-label="Sales price">
+                            <div class="slds-truncate" title="">
+                            <lightning:formattedNumber value="{!oli.UnitPrice}" maximumFractionDigits="2"/>
+                            </div>
+                        </td>
+                    </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+    <div>&nbsp;</div>
+</aura:component>

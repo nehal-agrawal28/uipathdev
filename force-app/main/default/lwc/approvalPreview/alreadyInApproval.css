@@ -1,0 +1,78 @@
+:host {
+	--max-approval-ui-width: 700px;
+	--approval-image-width: 70px;
+	--approval-image-height: 70px;
+	--approval-content-width: 400px;
+	--approval-status-width: 150px;
+}
+
+.ap-container {
+	min-height: 400px;
+}
+.approval-ui {
+	max-width: var(--max-approval-ui-width);
+	margin: 0 auto;
+	min-height: 250px;
+}
+
+.a-image-line-container {
+	display: inline-block;
+}
+.a-image-container {
+	display: inline-block;
+	vertical-align: top;
+}
+.a-content {
+	display: inline-block;
+	width: var(--approval-content-width);
+}
+.a-status {
+	display: inline-block;
+	width: var(--approval-status-width);
+	vertical-align: top;
+}
+.a-btn-recall {
+	float: right;
+}
+.a-line {
+	z-index: 0;
+	display: block;
+}
+.a-line:before {
+	content: "";
+	height: 35px;
+	width: 2px;
+	background: #4bc076;
+	z-index: 0;
+	display: inline-block;
+	margin-left: calc(var(--approval-image-width) / 2);
+	margin-top: -10px;
+	margin-bottom: -5px;
+}
+.a-image {
+	width: var(--approval-image-width);
+	height: var(--approval-image-height);
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: center right;
+	z-index: 1;
+	position: relative;
+	transition-duration: 0.3s;
+	transition-property: transform;
+}
+.a-image:hover {
+	transform: translateY(-5px);
+}
+.a-modal {
+	width: 400px !important;
+	max-width: 99% !important;
+}
+.clickable {
+	cursor: pointer;
+}
+.text-upper {
+	text-transform: uppercase;
+}
+.approved-icon {
+	margin-left: 2rem;
+}

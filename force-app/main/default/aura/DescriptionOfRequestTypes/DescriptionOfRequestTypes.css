@@ -1,0 +1,31 @@
+.THIS .slds-nav-vertical__item{
+    
+   
+}
+
+.THIS .slds-text-title_caps {
+    padding-top: 16px;
+    font-size: 0.90rem;
+    line-height: 1.25;
+    color: rgba(15, 15, 15, 0.72);
+    font-weight: 400;
+    text-transform: initial;
+    letter-spacing: 0.0625rem;
+    color: rgba(190, 30, 16, 0.85);
+    
+    border-color: rgba(190, 30, 16, 0.85);
+}
+
+.THIS .text{
+    
+       font-size: 0.90rem;
+    line-height: 1.25;
+    color: rgba(15, 15, 15, 0.72);
+    font-weight: 700;
+    text-transform: initial;
+    letter-spacing: 0.0625rem;
+    color: rgba(190, 30, 16, 0.85);
+   
+    border-color: rgba(190, 30, 16, 0.85);
+        padding: 12px;
+}

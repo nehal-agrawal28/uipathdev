@@ -1,0 +1,45 @@
+.THIS .card {  
+  position: relative;
+  box-sizing: border-box;
+  width: calc(30% - 10px);
+  background: #fff;
+  height: 200px;
+  margin: 10px;
+  padding: 20px 50px;
+}
+.THIS .lang{
+  color: rgb(12, 38, 82);
+  font-size: 1.125rem;
+  margin: 0px;
+}
+.THIS .orange-line{
+  position: absolute;
+  left: 50px;
+  top: 0px;
+  height: 5px;
+  width: 70px;
+  background: rgb(239, 113, 46);
+}
+.THIS .list-unstyled {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.THIS .cards-container{
+    background: rgb(245, 248, 250);
+    
+}
+ .THIS .cards {
+  max-width: 960px;
+  margin: 0px auto;
+  display: flex;
+  flex-flow: row wrap;
+}
+.THIS .overlay {
+ 	top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3); 
+}

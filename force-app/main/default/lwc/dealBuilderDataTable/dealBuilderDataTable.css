@@ -1,0 +1,129 @@
+/* table css */
+.data-table tr th {
+  padding: 0.25rem 0.2rem;
+}
+.data-table tr th div.text-wrap {
+  margin-right: 12px;
+}
+.data-table tr td {
+  padding: 0.25rem 0.2rem;
+}
+.data-table tr td > div.text-wrap {
+  max-width: 300px;
+  min-height: 25px;
+  /* word-break: break-all; */
+  white-space: normal;
+}
+
+/* fist data cell [Name] with minimum width */
+.data-table tr td[data-cell-index="0"],
+.data-table tr td[data-wide-cell="true"] {
+  min-width: 180px !important;
+}
+.data-table tr td.select-cell {
+  width: 30px !important;
+}
+
+/* drawer related CSS */
+.clickable {
+  cursor: pointer !important;
+}
+.drawer-section {
+  background-color: #f9f9f9;
+  width: 40px;
+}
+.drawer-section > td {
+  padding: 0px 1rem 0px 2rem !important;
+  border-left: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorder, rgb(221, 219, 218));
+  border-right: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorder, rgb(221, 219, 218));
+  border-bottom: var(--lwc-borderWidthThin, 1px) solid var(--lwc-colorBorder, rgb(221, 219, 218));
+  border-top: none;
+  border-radius: 2px;
+}
+.drawer-section .clickable lightning-icon {
+  transition-duration: 0.2s;
+}
+.drawer-section .clickable lightning-icon:hover {
+  transform: scale(1.3);
+}
+
+/* sorting related CSS */
+.sort {
+  cursor: pointer;
+}
+.sort::before {
+  content: "";
+  float: right;
+  opacity: 0.1;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgb(81, 79, 77);
+  margin-top: 0.1rem;
+  margin-right: 3px;
+}
+.sort:hover::before {
+  opacity: 0.3;
+}
+.sort.sort_asc_visible::before {
+  opacity: 1 !important;
+}
+.sort::after {
+  content: "";
+  float: right;
+  opacity: 0.1;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgb(81, 79, 77);
+  margin-top: -0.4rem;
+  margin-right: 3px;
+}
+.sort:hover::after {
+  opacity: 0.3;
+}
+.sort.sort_desc_visible::after {
+  opacity: 1 !important;
+}
+
+.drawer-data {
+  min-height: 2.5rem;
+}
+
+.row-action {
+  --sds-c-button-shadow: 0 0 1px rgb(81, 79, 77);
+}
+
+.page-size-block {
+  width: 4.35rem;
+}
+.page-size-text {
+  vertical-align: bottom;
+}
+
+.orange-background {
+  background-color: #fce5c4;
+  color: black;
+}
+
+.orange-background th div a {
+  color: black;
+  text-decoration: underline;
+}
+
+.column-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  height: 100%;
+  border-right: 2px solid #bfbfbf;
+}
+.column-resizer:hover {
+  border-right: 3px solid #4194f9;
+  height: 90vh;
+}

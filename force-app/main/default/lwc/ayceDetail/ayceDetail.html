@@ -1,0 +1,56 @@
+<template>
+  <template if:true={tableData}>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Product Name">
+              Product Name
+            </div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Max. Allowed Quantity">
+              Max. Allowed Quantity
+            </div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Planned Quantity">
+              Planned Quantity
+            </div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Actual Quantity">
+              Actual Quantity
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <template for:each={tableData} for:item="data">
+          <tr key={data.productName} class="slds-hint-parent">
+            <td data-label={data.productName}>
+              <div class="slds-truncate" title={data.productName}>
+                {data.productName}
+              </div>
+            </td>
+            <td data-label="Max. Allowed Quantity">
+              <div class="slds-truncate" title={data.Max_Allowed_Quantity__c}>
+                {data.Max_Allowed_Quantity__c}
+              </div>
+            </td>
+            <td data-label="Planned Quantity">
+              <div class="slds-truncate" title={data.Planned_Quantity__c}>
+                {data.Planned_Quantity__c}
+              </div>
+            </td>
+            <td data-label="Actual Quantity">
+              <div class="slds-truncate" title={data.Actual_Quantity__c}>
+                {data.Actual_Quantity__c}
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </template>
+</template>

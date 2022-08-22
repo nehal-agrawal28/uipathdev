@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Renewal Uplift Management</masterLabel>
+    <description>Manage renewal uplift on Contract</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="opportunityId" type="String" label="OpportunityId" description="Opportunity Id" />
+            <property name="isNewQuote" type="Boolean" label="isNewQuote" description="isNewQuote" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

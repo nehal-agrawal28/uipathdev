@@ -1,0 +1,199 @@
+<template>
+  <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+           aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+    <div class="slds-modal__container">
+      <template if:true={showSpinner}>
+        <div class="slds-spinner_container custom-spinner-css">
+          <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+      </template>
+
+      <header class="slds-modal__header">
+        <lightning-button-icon class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                               icon-name="utility:close" variant="bare-inverse" size="large"
+                               onclick={hideRipAndReplaceModal}>
+        </lightning-button-icon>
+        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+          {label.chooseADate}
+          <!-- Modal Heading -->
+        </h2>
+      </header>
+
+      <div if:true={showCreateAmendmentsError} class="error-message slds-modal__header">
+        <div class="slds-notify_container slds-is-relative slds-m-bottom_medium message-parent">
+          <div class="slds-notify slds-notify_toast slds-theme_alert-texture message-container slds-theme_error"
+               role="alert">
+            <div class="slds-notify__content message-div">
+              <h2 class="slds-text-heading_small slds-text-align_center">
+                {errorMessage}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slds-modal__content slds-p-around_medium slds-is-relative slds-is-expanded" id="modal-content-id">
+        <template if:true={showWarningValidation}>
+          <div class="slds-align_absolute-center">
+            <article class="slds-tile detail-container">
+              <template if:false={showSpinner}>
+                <template if:true={validations.length}>
+                  <h1 class="slds-text-heading_large">
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" variant="error" size="small">
+                    </lightning-icon>
+                    &nbsp;&nbsp;Stop
+                  </h1>
+                  <p>
+                    Selected contracts are not allowed in the same Rip &amp; Replace transaction due to the below
+                    data criteria, click Cancel to go back and change your selections.
+                  </p>
+                  <br />
+                  <div class="slds-tile__detail slds-p-top_large">
+                    <ol class="validation-list">
+                      <template for:each={validations} for:item="validation">
+                        <li key={validation} class="slds-m-bottom_medium">
+                          {validation}
+                        </li>
+                      </template>
+                    </ol>
+                  </div>
+                </template>
+
+                <template if:false={validations.length}>
+                  <h1 class="slds-text-heading_large">
+                    <lightning-icon icon-name="utility:warning" alternative-text="Warning" variant="warning"
+                                    size="small">
+                    </lightning-icon>
+                    &nbsp;&nbsp;Warning
+                  </h1>
+                  <p if:true={warnings.length}>
+                    The data criteria of some selected Contracts needs your attention,
+                    click Cancel to go back or acknowledge below warnings and click Confirm to continue.
+                  </p>
+                  <br />
+                  <div if:true={warnings.length} class="slds-tile__detail slds-p-top_large">
+                    <ol class="warning-list">
+                      <template for:each={warnings} for:item="warning">
+                        <li key={warning}>
+                          {warning}
+                        </li>
+                      </template>
+                    </ol>
+                  </div>
+                  <div class="slds-p-top_large">
+                    <p class="finance-warning">
+                      Please ensure you have consulted both Billing and Revenue Recognition teams before proceeding.
+                      As per the <a href={label.ripReplaceCommercialPolicyUrl} target="_blank">Commercial Policy</a>,
+                      Regional Commercial Finance approval will also be needed in most cases.
+                    </p>
+                    <br />
+                    <br />
+                    <lightning-input type="checkbox" class="ex-opp-checkbox" variant="label-hidden" label="ExOpp"
+                                     onclick={handleExistingOpp}>
+                    </lightning-input>
+                    &nbsp;I will choose existing new business opportunity and quote for the replacement.
+                    <br />
+                    <br />
+                    <lightning-input type="checkbox" class="ack-checkbox" variant="label-hidden" label="Ack"
+                                     onclick={handleWarningAcknowledged}>
+                    </lightning-input>
+                    <span class="req-field">*</span>
+                    &nbsp;I acknowledge the above information and still want to continue Rip &amp; Replace transaction
+                    with selected Contracts.
+                  </div>
+                </template>
+              </template>
+            </article>
+          </div>
+        </template>
+        <template if:false={showWarningValidation}>
+          <template if:false={existingOpportunity}>
+            <div class="slds-hide slds-grid slds-grid_align-end slds-p-right_medium">
+              <!-- Hidden -->
+              <div class="slds-col">
+                <lightning-input type="toggle" message-toggle-active="Serial" message-toggle-inactive="Parallel"
+                                 label="Mode" name="serial-toggle" onchange={toggleSerial} checked="true">
+                </lightning-input>
+              </div>
+            </div>
+            <div class="slds-grid slds-wrap slds-gutters rep-input-container">
+              <div class="slds-col slds-size_1-of-1 slds-m-top_large">
+                <lightning-input onchange={checkTheForm} maxlength="120" label="Replacement Opportunity Name"
+                                 class="opportunity" required>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-m-top_large">
+                <lightning-input type="date" name="startdate" onchange={checkTheDate} label={label.whenDoYouWantToStart}
+                                 class="startdate" required>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-m-top_large">
+                <lightning-input type="date" name="enddate" onchange={checkTheDate}
+                                 label="End Date of Replacement Quote" class="enddate" required>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-m-top_large">
+                <lightning-combobox name="stage" label={label.stage} value={value} class="selectedstage"
+                                    options={opportunityStageValues} onchange={checkTheForm} required>
+                </lightning-combobox>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-m-top_large">
+                <lightning-combobox name="dealtype" label={label.dealType} value={value} class="selecteddealtype"
+                                    options={opportunityDealTypeValues} onchange={checkTheForm} required>
+                </lightning-combobox>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-m-top_large">
+                <lightning-combobox name="currency" label="Currency" value={contractCurrency} class="selectedcurrency"
+                                    options={opportunityCurrencyValues} onchange={checkTheForm} disabled>
+                </lightning-combobox>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-m-top_large">
+                <c-lookup-s-l class="soldtopartner" onsearch={handleSoldToPartnerSearch}
+                              onselectionchange={checkTheForm} label="Sold To Partner"
+                              placeholder="search partner account">
+                </c-lookup-s-l>
+              </div>
+            </div>
+          </template>
+          <template if:true={existingOpportunity}>
+            <div class="slds-grid slds-wrap slds-gutters rep-input-container">
+              <div class="slds-col slds-size_1-of-1 slds-m-top_large">
+                <c-lookup-s-l class="existingopp" onsearch={handleOppSearch}
+                              onselectionchange={handleOppSelectionChange} label="Replacement Opportunity"
+                              placeholder="Search for an opportunity on this account" required>
+                </c-lookup-s-l>
+              </div>
+              <div class="slds-col slds-size_1-of-1 slds-m-top_large">
+                <c-lookup-s-l class="existingquote" onsearch={handleQuoteSearch}
+                              onselectionchange={handleQuoteSelectionChange} label="Replacement Quote"
+                              placeholder="Search for a related quote" required>
+                </c-lookup-s-l>
+              </div>
+            </div>
+          </template>
+        </template>
+      </div>
+
+      <footer class="slds-modal__footer slds-text-align_center footer-height">
+        <lightning-button variant="neutral" name="cancel" label={label.cancel} onclick={hideRipAndReplaceModal}>
+        </lightning-button>
+        <template if:true={showWarningValidation}>
+          <lightning-button if:false={validations.length} variant="brand" name="warning-confirm" label="Confirm"
+                            class="slds-var-m-left_x-small" disabled={warningConfirmDisabled}
+                            onclick={handleWarningConfirm}>
+          </lightning-button>
+        </template>
+        <template if:false={showWarningValidation}>
+          <lightning-button variant="brand" name="continue" label={label.continueBtn} class="slds-var-m-left_x-small"
+                            onclick={handleContinueClick} disabled={disableContinueBtn}>
+          </lightning-button>
+        </template>
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

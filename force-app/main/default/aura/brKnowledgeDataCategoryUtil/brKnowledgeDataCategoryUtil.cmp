@@ -1,0 +1,11 @@
+<aura:component description="brKnowledgeDataCategoryUtil" controller="brKnowledgeDataCategoryUtilCtrl" access="global">
+    <aura:method name="retrieveCategoryItems" access="global">
+        <aura:attribute name="groupName" type="String" access="global" />
+        <aura:attribute name="categoryName" type="String" access="global" />
+        <aura:attribute name="callback" type="Function" access="global" />
+    </aura:method>
+    <aura:method name="retrieveCategoriesParentage" access="global">
+        <aura:attribute name="selectedCategories" type="String[]" access="global" />
+        <aura:attribute name="callback" type="Function" access="global" />
+    </aura:method>
+</aura:component>

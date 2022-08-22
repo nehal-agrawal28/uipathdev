@@ -1,0 +1,126 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="KnowledgeArticleController">
+    <aura:attribute name="knowledgeRecord" type="Knowledge__kav"/>
+    <aura:attribute name="targetRecord" type="Knowledge__kav"/>
+    <aura:attribute name="wrapper" type="Object"/>
+    <aura:attribute name="isVisible" type="Boolean"/>
+    <aura:attribute name="isTechnicalApprover" type="Boolean"/>
+    <aura:attribute name="isQualityApprover" type="Boolean"/>
+    <aura:attribute name="isCurrentReviewer" type="Boolean"/>
+    <aura:attribute name="currentReviewerName" type="Name"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="hideTechnicalDetails" type="Boolean" default="false"/>
+    <aura:attribute name="isRecordChanged" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="UrlName, PublishStatus, IsVisibleInPkb, IsVisibleInCsp, ValidationStatus, Technical_Reviewer__c,Quality_Reviewer__c,Is_Not_External__c,Is_confidential__c,KnowledgeArticleId,CreatedById"
+                      targetFields="{!v.knowledgeRecord}"
+                      recordUpdated="{!c.doInit}" 
+                      targetRecord="{!v.targetRecord}"           
+                      mode="VIEW"
+                      targetError="{!v.recordLoadError}"
+                      />
+    
+    
+    <!--
+    <lightning:badge label="Currently Under Review" class="flashing"/>
+    -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner size="medium"/>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isVisible}">
+        <lightning:card title="Review Details">
+            <div class="slds-p-around_small">
+                
+                <aura:if isTrue="{!and(v.knowledgeRecord.ValidationStatus != 'Under Quality Review',v.knowledgeRecord.ValidationStatus != 'Under Technical Review',v.knowledgeRecord.ValidationStatus != 'Approved By Quality Reviewer')}">
+                    <c:KnowledgeReviewBadge label="Currently Under Review"/>
+                </aura:if>
+                
+                <aura:if isTrue="{!v.isQualityApprover}">
+                    
+                    <aura:if isTrue="{!v.knowledgeRecord.ValidationStatus == 'Approved By Quality Reviewer'}">
+                        <br/><br/>
+                        <lightning:button variant="brand" label="Publish" onclick="{!c.publishArticle}"/>
+                    </aura:if>
+                    
+                    
+                </aura:if>
+                
+                <aura:if isTrue="{!v.isTechnicalApprover}">
+                    
+                    <aura:if isTrue="{!v.knowledgeRecord.ValidationStatus == 'Submitted'}">
+                        <br/><br/>
+                        <lightning:button variant="brand" label="Start Technical Review" onclick="{!c.startTechnicalReview}"/>
+                    </aura:if>
+                    
+                    
+                </aura:if>
+                <aura:if isTrue="{!and(v.knowledgeRecord.ValidationStatus == 'Approved By Technical Reviewer',v.isQualityApprover)}">
+                    <br/><br/>
+                    <lightning:button variant="brand" label="Start Quality Review" onclick="{!c.startQualityReview}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.knowledgeRecord.ValidationStatus == 'Under Technical Review'}">
+                    <c:KnowledgeReviewBadge label="{!'Currently Under Technical Review by: '+v.currentReviewerName}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.knowledgeRecord.ValidationStatus == 'Under Quality Review'}">
+                    <c:KnowledgeReviewBadge label="{!'Currently Under Quality Review by: '+v.currentReviewerName}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.knowledgeRecord.Is_Not_External__c || v.knowledgeRecord.Is_confidential__c}">
+                    <br/><br/>
+                    <lightning:badge iconName="utility:error" label="This article will not be published to the Public Knowledge Base!" class="redColor"/>
+                    <aura:set attribute="else">
+                        <br/><br/>
+                        <lightning:badge iconName="utility:success" label="This article will be published to the Public Knowledge Base!" class="greenColor"/>
+                    </aura:set>
+                </aura:if>
+                <aura:if isTrue="{!v.isCurrentReviewer}">
+                    <aura:if isTrue="{!v.knowledgeRecord.ValidationStatus == 'Under Technical Review'}">
+                        <br/><br/>
+                        <lightning:recordEditForm objectApiName="Knowledge__kav"
+                                                  aura:id="knowledgeForm"
+                                                  onsubmit="{!c.handleSubmit}"
+                                                  onsuccess="{!c.handleSuccess}"
+                                                  recordId="{!v.recordId}"
+                                                  onerror="{!c.handleError}">
+                            <lightning:messages />
+                            <lightning:inputField fieldName="Technical_Check_Result__c" onchange="{!c.handleRecordChanged}" />
+                            <lightning:inputField fieldName="Review_Date__c" onchange="{!c.handleRecordChanged}" />
+                            <lightning:inputField fieldName="Reviewer_Notes__c" onchange="{!c.handleRecordChanged}" />
+                            <aura:if isTrue="{!v.isRecordChanged}">
+                                <lightning:button type="submit" name="Save" variant="brand" label="Save" class="slds-m-top_medium"/>
+                            </aura:if>
+                        </lightning:recordEditForm>
+                    </aura:if>
+                    <aura:if isTrue="{!v.knowledgeRecord.ValidationStatus == 'Under Quality Review'}">
+                        <br/><br/>
+                        <lightning:tabset>
+                            <lightning:tab label="Create AQI">
+                                <lightning:button variant="brand" name="Create AQI" label="Create AQI" onclick="{!c.createAQIRecord}"></lightning:button>
+                            </lightning:tab>
+                            <lightning:tab label="Rejection">
+                                <lightning:recordEditForm objectApiName="Knowledge__kav"
+                                                          aura:id="knowledgeForm"
+                                                          onsubmit="{!c.handleSubmit}"
+                                                          onsuccess="{!c.handleSuccess}"
+                                                          recordId="{!v.recordId}"
+                                                          onerror="{!c.handleError}">
+                                    <lightning:messages />
+                                    <lightning:inputField fieldName="Skip_Technical_Review__c" onchange="{!c.handleRecordChanged}"/>
+                                    <aura:if isTrue="{!v.isRecordChanged}">
+                                        <lightning:button type="submit" name="Save" variant="brand" label="Save" class="slds-m-top_medium"/>
+                                    </aura:if>
+                                </lightning:recordEditForm>   
+                            </lightning:tab>
+                        </lightning:tabset>
+                        <br/>
+                        
+                    </aura:if>
+                </aura:if>
+            </div>
+        </lightning:card>
+    </aura:if>
+    
+    
+    
+</aura:component>

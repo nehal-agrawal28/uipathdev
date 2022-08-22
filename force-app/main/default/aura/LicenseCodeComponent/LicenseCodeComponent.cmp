@@ -1,0 +1,82 @@
+<aura:component  controller="FileUploadController">
+    <aura:attribute name="isInValidLicenseCode" type="Boolean" default="true"/>
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <aura:attribute name="resMapAccountId" type="String"/>
+    <aura:attribute name="SubscriptionType" type="String"/>
+    <aura:attribute name="endCustomerName" type="String"/>
+    <aura:attribute name="licenseCode" type="String"/>
+    <aura:attribute name="bundleName" type="String"/>
+    
+    <aura:attribute name="restrictedSubCode" type="boolean" default="false"/>
+    
+    <aura:attribute name="SubscriptionCode" type="String"/>
+    <aura:attribute name="endDate" type="String"/>
+    <aura:attribute name="duration" type="String"/>
+    <aura:attribute name="createdDateTime" type="String"/>
+    
+    <aura:attribute name="isSupportId" type="Boolean" default="false"/>
+    <aura:attribute name="showEndCustomerName" type="Boolean" default="true"/>
+    
+    <aura:method name="validateInput" action="{!c.validateInput}"/>
+    
+    <div class="slds-p-around_small">
+        <c:ItemLabelComp label="{!v.isSupportId ? $Label.c.Support_Id : $Label.c.License_code}" desc="{!v.isSupportId ? $Label.c.Support_Id_Hint : $Label.c.License_Code_Hint}" required="true"/>
+        <!--a href="javascript:void(0)" onclick="{!c.openPopup}" class="link-font"><i>{!$Label.c.Link_for_Finding_License_Code}</i></a-->
+        <div class="slds-page-header__row">
+            <lightning:input value="{!v.licenseCode}" class="{!v.isInValidLicenseCode ? 'full-width' : 'full-width valid'}" name="License_Code__c"   maxlength="255" aura:id="caseLicence" label="" updateOn="keyup" onchange="{!c.checkLicenseCodeUpdated}"/>
+        </div>
+        <aura:if isTrue="{!!v.isInValidLicenseCode}">
+                        <div class="slds-page-header__row">
+                            <output value="{!v.isSupportId ? $Label.c.SupportIdSuccessMsg : $Label.c.LicenseCodeSuccessMsg}" style="color:green"/>
+                        </div>
+                    </aura:if>
+    </div>
+    <aura:if isTrue="{!v.isInValidLicenseCode}">
+    	<div class="slds-page-header__row">
+        <div class="slds-page-header__col-details slds-m-top_small">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning:button variant="brand" label="{!v.isSupportId ? $Label.c.SupportFormValidateSupportId : $Label.c.SupportFormValidateLicenseCode}" title="{!v.isSupportId ? $Label.c.SupportFormValidateSupportId : $Label.c.SupportFormValidateLicenseCode}" onclick="{! c.checkValidLicenseCode }" />
+                </div>
+            </div>
+        </div>
+    </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showEndCustomerName}">
+    	<div class="slds-p-around_small">
+        <div class="slds-page-header__row">
+            <lightning:input value="{!v.endCustomerName}" class="full-width"  maxlength="255"  name="caseEndCustomerName" type="text" aura:id="caseEndCustomerName" label="{!$Label.c.End_Organization_s_Name}" disabled="true"/>
+        </div>
+    </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.restrictedSubCode}">
+        <div class="slds-m-around_xx-large">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModal }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Info</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium modal-content" id="modal-content-id-1">
+                        We will not be able to process this request as the license code entered is Community License, please visit our <a href="{!$Label.c.UiPath_Forums_Url}">{!$Label.c.UiPath_Forums_Url}</a>.
+                        <p class="slds-form-element__label slds-align_absolute-center">
+                            
+                        </p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand" 
+                                          label="{!$Label.c.J_Close_BtnLabel}"
+                                          title="{!$Label.c.J_Close_BtnLabel}"
+                                          onclick="{! c.closeModal }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+</aura:component>

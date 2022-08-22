@@ -1,0 +1,14 @@
+.THIS.flashing {
+    background-color: white;
+    animation-name: flashHeader !important;
+    animation-duration: 5s !important;
+    animation-direction: alternate !important;
+    animation-iteration-count: infinite !important;
+}
+@keyframes flashHeader {
+    0%		{ background-color: green; color: white;}
+		25%		{ background-color: white;color: black;}
+		50%		{ background-color: green;color: white;}
+		75%		{ background-color: white;color: black;}
+		100%	        { background-color: green;color: white;}
+}

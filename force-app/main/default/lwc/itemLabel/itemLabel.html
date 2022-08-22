@@ -1,0 +1,13 @@
+<template>
+  <div class="slds-page-header__row">
+    <label class="slds-form-element__label">
+      <template if:true={required}>
+        <abbr title="required" class="slds-required">*</abbr>
+      </template>
+      <span>{label}</span>
+    </label>
+  </div>
+  <div class="slds-page-header__row">
+    <lightning-formatted-rich-text value={desc} class="subscript"></lightning-formatted-rich-text>
+  </div>
+</template>

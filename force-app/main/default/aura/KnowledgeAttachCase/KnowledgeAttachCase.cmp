@@ -1,0 +1,14 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" controller="CaseViewLookupController">
+    <aura:attribute name="selectedRecord" type="sObject"/>
+    <aura:attribute name="disabled" type="Boolean"/>
+    <lightning:card title="Attach Case" iconName="standard:case">
+        <div style="height:250px;">
+        	<c:customLookup objectAPIName="case" parent="AttachCase" selectedRecord="{!v.selectedRecord}"/>
+        </div>
+        
+        <aura:set attribute="footer">
+            <lightning:button label="Attach" variant="brand" disabled="{!v.disabled}" onclick="{!c.attachCase}"/>
+            <lightning:button label="Close" disabled="{!v.disabled}" onclick="{!c.close}"/>
+        </aura:set>
+    </lightning:card>
+</aura:component>

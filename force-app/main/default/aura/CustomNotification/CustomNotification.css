@@ -1,0 +1,9 @@
+.THIS .slds-notify{
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+.THIS {
+    width : 100%;
+}

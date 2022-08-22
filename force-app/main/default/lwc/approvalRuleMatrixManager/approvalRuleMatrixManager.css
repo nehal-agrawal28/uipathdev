@@ -1,0 +1,139 @@
+/* general css */
+.card-container {
+  min-height: 500px;
+}
+.new-matrix-modal-content,
+.edit-matrix-modal-content {
+  min-height: 400px;
+}
+.filter-heading {
+  padding: 5px;
+  background-color: #dddddd;
+  border-radius: 0.2rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.clickable {
+  cursor: pointer !important;
+}
+.new-matrix-container .slds-spinner_container {
+  bottom: -300px;
+}
+
+/* matrix table css */
+.matrix-table tr th {
+  padding: 0.25rem 0.2rem;
+}
+.matrix-table tr th div.text-wrap {
+  margin-right: 12px;
+}
+.matrix-table tr td {
+  padding: 0.25rem 0.2rem;
+}
+.matrix-table tr td div.text-wrap {
+  max-width: 250px;
+  min-height: 25px;
+  /* word-break: break-all; */
+  white-space: normal;
+}
+.matrix-table tr td div[title="Name"] {
+  max-width: 300px;
+}
+.sort {
+  cursor: pointer;
+}
+.sort::before {
+  content: "";
+  float: right;
+  opacity: 0.1;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgb(81, 79, 77);
+  margin-top: 0.1rem;
+}
+.sort:hover::before {
+  opacity: 0.3;
+}
+.sort.sort_asc_visible::before {
+  opacity: 1 !important;
+}
+.sort::after {
+  content: "";
+  float: right;
+  opacity: 0.1;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgb(81, 79, 77);
+  margin-top: -0.4rem;
+}
+.sort:hover::after {
+  opacity: 0.3;
+}
+.sort.sort_desc_visible::after {
+  opacity: 1 !important;
+}
+
+/* status icon CSS */
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.icon_rotate {
+  animation: rotateAnimation 1500ms linear infinite;
+}
+
+/* message section CSS */
+.message-parent {
+  z-index: 1 !important;
+}
+.message-container {
+  width: 99% !important;
+  padding: 5px !important;
+}
+.message-div {
+  width: 100% !important;
+  color: white !important;
+}
+
+/* drawer related CSS */
+.drawer-section {
+  background-color: rgb(233, 233, 233);
+}
+
+/* Accordion section CSS */
+.slds-accordion__section {
+  padding: 0px;
+}
+.slds-accordion__summary {
+  padding: 0.4rem;
+  background-color: #dddddd;
+  border-radius: 0.2rem;
+  margin: 0px;
+}
+.slds-accordion a.slds-button {
+  text-decoration: none;
+}
+
+/* confirmation modal CSS */
+.full-width {
+  width: 100%;
+  color: white;
+}
+.confirmation-modal .slds-notify_container {
+  display: block;
+  margin: 0px;
+}
+.confirmation-modal .slds-notify_container .slds-notify {
+  display: block;
+  margin: auto;
+  min-width: 0px;
+  border-radius: 0px;
+}

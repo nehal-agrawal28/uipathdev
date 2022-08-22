@@ -1,0 +1,12 @@
+<template>
+    <template if:true={requireDistributorOrReseller}>
+        <c-lookup
+            label={label}
+            onsearch={handleLookupSearch}
+            onselectionchange={handleLookupSelectionChange}
+            placeholder={placeholder}
+            required
+        >
+        </c-lookup>
+    </template>
+</template>

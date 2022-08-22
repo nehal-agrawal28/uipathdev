@@ -1,0 +1,72 @@
+<template>
+    <div class="slds-is-relative parent-container">
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading"
+                               size="medium"></lightning-spinner>
+        </template>
+
+        <template if:true={orderItems}>
+            <div
+                 class="slds-grid slds-wrap slds-var-p-vertical_small slds-var-m-bottom_small slds-gutters_xx-small header-container">
+                <div class="slds-col slds-size_3-of-12 slds-text-title_caps bold-font">
+                    Product
+                </div>
+                <div class="slds-col slds-size_3-of-12 slds-grid slds-wrap">
+                    <div class="slds-col slds-size_2-of-12 slds-text-title_caps bold-font">
+                        Qty
+                    </div>
+                    <div class="slds-col slds-size_5-of-12 slds-text-title_caps bold-font">
+                        Start Date
+                    </div>
+                    <div class="slds-col slds-size_5-of-12 slds-text-title_caps bold-font">
+                        End Date
+                    </div>
+                </div>
+                <div class="slds-col slds-size_6-of-12 slds-grid slds-wrap">
+                    <div class="slds-col slds-size_3-of-12 slds-text-title_caps bold-font">
+                        Product Version
+                    </div>
+                    <!--<div class="slds-col slds-size_3-of-12 slds-text-title_caps bold-font">
+                        Deployment Version
+                    </div>-->
+                    <div class="slds-col slds-size_3-of-12 slds-text-title_caps bold-font">
+                        Orchestration Type
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-text-title_caps bold-font">
+                        License Codes
+                    </div>
+                </div>
+            </div>
+
+            <template if:true={orderItems}>
+                <c-cpq-order-product-row required-by-id={requiredById}
+                                         is-root-item="true"
+                                         order-items={orderItems}
+                                         field-permission-map={fieldPermissionMap}
+                                         hierarchy-level="0"
+                                         product-list={productList}
+                                         deployment-list={deploymentList}
+                                         orchestration-type-list={orchestrationTypeList}
+                                         onnotifychange={handleDataChange}
+                                         ondisablesave={handleDisableSave}>
+                </c-cpq-order-product-row>
+            </template>
+
+            <div class="slds-text-align_center slds-var-m-top_small">
+                <template if:true={showSave}>
+                    <lightning-button variant="brand"
+                                      label="Save"
+                                      onclick={handleSave}></lightning-button>
+                </template>
+                <lightning-button class="slds-var-m-left_small"
+                                  variant="Neutral"
+                                  label="Cancel"
+                                  onclick={handleClose}></lightning-button>
+            </div>
+        </template>
+    </div>
+
+    <template if:true={error}>
+        Something went wrong!
+    </template>
+</template>

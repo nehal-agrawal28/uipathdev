@@ -1,0 +1,6 @@
+.THIS .urlInput .slds-form-element__label{
+    display:none;
+}
+.THIS .copied{
+    color: green !important;
+}

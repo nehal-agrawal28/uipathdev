@@ -1,0 +1,113 @@
+<aura:component controller="AddDiscountCtrl" implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="string" />
+    
+    <aura:attribute name="oppProd" type="list" />
+    <aura:attribute name="opportunityProductList" type="list" />
+    <aura:attribute name="choiceList" type="list" />
+    <aura:attribute name="discountMessage" type="object" />
+    <aura:attribute name="discount" type="string" default=""/>
+    <aura:attribute name="loading" type="string" default="false" />        
+    <aura:attribute name="apply" type="string" default=""/>
+    <aura:attribute name="errorFound" type="string" default="false" />
+    <aura:attribute name="errorMessage" type="string" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.loadInfo}"/>
+    
+    <article class="slds-card">
+        
+            <aura:if isTrue="{!v.loading == 'true'}">
+                <div class="slds-spinner_container">
+                    <div role="status" class="slds-spinner slds-spinner_medium">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </aura:if>
+        
+        <div class="slds-col slds-p-horizontal_medium">                    
+            Please choose how to apply discount:
+            <lightning:select name="Choice List" value="{!v.apply}" onchange="{!c.reload}">
+                <aura:iteration items="{!v.choiceList}" var="obj">
+                    <option value="{!apply}">
+                        {!obj}
+                    </option>
+                </aura:iteration>
+            </lightning:select>
+        </div> 
+        
+        <aura:if isTrue="{!v.apply == 'Apply to all products'}">
+        	<br /><br />
+            <div class="slds-col slds-p-horizontal_medium">                
+                <ui:inputText label="Discount Value" value="{!v.discount}"/>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.apply == 'Apply to each product indvidually'}">
+            <br /><br />
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate" title="Opportunity Product Name">Opportunity Product Name</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Discount">Discount</div>
+                        </th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.opportunityProductList}" var="obj">
+                        <tr>                        
+                            <td data-label="Account Name">
+                                <div class="slds-truncate" title="{!obj.label}">{!obj.label}</div>
+                            </td>
+                            <td data-label="Close Date">
+                                <div class="slds-truncate" title="Discount">
+                                    <ui:inputText class="textBox" value="{!obj.discount}"/> %
+                                </div>
+                            </td>                        
+                        </tr>  
+                    </aura:iteration>
+                </tbody>                
+            </table>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.discountMessage.errorFound == 'true'}">
+        	<div class="slds-col slds-p-horizontal_medium">
+            	<br></br>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>{!v.discountMessage.message}</h2>                            
+                </div>
+                <br /><br />
+        	</div>
+        </aura:if>
+        <aura:if isTrue="{!v.discountMessage.errorFound == 'false'}">
+            <div class="slds-col slds-p-horizontal_medium">
+            	<br></br>
+                <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
+                    <span class="slds-assistive-text">message</span>
+                    <h2>{!v.discountMessage.message}</h2>                            
+                </div>
+                <br /><br />
+        	</div>
+        </aura:if>
+        <aura:if isTrue="{!v.errorFound == 'true'}">
+            <div class="slds-col slds-p-horizontal_medium">
+            	<br></br>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>{!v.errorMessage}</h2>                            
+                </div>
+                <br /><br />
+        	</div>
+        </aura:if>
+        
+        <footer class="slds-card__footer">
+            <lightning:button label="Apply Discount" variant="brand" onclick="{!c.applyDiscount}" />
+            <lightning:button label="Close" variant="neutral" onclick="{!c.close}" />
+        </footer>
+    </article>
+    
+    
+</aura:component>

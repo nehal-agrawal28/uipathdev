@@ -1,0 +1,10 @@
+.slds-form-element__label {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.subscript {
+    font-size: 80%;
+    font-style: italic;
+}

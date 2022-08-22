@@ -1,0 +1,15 @@
+.no-hover:hover {
+     background-color: white !important;
+ }
+
+.slds-table_cell-buffer tr>th:first-child, .slds-table_cell-buffer tr>td:first-child, .slds-table--cell-buffer tr>th:first-child, .slds-table--cell-buffer tr>td:first-child {
+     padding-left: 10px !important
+}
+.true{
+		border-top: 2px solid #A9A9A9 !important;
+}
+th{
+		height: 30px;
+    text-align: center;
+    margin-top: 15px;
+}

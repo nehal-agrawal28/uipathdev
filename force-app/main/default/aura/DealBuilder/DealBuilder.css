@@ -1,0 +1,46 @@
+.THIS.content-div {
+  min-height: 400px;
+}
+
+.THIS .header-sub-text {
+  margin-left: 2.75rem;
+}
+
+.THIS .slds-modal__content {
+  min-height: 300px;
+}
+
+.THIS .new-opp-button svg {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.THIS .switch-button {
+  transition: transform 0.5s cubic-bezier(0, 0.65, 0.65, 0.95);
+}
+.THIS .switch-button:hover,
+.THIS .switch-button:focus {
+  transform: rotate(180deg);
+}
+
+.THIS .tab-set .slds-tabs_default__link {
+  text-decoration: none !important;
+}
+.THIS .tab-set .slds-tabs_default__item:hover {
+  background-color: rgba(65, 148, 249, 0.2) !important;
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.THIS .flag_inprogress button {
+  animation: rotateAnimation 1500ms linear infinite;
+}
+.THIS .flag_success button {
+  color: #2e844a;
+}

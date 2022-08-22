@@ -1,0 +1,51 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CustomerCommunityServicesCntl" >
+
+        <aura:attribute name="availableRequests" type="Integer" default="0" access="global"/>
+        <aura:attribute name="thisMonthRequests" type="Integer" default="0" access="global"/>
+     
+    	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:card title="Entitlements" iconName="standard:social" variant="base">
+    <aura:set attribute="actions"></aura:set>
+    <div class="slds-media slds-m-top_x-small ">
+        <div class="slds-media__figure">
+            <lightning:icon class="slds-m-left_large slds-timeline__icon" iconName="standard:business_hours" size="small" variant="inverse"></lightning:icon>
+        </div>
+        <div class="slds-media__body">
+            <lightning:layout horizontalAlign="spread" verticalAlign="center">
+                <lightning:layoutItem>
+                    <div style="color: rgb(0, 57, 107); font-size: 13px;"><span><b>Available Requests</b></span><br/></div>
+                </lightning:layoutItem>
+                <lightning:layoutItem>
+                    <div class="slds-timeline__actions slds-timeline__actions_inline">
+                        <div class="slds-timeline__date" style="font-size: 0.75rem;"><span>{!v.availableRequests}</span></div>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout>
+                <lightning:layoutItem></lightning:layoutItem>
+                <lightning:layoutItem></lightning:layoutItem>
+            </lightning:layout>
+        </div>
+        <div class="slds-media__figure slds-media__figure_reverse"></div>
+    </div>
+    <div class="slds-media slds-m-top_x-small ">
+        <div class="slds-media__figure">
+            <lightning:icon class="slds-m-left_large slds-timeline__icon" iconName="standard:forecasts" size="small" variant="inverse"></lightning:icon>
+        </div>
+        <div class="slds-media__body">
+            <lightning:layout horizontalAlign="spread" verticalAlign="center">
+                <lightning:layoutItem>
+                    <div style="color: rgb(0, 57, 107); font-size: 13px;"><span><b>Requests Consumed</b></span><br/></div>
+                </lightning:layoutItem>
+                <lightning:layoutItem>
+                    <div class="slds-timeline__actions slds-timeline__actions_inline">
+                        <div class="slds-timeline__date" style="font-size: 0.75rem;"><span>{!v.thisMonthRequests}</span></div>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+        <div class="slds-media__figure slds-media__figure_reverse"></div>
+    </div>
+</lightning:card>
+</aura:component>

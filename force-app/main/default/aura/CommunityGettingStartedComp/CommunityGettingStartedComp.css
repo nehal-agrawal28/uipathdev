@@ -1,0 +1,63 @@
+.THIS .list-unstyled {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.THIS .cards-container{
+    background: rgb(245, 248, 250);
+    
+}
+ .THIS .cards {
+  max-width: 960px;
+  margin: 0px auto;
+  display: flex;
+  flex-flow: row wrap;
+}
+.THIS .gettingStarted {
+    background-image: url(/resource/gettingStartedImg) no-repeat fixed center;
+}
+
+.THIS .card {  
+      position: relative;
+    box-sizing: border-box;
+    width: calc(30% - 10px);
+    background: #fff;
+    height: 120px;
+    margin: 10px;
+    padding: 35px 50px;
+}
+
+.THIS body {
+  background: rgb(245, 248, 250);
+}
+
+.THIS .lang{
+  color: rgb(12, 38, 82);
+  font-size: 1.125rem;
+  margin: 0px;
+}
+
+.THIS .telephone{
+  color: rgb(62, 136, 191);
+  font-size: 20px;
+}
+
+.THIS .timings {
+  font-size: 14px;
+  color: rgb(77, 83, 99);
+  line-height: 1.7;
+}
+
+.THIS .timings > p {
+  margin: 0px;
+}
+
+.THIS .orange-line{
+  position: absolute;
+  left: 50px;
+  top: 0px;
+  height: 5px;
+  width: 70px;
+  background: rgb(239, 113, 46);
+}

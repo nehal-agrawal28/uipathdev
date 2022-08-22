@@ -1,0 +1,19 @@
+.modal-body {
+  padding-left: 10%;
+  min-height: 200px;
+}
+.modal-body .item .slds-media__figure {
+  background-color: white;
+}
+.modal-body .item.item_warning:before {
+  background: #fe9339;
+}
+.modal-body .item.item_error:before {
+  background: #ba0517;
+}
+.modal-body .timeline-icon {
+  margin-left: 1.5rem;
+}
+.modal-body .timeline-icon.end-icon {
+  margin-left: 1.75rem;
+}

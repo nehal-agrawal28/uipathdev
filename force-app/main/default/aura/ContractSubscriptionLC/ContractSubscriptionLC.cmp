@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:html tag="style">
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+            
+        }  
+        .slds-modal__container {
+            width: 90% !important;
+            max-width: 90% !important;
+            
+        }
+    </aura:html>   
+    <div class="slds-scrollable_y " style="overflow-x: scroll;">         
+        <c:contractSubscriptionLWC recordId= "{!v.recordId}" onclosemodal="{!c.closeModal}"/>
+    </div>
+</aura:component>

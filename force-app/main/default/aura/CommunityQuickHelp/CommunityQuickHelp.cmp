@@ -1,0 +1,160 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes"  access="global" controller="CustomerCommunityServicesCntl" >
+  
+ <aura:handler name="init" value="this" action="{!c.doInit}"/>
+  
+    <aura:attribute name="userInfo" type="user"/>  
+    <div>
+    
+        <lightning:layout class="slds-welcome-mat__content" multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize ="4">
+                <div class="slds-welcome-mat__info blueScreen">
+                    <div class="slds-welcome-mat__info-content">
+                        <div class="slds-m-top_small slds-welcome-mat__info-title slds-text-color_default" style="color: rgb(0, 57, 107);">{!$Label.c.Welcome_to_Customer_Support_Portal}<p>{!v.userInfo.FirstName}&nbsp;{!v.userInfo.LastName}!</p></div>
+                        <div class="slds-welcome-mat__info-description slds-text-longform" style="font-size: 0.8125rem;"><span>{!$Label.c.Welcome_to_Customer_Support_PortalDescription}</span></div>
+                        <div
+                             class="slds-m-bottom_medium" style="font-size: 0.8125rem;"><span><b></b></span><br/></div>
+                        <lightning:progressBar variant="circular" size="medium" value=""></lightning:progressBar>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12"  smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize ="4">
+                <div class="slds-p-around_medium">
+                    <ul class="slds-list_vertical-space-medium">
+                        <li class="slds-item">
+                                <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" target="_blank" rel="noopener noreferrer" href="https://uipath.force.com/customer/resource/1571148755000/GettingStartedDoc">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small visual-area-positions--closer-to-top visual-area-positions--right-half" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-animal-and-nature slds-m-left_x-small" title=""><div  class="slds-icon slds-icon_medium slds-icon-text-default"><lightning:icon iconName="custom:custom14" alternativeText="Connected" /></div><!--<svg class="slds-icon slds-icon_medium slds-icon-text-default"> <use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#animal_and_nature"></use></svg--></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--closer-to-top visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.Getting_Started_Title}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.Getting_Started}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" href="/customer/s/quick-help">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small visual-area-positions--right-half" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-call slds-m-left_x-small" title=""><lightning:icon iconName="custom:custom19" alternativeText="Approved" /><!-- <svg class="slds-icon slds-icon_medium slds-icon-text-default"> <use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#call"></use></svg>--></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.Quick_Help_Title}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.QuickHelpDescription}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" href="/customer/s/troubleshooting-videos">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-upload slds-m-left_x-small" title=""><lightning:icon iconName="custom:custom21" alternativeText="Approved" /> <!--<svg class="slds-icon slds-icon_medium slds-icon-text-default"> <use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#upload"></use></svg>--></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.Troubleshooting_Videos_Title}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.Troubleshooting_Videos_Descriptions}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" href="/customer/s/knowledge-base">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-magicwand slds-m-left_x-small" title=""> <lightning:icon  iconName="custom:custom76" alternativeText="Approved" /><!--<svg class="slds-icon slds-icon_medium slds-icon-text-default"> <use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#magicwand"></use></svg>--></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.Did_not_find_what_you_are_looking_for_Title}</div>
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.Did_not_find_what_you_are_looking_for_Desc}<p style="color:white">This just ablank line after this sentence </p>  </div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;"></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize ="4" >
+                <div class="slds-p-around_medium">
+                    <ul class="slds-list_vertical-space-medium">
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" target="_blank" rel="noopener noreferrer"  href="https://www.uipath.com/blog">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small visual-area-positions--closer-to-top visual-area-positions--right-half" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-animal-and-nature slds-m-left_x-small" title=""> <lightning:icon iconName="custom:custom63" alternativeText="Approved" /></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--closer-to-top visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.Product_Latest_BlogsTitle}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.Product_Latest_BlogsDescription}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" target="_blank" rel="noopener noreferrer"  href="https://forum.uipath.com/">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small visual-area-positions--right-half" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-call slds-m-left_x-small" title=""><lightning:icon iconName="custom:custom103" alternativeText="Approved" /><!-- <svg class="slds-icon slds-icon_medium slds-icon-text-default"> <use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#call"></use></svg>--></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.UiPath_ForumTitle}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.UiPath_ForumDesc}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" target="_blank" rel="noopener noreferrer"  href="https://www.uipath.com/rpa/academy">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-upload slds-m-left_x-small" title=""><lightning:icon  iconName="custom:custom55" alternativeText="Approved"/></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.AcademyTitle}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.AcademyDesc}<p style="color:white">putiing space after this sentence.</p></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="slds-item">
+                            <a class="slds-box slds-box_link slds-box_x-small slds-media slds-theme_default" target="_blank" rel="noopener noreferrer"  href="https://www.uipath.com/rpa/go">
+                                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small" dropzone="visualPickerLink figure">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top"><span class="slds-icon_container slds-icon-utility-magicwand slds-m-left_x-small" title=""> <lightning:icon  iconName="custom:custom67" alternativeText="Approved"/><!--<svg class="slds-icon slds-icon_medium slds-icon-text-default"> <use xlink:href="assets/@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg#magicwand"></use></svg>--></span></div>
+                                </div>
+                                <div class="slds-media__body slds-clearfix slds-border_left slds-p-around_small visual-area-positions--right-half" dropzone="visualPickerLink body">
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div class="slds-welcome-mat__tile-title slds-text-heading_small">{!$Label.c.UiPath_Go_Title}</div>
+                                    </div>
+                                    <div class="visual-area-positions--right-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <div style="font-size: 0.8125rem;">{!$Label.c.UiPath_Go_Desc}</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    
+    </div>
+    <!--<aura:unescapedHtml value="{!$Label.c.CommunityFloatingText}"/>-->     
+    
+</aura:component>

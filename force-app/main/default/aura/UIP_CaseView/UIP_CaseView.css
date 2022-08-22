@@ -1,0 +1,197 @@
+.THIS .div-height{
+    height: auto;
+    overflow: auto;
+    width:100%;
+}
+.THIS .header{
+    color: rgb(0, 95, 178);
+    width: 100%;
+    position: relative;
+    z-index: 5;
+}
+.THIS .themeHeaderTopRow {
+    padding-top : 20px;
+    padding-bottom : 20px;
+    /**/
+}
+.THIS .themeBgImage{
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white center center /cover;
+    
+}
+.THIS .headerImage {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 100px;
+    height: 36px;
+    z-index: 1;
+    position: fixed;
+    z-index: 9999;
+}
+.THIS .selectedCase{
+    
+    border: solid #0067DF 2px !important; 
+    border-radius: 20px;
+    
+}
+.THIS .unselectedCase{
+    
+    border: solid #38C6F4 1px !important;  
+    border-radius: 20px;
+    
+}
+.THIS .selectedCase a{
+    font-size: 18px;
+    
+}
+.THIS .unselectedCase a{
+    font-size: 18px;
+    
+}
+.THIS .caseDetails .slds-tabs_default__item{
+    min-width:50px;
+    text-align: center !important;
+    font-size:14px;
+}
+.THIS .caseDetails .slds-is-active{
+    color: white !important;
+    background-color: #38C6F4;
+}
+.THIS .slds-tabs_default__item{
+    display:none;
+    min-width:30%;
+    text-align: center ;
+    font-size:18px;
+}
+.THIS .slds-is-active{
+    color: white !important;
+    background-color: #0067DF;
+}
+.THIS .slds-button_brand{
+    background-color: #DFE3E3; /*#38C6F4 !important;*/
+    border-color: #58595B; /*#38C6F4 !important;*/
+    color: black !important;
+}
+
+.THIS .slds-button_brand:hover{
+    background-color: #38C6F4; /*#38C6F4 !important;*/
+    border-color: white; /*#38C6F4 !important;*/
+    color: white !important;
+    transform: scale(1.2);
+}
+.THIS .active{
+    cursor: default;
+}
+    
+
+.THIS .slds-vertical-tabs__nav{
+    
+}
+.THIS .caseDetails .slds-is-active use{
+    fill: white !important;
+}
+.THIS .caseDetails .slds-is-active:hover use{
+    fill: #38C6F4 !important;
+}
+.THIS .caseDetails .slds-is-active:hover{
+    color: rgb(107, 109, 112) !important;
+}
+.THIS .navigation{
+    max-height:50px;
+}
+
+.THIS .navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    background-color: white; /*rgb(250, 68, 18);*/
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.THIS .navigation li {
+    float: left;
+}
+
+.THIS .navigation li a {
+    display: block;
+    color: black;
+    font-size:16px;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    
+}
+
+.THIS .navigation li a:hover:not(.active) {
+    color: #0067DF;
+    background-color: rgb(236, 236, 236);
+}
+
+
+.THIS .borderRight{
+    border-right: solid white;
+}
+
+.THIS .borderLeft{
+    border-left: solid white;
+}
+
+.THIS .brandLogo{
+    background-color:white !important;
+}
+.THIS .headerBorder{
+    /*border-radius: 50%;
+    z-index: 9999;
+    width:100%;
+    background-color: #FA4616;
+    height: 10px;
+    max-height: 10px;
+    position: fixed;
+    margin-top: 50px;*/
+}
+.THIS .articleCard{
+    border: solid #38C6F4 2px !important;  
+    border-radius: 25px;
+    max-height:200px;
+    overflow-y:scroll;
+}
+
+.THIS .articleCard::-webkit-scrollbar{
+    width:0px !important;
+}
+.THIS .list{
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+.THIS .headerText{
+    font-size: 20px;
+}
+.THIS .full-width1 input{
+    width: 70% !important;
+}
+.THIS .full-width1 label{
+    /*font-size: 16px;*/
+}
+.THIS .datatable{
+    border: 2px solid black;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+.THIS .surveyVfFrame{
+    width: 100%;
+    height: 450px;
+    border: none;
+}
